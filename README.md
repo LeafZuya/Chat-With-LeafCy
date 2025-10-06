@@ -1,5 +1,4 @@
 # Chat-With-LeafCy
-<!doctype html>
 <html lang="id">
 <head>
 <meta charset="utf-8" />
@@ -153,10 +152,10 @@
 </head>
 <body>
   <div class="wrap">
-    <div class="panel" role="application" aria-labelledby="shirokoTitle">
+    <div class="panel" role="application" aria-labelledby="LeafCy Title">
       <!-- LEFT -->
       <div class="left" aria-hidden="false">
-        <div class="bubble" id="speechBubble">Klik tombol di kanan untuk mulai ngobrol dengan Shiroko!</div>
+        <div class="bubble" id="speechBubble">Klik tombol di kanan untuk mulai ngobrol dengan LeafCy!</div>
 
         <div class="avatar-wrap" title="Shiroko avatar">
           <!-- Ganti src di bawah sesuai nama file GIF di repo (contoh: 'shiroko.gif' atau 'shiroko.png') -->
@@ -185,8 +184,8 @@
 
         <div class="controls">
           <button class="btn primary" id="btnStart">Start</button>
-          <button class="btn" id="btnClear">Clear Chat</button>
-          <button class="btn" id="btnAdd">Add Custom Reply</button>
+          <button class="btn" id="btnClear">Bersihkan Chat</button>
+          <button class="btn" id="btnAdd">Tambahkan Tombol Obrolan Kamu!</button>
         </div>
 
         <div class="preset-list" id="presetList" aria-hidden="false" style="margin-top:12px;">
@@ -224,7 +223,18 @@ const avatarImg = document.getElementById("avatarImg");
 const RESPONSES = {
   "Halo": ["Halo juga! Apa kabar? 😊", "Hai! Senang ketemu kamu!"],
   "Siapa kamu?": ["Aku LeafCy! — teman virtualmu! Aku suka coding dan ngemil.", "Namaku LeafCy!, senang bermain bareng kamu!"],
-  "Cerita lucu": ["Dulu aku coba ngoding sambil makan mie, eh keyboard ikut makan. 😆", "Kenapa komputer gagah? Karena dia punya banyak 'core'!"],
+  "Cerita lucu": ["Alarm Keamanan
+
+Seorang pencuri memasuki rumah yang gelap dan sunyi. Tiba-tiba, dia mendengar suara, "Aku tau kamu ngapain!"
+Dia kaget,nyalakan senter, dan melihat seekor burung beo di sangkarnya.
+Burung beo itu berkata lagi,"Aku lihat kamu!"
+Si pencuri lega,lalu bertanya, "Jadi, kamu yang bicara tadi?"
+Burung beo menjawab,"Iya! Tapi anjing di sebelahmu itu yang akan bertindak!", "Logika Tanpa Celah
+
+Seorang guru bertanya kepada muridnya, "Andi, jika kamu punya 10 biji jeruk dan Budi meminta 3 biji, berapa yang tersisa?"
+Andi menjawab,"Tidak ada, Bu."
+Guru:"Tidak ada? Kenapa?"
+Andi:"Karena saya tidak akan memberikannya. Ibu selalu bilang jangan mudah memberi pada orang yang belum dikenal"],
   "Apa hobimu?": ["Main game, coding, dan tidur siang sejenak. 😴", "Bermain dengan emoji dan membuat kamu tertawa!"],
   "Dance": ["*LeafCy menari kecil* 💃", "Wuu~ goyang dikit~ 🎵"],
   "Good Night": ["Selamat tidur, mimpi indah ya! 🌙", "Istirahat yang cukup, besok kita main lagi!"],
