@@ -160,7 +160,7 @@
 
         <div class="avatar-wrap" title="Shiroko avatar">
           <!-- Ganti src di bawah sesuai nama file GIF di repo (contoh: 'shiroko.gif' atau 'shiroko.png') -->
-          <img id="avatarImg" src="Shiroko.gif" alt="Shiroko avatar (GIF)">
+          <img id="avatarImg" src="LeafCy.jpg" alt="Shiroko avatar (GIF)">
         </div>
 
         <div class="name">LeafCy</div>
@@ -176,12 +176,12 @@
           <button class="btn" id="btnSleep">Good Night</button>
         </div>
 
-        <div class="small-muted">You can replace <b>shiroko.gif</b> with your own GIF file in the same repo.</div>
+        <div class="small-muted">You can replace <b>LeafCy</b> with your own GIF file in the same repo.</div>
       </div>
 
       <!-- RIGHT -->
       <div class="right">
-        <div class="title" id="shirokoTitle">Interaksi Simpel Lanjutan Dengan LeafCy</div>
+        <div class="title" id="LeafCyTitle">Interaksi Simpel Lanjutan Dengan LeafCy</div>
 
         <div class="controls">
           <button class="btn primary" id="btnStart">Start</button>
@@ -329,7 +329,7 @@ document.getElementById("btnDance").addEventListener("click", ()=> handleUserMes
 document.getElementById("btnSleep").addEventListener("click", ()=> handleUserMessage("Good Night"));
 
 document.getElementById("btnStart").addEventListener("click", ()=>{
-  speechBubble.textContent = "Hai! Aku Shiroko — mau ngobrol apa hari ini?";
+  speechBubble.textContent = "Hai! Aku LeafCy — mau ngobrol apa hari ini?";
   appendMessage("shiro", speechBubble.textContent);
 });
 document.getElementById("btnClear").addEventListener("click", ()=>{
@@ -337,9 +337,9 @@ document.getElementById("btnClear").addEventListener("click", ()=>{
   speechBubble.textContent = "Obrolan dibersihkan. Klik Start untuk mulai lagi!";
 });
 document.getElementById("btnAdd").addEventListener("click", ()=>{
-  const phrase = prompt("Masukkan kalimat/preset yang ingin ditambah (contoh: 'Kabar'):");
+  const phrase = prompt("Masukkan kalimat Baru yang ingin ditambah (contoh: 'Kabar'):");
   if (!phrase) return;
-  const reply = prompt("Masukkan balasan Shiroko untuk preset itu:");
+  const reply = prompt("Masukkan Jawaban LeafCy untuk Kata baru itu:");
   if (!reply) return;
   RESPONSES[phrase] = [reply];
   buildPresetButtons();
@@ -368,7 +368,7 @@ avatarImg.addEventListener("click", ()=>{
 
 // initial greeting
 setTimeout(()=> {
-  speechBubble.textContent = "Halo! Klik 'Start' atau ketik sesuatu untuk mulai.";
+  speechBubble.textContent = "Halo Gantenk/Cantik Klik 'Start' atau ketik sesuatu untuk mulai.";
 }, 350);
 
 // accessibility: focus input
