@@ -224,17 +224,15 @@ const RESPONSES = {
   "Halo": ["Halo juga! Apa kabar? 😊", "Hai! Senang ketemu kamu!"],
   "Siapa kamu?": ["Aku LeafCy! — teman virtualmu! Aku suka coding dan ngemil.", "Namaku LeafCy!, senang bermain bareng kamu!"],
   "Cerita lucu": ["Alarm Keamanan
-
-Seorang pencuri memasuki rumah yang gelap dan sunyi. Tiba-tiba, dia mendengar suara, "Aku tau kamu ngapain!"
+Seorang pencuri memasuki rumah yang gelap dan sunyi. Tiba-tiba, dia mendengar suara, 'Aku tau kamu ngapain!'
 Dia kaget,nyalakan senter, dan melihat seekor burung beo di sangkarnya.
-Burung beo itu berkata lagi,"Aku lihat kamu!"
-Si pencuri lega,lalu bertanya, "Jadi, kamu yang bicara tadi?"
-Burung beo menjawab,"Iya! Tapi anjing di sebelahmu itu yang akan bertindak!", "Logika Tanpa Celah
-
-Seorang guru bertanya kepada muridnya, "Andi, jika kamu punya 10 biji jeruk dan Budi meminta 3 biji, berapa yang tersisa?"
-Andi menjawab,"Tidak ada, Bu."
-Guru:"Tidak ada? Kenapa?"
-Andi:"Karena saya tidak akan memberikannya. Ibu selalu bilang jangan mudah memberi pada orang yang belum dikenal"],
+Burung beo itu berkata lagi,'Aku lihat kamu!'
+Si pencuri lega,lalu bertanya, 'Jadi, kamu yang bicara tadi?'
+Burung beo menjawab,'Iya! Tapi anjing di sebelahmu itu yang akan bertindak!", "Logika Tanpa Celah
+Seorang guru bertanya kepada muridnya, 'Andi, jika kamu punya 10 biji jeruk dan Budi meminta 3 biji, berapa yang tersisa?'
+Andi menjawab,'Tidak ada, Bu.'
+Guru:'Tidak ada? Kenapa?'
+Andi:'Karena saya tidak akan memberikannya. Ibu selalu bilang jangan mudah memberi pada orang yang belum dikenal'],
   "Apa hobimu?": ["Main game, coding, dan tidur siang sejenak. 😴", "Bermain dengan emoji dan membuat kamu tertawa!"],
   "Dance": ["*LeafCy menari kecil* 💃", "Wuu~ goyang dikit~ 🎵"],
   "Good Night": ["Selamat tidur, mimpi indah ya! 🌙", "Istirahat yang cukup, besok kita main lagi!"],
