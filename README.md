@@ -163,16 +163,16 @@
           <img id="avatarImg" src="Shiroko.gif" alt="Shiroko avatar (GIF)">
         </div>
 
-        <div class="name">Shiroko</div>
-        <div class="subtitle">Virtual friend — Have Fun!</div>
+        <div class="name">LeafCy</div>
+        <div class="subtitle">Teman Bicara! — Have Fun!</div>
 
         <div style="margin-top:14px; display:flex; gap:8px; justify-content:center;">
           <button class="btn primary" id="btnWave">Say Hello</button>
-          <button class="btn" id="btnCalm">Calm Voice</button>
+          <button class="btn" id="btnCalm">Hobimu?</button>
         </div>
 
         <div style="margin-top:12px; display:flex; gap:8px; justify-content:center;">
-          <button class="btn" id="btnDance">Dance</button>
+          <button class="btn" id="btnDance">Menari Lah!</button>
           <button class="btn" id="btnSleep">Good Night</button>
         </div>
 
@@ -181,7 +181,7 @@
 
       <!-- RIGHT -->
       <div class="right">
-        <div class="title" id="shirokoTitle">Interaksi Ringan — Shiroko</div>
+        <div class="title" id="shirokoTitle">Interaksi Simpel Lanjutan Dengan LeafCy</div>
 
         <div class="controls">
           <button class="btn primary" id="btnStart">Start</button>
@@ -201,14 +201,14 @@
         </div>
 
         <div class="small-muted">Tip: tombol preset memberikan jawaban cepat; kamu juga bisa menambah jawaban sendiri.</div>
-        <div class="foot">Made with ❤️ — LeafZuya</div>
+        <div class="foot">Dibuat Oleh❤️ — LeafZuya</div>
       </div>
     </div>
   </div>
 
 <script>
 /*
-  Shiroko Chat - Frontend only (lite "scripted AI")
+  LeafCy Chat - Frontend only (lite "scripted AI")
   - Copy-paste this whole file to your GitHub Pages.
   - Change avatar GIF file name at <img id="avatarImg"> if needed.
   - You can expand responses in the RESPONSES map below.
@@ -223,10 +223,10 @@ const avatarImg = document.getElementById("avatarImg");
 // Default preset phrases => mapped to possible replies (array)
 const RESPONSES = {
   "Halo": ["Halo juga! Apa kabar? 😊", "Hai! Senang ketemu kamu!"],
-  "Siapa kamu?": ["Aku Shiroko — teman virtualmu! Aku suka coding dan ngemil.", "Namaku Shiroko, senang bermain bareng kamu!"],
+  "Siapa kamu?": ["Aku LeafCy! — teman virtualmu! Aku suka coding dan ngemil.", "Namaku LeafCy!, senang bermain bareng kamu!"],
   "Cerita lucu": ["Dulu aku coba ngoding sambil makan mie, eh keyboard ikut makan. 😆", "Kenapa komputer gagah? Karena dia punya banyak 'core'!"],
   "Apa hobimu?": ["Main game, coding, dan tidur siang sejenak. 😴", "Bermain dengan emoji dan membuat kamu tertawa!"],
-  "Dance": ["*Shiroko menari kecil* 💃", "Wuu~ goyang dikit~ 🎵"],
+  "Dance": ["*LeafCy menari kecil* 💃", "Wuu~ goyang dikit~ 🎵"],
   "Good Night": ["Selamat tidur, mimpi indah ya! 🌙", "Istirahat yang cukup, besok kita main lagi!"],
   "Praise": ["Kamu hebat! Terus berkarya ya 💚", "Wah, kamu keren! Keep going!"]
 };
