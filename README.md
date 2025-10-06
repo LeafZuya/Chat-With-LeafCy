@@ -147,20 +147,20 @@
         <div class="bubble" id="speechBubble">Klik tombol di kanan untuk mulai ngobrol dengan LeafCy!</div>
 
         <div class="avatar-wrap">
-          <img id="avatarImg" src="leafcy.gif" alt="LeafCy avatar (GIF)">
+          <img id="avatarImg" src="LeafCy.jpg" alt="LeafCy avatar (GIF)">
         </div>
 
         <div class="name">LeafCy</div>
-        <div class="subtitle">Virtual friend — Have Fun!</div>
+        <div class="subtitle">Teman Virtual — Have Fun!</div>
 
         <div style="margin-top:14px; display:flex; gap:8px; justify-content:center;">
-          <button class="btn primary" id="btnWave">Say Hello</button>
-          <button class="btn" id="btnCalm">Calm Voice</button>
+          <button class="btn primary" id="btnWave">Katakan Hallo</button>
+          <button class="btn" id="btnCalm">Hobimu?</button>
         </div>
 
         <div style="margin-top:12px; display:flex; gap:8px; justify-content:center;">
-          <button class="btn" id="btnDance">Dance</button>
-          <button class="btn" id="btnSleep">Good Night</button>
+          <button class="btn" id="btnDance">Menarilah!</button>
+          <button class="btn" id="btnSleep">Selamat Malam😴</button>
         </div>
 
         <div class="small-muted">You can replace <b>leafcy.gif</b> with your own GIF file in the same repo.</div>
@@ -170,9 +170,9 @@
         <div class="title" id="leafcyTitle">Interaksi Ringan — LeafCy</div>
 
         <div class="controls">
-          <button class="btn primary" id="btnStart">Start</button>
+          <button class="btn primary" id="btnStart">Mulai/Start</button>
           <button class="btn" id="btnClear">Clear Chat</button>
-          <button class="btn" id="btnAdd">Add Custom Reply</button>
+          <button class="btn" id="btnAdd">Tambahkan Obrolan Tambahan</button>
         </div>
 
         <div class="preset-list" id="presetList"></div>
@@ -272,7 +272,7 @@ function handleUserMessage(text){
 
   const fallback = [
     "Menarik banget! Bisa dijelasin lagi? 🤔",
-    "Hmm... Aku masih belajar soal itu 🍀",
+    "Hmm... Aku masih belum tau soal itu 🍀",
     "Itu hal baru buatku, tapi seru juga ya!"
   ];
   leafcyReply(chooseReply(fallback));
