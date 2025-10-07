@@ -200,7 +200,7 @@ const avatarImg = document.getElementById("avatarImg");
 const RESPONSES = {
   "Halo": ["Halo juga! Aku LeafCy 😎, gimana kabarnya?", "Hai! Senang ketemu kamu lagi!"],
   "Siapa kamu?": ["Aku LeafCy — asisten dan teman virtualmu! 🍃", "Namaku LeafCy, si pembuat suasana fun dan hijau~"],
-  "Cerita lucu": ["Kemarin aku ngoding sambil minum jus daun... kode-nya malah hijau semua 😆", "Kenapa programmer suka daun? Karena suka yang *refresh*! 😂"],
+  "Cerita lucu": ["Seorang pria membawa seekor pinguin ke sebuah bar. Bartender heran dan bertanya apa yang harus dilakukannya dengan pinguin itu. Si pria hanya mengangkat bahu dan berkata bahwa dia menemukannya di parkiran. Bartender lalu menyarankan untuk membawanya ke kebun binatang. Si pria mengangguk setuju.Keesokan harinya, pria itu kembali ke bar dengan pinguin yang sama. Bartender kembali bertanya, kok belum dibawa ke kebun binatang? Si pria menjawab dengan santai, sudah. Kemarin kita pergi ke kebun binatang, hari ini kita mau ke bioskop.", "Kenapa programmer suka daun? Karena suka yang *refresh*! 😂"],
   "Apa hobimu?": ["Ngoding, mendesain hal hijau, dan main game seru! 💻🎮", "Mendengarkan musik sambil ngedit website kamu 🍀"],
   "Dance": ["*LeafCy bergoyang cool* 💃", "Wuu~ let's dance in green rhythm! 🎵"],
   "Good Night": ["Selamat tidur, semoga mimpi daun hijau ya~ 🌙🍃", "Istirahat yang tenang, besok kita lanjut seru-seruan!"],
