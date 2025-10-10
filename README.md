@@ -226,7 +226,8 @@
           <button class="btn" id="btnSleep">Selamat Malam😴</button>
         </div>
 
-        <div class="small-muted">Saat Ingin Bertanya Informasi Dengan LeafCy,Memakai <b>Kata Tanya Dan Diakhir Kalimat,diberi Tanda Tanya '?'</b> agar LeafCy Dapat Mencari Informasi Dari Sumber Resmi Google.</div>
+        <div class="small-muted">Saat Ingin Bertanya Informasi Dengan LeafCy,Memakai <b>Kata Tanya(Apa,Siapa, Mengapa /Kenapa,Dimana,kapan,dan Bagaimana)Dan Diakhir Kalimat diberi Tanda Tanya '?'</b> agar LeafCy Dapat Mencari Informasi Dari Sumber Resmi Google
+        Contohnya (Apa Ibukota Jerman?).</div>
       </div>
 
       <div class="right">
