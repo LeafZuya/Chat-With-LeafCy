@@ -1,4 +1,3 @@
-# LeafCy-AI
 <html lang="id">
 <head>
 <meta charset="utf-8" />
@@ -64,29 +63,38 @@
   .subtitle { color:#467; font-size:13px; margin-top:4px; opacity:0.9; }
 
   .bubble {
-    position:absolute;
-    top:18px;
-    right:-12px;
-    width:280px;
-    max-width:42%;
-    background: linear-gradient(180deg,#fff,#f5fff9);
-    border-radius:12px;
-    padding:12px 14px;
-    box-shadow: 0 8px 22px rgba(0,0,0,0.12);
-    font-size:15px;
-    color:#0a3;
-    z-index:20;
-    transition: transform .18s ease;
-  }
-  .bubble.small { width:220px; font-size:14px; }
-  .bubble:after{
-    content:"";
-    position:absolute;
-    left: -10px; top:16px;
-    border: 8px solid transparent;
-    border-right-color: #fff;
-    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.06));
-  }
+  position:absolute;
+  top:18px;
+  right:-12px;
+  width:280px;
+  max-width:42%;
+  background: linear-gradient(180deg,#fff,#f5fff9);
+  border-radius:12px;
+  padding:12px 14px;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.12);
+  font-size:15px;
+  color:#0a3;
+  z-index:20;
+  transition: transform .18s ease;
+  
+  /* Tambahan penting */
+  max-height: 240px;         /* batas tinggi maksimal */
+  overflow-y: auto;          /* biar bisa di-scroll */
+  scrollbar-width: thin;     /* scrollbar tipis untuk browser modern */
+  scrollbar-color: #8fe3b2 #ffffff;  /* warna scrollbar */
+}
+
+/* Scrollbar untuk Chrome, Edge, dll */
+.bubble::-webkit-scrollbar {
+  width: 6px;
+}
+.bubble::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--green1), var(--blue1));
+  border-radius: 6px;
+}
+.bubble::-webkit-scrollbar-track {
+  background: transparent;
+}
 
   .right {
     background: var(--card);
@@ -120,15 +128,43 @@
   }
 
   .chat {
-    margin-top:14px; max-height: 230px; overflow:auto; padding-right:6px;
-    display:flex; flex-direction:column; gap:10px;
-  }
-  .msg {
-    max-width:70%; padding:10px 12px; border-radius:12px; font-size:15px;
-    box-shadow: 0 8px 18px rgba(0,0,0,0.06);
-  }
-  .msg.user { align-self:flex-end; background: linear-gradient(180deg,#e9f7ff,#e0f0ff); color:#024; border:1px solid rgba(0,0,0,0.04); }
-  .msg.leafcy { align-self:flex-start; background: linear-gradient(180deg,#fffefc,#f7fff6); color:#063; border:1px solid rgba(0,0,0,0.04); }
+  margin-top:14px;
+  flex: 1;                      /* biar area chat fleksibel */
+  max-height: 300px;            /* tinggi maksimum chat area */
+  overflow-y: auto;             /* biar bisa di-scroll */
+  padding-right:6px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  scroll-behavior: smooth;      /* biar scroll-nya halus */
+}
+
+/* tambahkan agar bubble chat gak mengecil */
+.msg {
+  display: inline-block;
+  width: fit-content;           /* biar gelembung menyesuaikan isi */
+  max-width: 80%;               /* biar gak melebar seluruh layar */
+  word-wrap: break-word;        /* potong teks panjang otomatis */
+  padding:10px 12px;
+  border-radius:12px;
+  font-size:15px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+}
+
+/* tetap kasih warna beda untuk user & LeafCy */
+.msg.user {
+  align-self:flex-end;
+  background: linear-gradient(180deg,#e9f7ff,#e0f0ff);
+  color:#024;
+  border:1px solid rgba(0,0,0,0.04);
+}
+
+.msg.leafcy {
+  align-self:flex-start;
+  background: linear-gradient(180deg,#fffefc,#f7fff6);
+  color:#063;
+  border:1px solid rgba(0,0,0,0.04);
+}
 
   .input-row { display:flex; gap:8px; margin-top:12px; align-items:center; }
   .input-row input[type="text"]{ flex:1; padding:10px;border-radius:10px;border:1px solid #ddd; font-size:15px; }
@@ -1162,5 +1198,10 @@ async function handleUserMessage(text){
   leafcyReply(chooseReply(fallback));
 }
 </script>
+<div class="foot">
+  Made with 💚 — LeafZuya<br>
+  <a href="about.html">Tentang LeafCy</a> | 
+  <a href="privacy.html">Kebijakan Privasi</a>
+</div>
 </body>
 </html>
