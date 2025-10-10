@@ -1227,7 +1227,7 @@ async function handleUserMessage(text){
 <div class="foot">
   Made with 💚 — LeafZuya<br>
   <a href="about.html">Tentang LeafCy</a>
-  <a href="privacy.html">Kebijakan Privasi</a>
+  <a href="privasi.html">Kebijakan Privasi</a>
 </div>
 </body>
 </html>
