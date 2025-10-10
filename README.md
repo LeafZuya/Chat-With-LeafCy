@@ -175,6 +175,32 @@
     .panel { grid-template-columns: 1fr; }
     .bubble { position:relative; right:auto; left:auto; margin:6px auto 0; }
   }
+  /* === FOOTER BUTTON STYLE === */
+.foot {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.foot a {
+  display: inline-block;
+  font-size: 22px; /* 🔥 Ukuran besar dan mencolok */
+  font-weight: 900;
+  padding: 14px 28px;
+  border-radius: 16px;
+  text-decoration: none;
+  color: white;
+  background: linear-gradient(135deg, #ff3c00, #ffd200);
+  box-shadow: 0 0 25px rgba(255, 136, 0, 0.6);
+  transition: all 0.3s ease;
+  margin: 8px;
+  letter-spacing: 1px;
+}
+
+.foot a:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 40px rgba(255, 204, 0, 0.9);
+  background: linear-gradient(135deg, #ff6600, #ffea00);
+}
 </style>
 </head>
 <body>
@@ -1200,8 +1226,8 @@ async function handleUserMessage(text){
 </script>
 <div class="foot">
   Made with 💚 — LeafZuya<br>
-  <a href="about.html">Tentang LeafCy</a> | 
-  <a href="privasi.html">Kebijakan Privasi</a>
+  <a href="about.html">Tentang LeafCy</a>
+  <a href="privacy.html">Kebijakan Privasi</a>
 </div>
 </body>
 </html>
