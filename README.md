@@ -226,7 +226,7 @@
           <button class="btn" id="btnSleep">Selamat Malam😴</button>
         </div>
 
-        <div class="small-muted">You can replace <b>leafcy.gif</b> with your own GIF file in the same repo.</div>
+        <div class="small-muted">Saat Ingin Bertanya Informasi Dengan LeafCy,Memakai <b>Kata Tanya Dan Diakhir Kalimat,diberi Tanda Tanya '?'</b> agar LeafCy Dapat Mencari Informasi Dari Sumber Resmi Google.</div>
       </div>
 
       <div class="right">
