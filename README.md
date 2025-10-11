@@ -1,5 +1,6 @@
 <html lang="id">
 <head>
+  <meta name="google-site-verification" content="df6EtL6mKtOPWlg4bi57__R4cjbLIAuNwZisuD42fHo" />
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>LeafCy Chat — LeafZuya</title>
