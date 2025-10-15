@@ -1146,7 +1146,7 @@ async function searchGoogle(query){
     return `(${i+1}) ${item.title}\n${item.snippet}\n🔗 ${item.link}\n`;
   }).join("\n");
 
-  return `Aku baru cari di Google 🍃✨\nBerikut hasilnya:\n\n${topResults}`;
+  return `Aku baru Ketemu Informasinya nih~🍃✨\nBerikut hasilnya:\n\n${topResults}`;
 }
 
 // ⚙️ Modifikasi fungsi handleUserMessage milik LeafCy
@@ -1209,7 +1209,7 @@ async function handleUserMessage(text){
 
   // 🌍 5️⃣ — Kalau tanya informasi → aktifkan mode Google
   if (infoPattern.test(lower)){
-    leafcyReply("Tunggu sebentar ya... aku coba cari jawabannya di Google dulu~ 🌿🔎");
+    leafcyReply("Tunggu sebentar ya... aku coba cari jawaban Informasi yang kamu Minta dulu~ 🌿🔎");
     const googleAns = await searchGoogle(text);
     if (googleAns){
       setTimeout(()=> leafcyReply(googleAns), 1000);
