@@ -52,26 +52,6 @@
             gap: 12px;
         }
 
-        /* Tombol Menu (3 titik) */
-        .menu-btn {
-            background: rgba(46, 204, 113, 0.12);
-            border-radius: 40px;
-            padding: 8px 12px;
-            font-size: 1rem;
-            font-weight: 500;
-            color: #2ecc71;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border: 1px solid rgba(46, 204, 113, 0.3);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .menu-btn:hover {
-            background: rgba(46, 204, 113, 0.25);
-            transform: scale(1.02);
-        }
-
         .logo-icon {
             width: 36px;
             height: 36px;
@@ -108,6 +88,26 @@
             display: flex;
             align-items: center;
             gap: 6px;
+        }
+
+        /* Tombol Menu (3 titik) untuk History - versi lebih kecil */
+        .menu-history-btn {
+            background: rgba(46, 204, 113, 0.12);
+            border-radius: 40px;
+            padding: 5px 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #2ecc71;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .menu-history-btn:hover {
+            background: rgba(46, 204, 113, 0.25);
+            transform: scale(1.02);
         }
         
         /* Sidebar Menu History */
@@ -576,6 +576,11 @@
             font-size: 11px;
             color: #5a8a5a;
         }
+        .header-buttons {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
         @media (max-width: 600px) {
             .message { max-width: 92%; }
             .sidebar { width: 280px; }
@@ -586,14 +591,15 @@
 <div class="app">
     <div class="chat-header">
         <div class="logo-area">
-            <div id="menuBtn" class="menu-btn"><i class="fas fa-ellipsis-v"></i></div>
             <div class="logo-icon">
                 <img src="leafcy.png" alt="Logo" onerror="this.src='https://via.placeholder.com/36x36/2ecc71/ffffff?text=Leaf'">
             </div>
             <div class="logo-text">LeafCy AI</div>
             <div class="model-badge" id="modelBadge"><i class="fas fa-charging-station"></i> Zyrion (Leaf-Ice)</div>
         </div>
-        <div style="display: flex; gap: 12px; align-items: center;">
+        <div class="header-buttons">
+            <!-- Tombol History (3 titik) dipindahkan ke sebelah kiri Cara Ambil API Key -->
+            <div id="menuHistoryBtn" class="menu-history-btn"><i class="fas fa-history"></i> Riwayat</div>
             <div id="guideApiBtn" class="guide-menu"><i class="fas fa-question-circle"></i> Cara Ambil API Key</div>
             <div id="apiStatus" class="api-warning" style="background: #fdeaea;"><i class="fas fa-key"></i> API Key ?</div>
         </div>
@@ -676,7 +682,7 @@
     const guideApiBtn = document.getElementById('guideApiBtn');
     const modalGuide = document.getElementById('apiGuideModal');
     const closeModalBtn = document.getElementById('closeModalBtn');
-    const menuBtn = document.getElementById('menuBtn');
+    const menuHistoryBtn = document.getElementById('menuHistoryBtn');
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
     const closeSidebar = document.getElementById('closeSidebar');
@@ -1167,7 +1173,8 @@
         loadChatsFromStorage();
         updateApiStatusUI();
         
-        menuBtn.addEventListener('click', openSidebarPanel);
+        // Event listeners - tombol history sekarang pakai menuHistoryBtn
+        menuHistoryBtn.addEventListener('click', openSidebarPanel);
         closeSidebar.addEventListener('click', closeSidebarPanel);
         overlay.addEventListener('click', closeSidebarPanel);
         newChatBtn.addEventListener('click', createNewChat);
