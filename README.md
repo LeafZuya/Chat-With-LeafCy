@@ -1,523 +1,762 @@
-<htmllang="id">
+<html lang="id">
 <head>
-  <metacharset="UTF-8">
-  <metaname="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LeafCy AI — Working Edition</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>LeafCy AI [New Beta]</title>
+    <!-- Google Fonts + Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Reset & modern base - Tema Hijau Putih */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-    background: linear-gradient(145deg, #b2f0c0 0%, #6ac8ff 100%);
-    font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    }
+        body {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
 
-    .dashboard {
-    max-width: 1500px;
-    width: 100%;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(18px);
-    border-radius: 2rem;
-    padding: 1.2rem;
-    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
-    }
+        .app {
+            width: 100%;
+            max-width: 900px;
+            height: 100vh;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
 
-    .grid-container {
-    display: grid;
-    grid-template-columns: 330px 1fr;
-    gap: 1.2rem;
-    }
+        /* Header elegant */
+        .chat-header {
+            padding: 16px 24px;
+            background: #ffffff;
+            border-bottom: 1px solid #2ecc71;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
 
-    .profile-card {
-    background: rgba(255, 255, 255, 0.96);
-    border-radius: 1.8rem;
-      padding: 1.5rem 1rem;
-      text-align: center;
-    }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-    .avatar {
-      width: 210px;
-      height: 210px;
-      margin: 0 auto 1rem;
-      border-radius: 30px;
-      overflow: hidden;
-      background: #fff;
-    }
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-    .avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.4rem;
+            letter-spacing: -0.4px;
+            background: linear-gradient(120deg, #2ecc71, #27ae60);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
 
-    .name {
-      font-size: 1.9rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, #008c4a, #1e88e5);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-    }
+        .model-badge {
+            background: rgba(46, 204, 113, 0.12);
+            border-radius: 40px;
+            padding: 5px 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #2ecc71;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        /* Menu cara ambil API Key */
+        .guide-menu {
+            background: rgba(46, 204, 113, 0.12);
+            border-radius: 40px;
+            padding: 5px 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #2ecc71;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+        .guide-menu:hover {
+            background: rgba(46, 204, 113, 0.25);
+            color: #27ae60;
+            transform: scale(1.02);
+        }
 
-    .bubble-mood {
-      background: #e9fff2;
-      padding: 1rem;
-      border-radius: 1.5rem;
-      margin: 1rem 0;
-      color: #1c4e2d;
-      font-size: 0.9rem;
-      border-left: 5px solid #00b35e;
-    }
+        /* Chat messages container - scroll smooth */
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px 20px 20px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            scroll-behavior: smooth;
+        }
 
-    .action-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-      justify-content: center;
-      margin: 1rem 0;
-    }
+        .chat-messages::-webkit-scrollbar {
+            width: 5px;
+        }
+        .chat-messages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #2ecc71;
+            border-radius: 10px;
+        }
 
-    .mini-btn {
-      background: white;
-      border: none;
-      padding: 0.5rem 1.2rem;
-      border-radius: 2rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
+        /* bubble animation smooth */
+        .message {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            max-width: 85%;
+            animation: fadeSlideUp 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
 
-    .mini-btn.primary {
-      background: linear-gradient(120deg, #00b35e, #2b93e0);
-      color: white;
-    }
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    .chat-panel {
-      background: rgba(255, 255, 255, 0.96);
-      border-radius: 1.8rem;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
+        .message.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
 
-    .chat-header {
-      padding: 1rem;
-      border-bottom: 2px solid #e0f0e6;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
+        .avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 100%;
+            background: #e8f5e9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
 
-    .tool-btn {
-      background: #eff7f2;
-      border: none;
-      padding: 0.4rem 0.9rem;
-      border-radius: 2rem;
-      cursor: pointer;
-    }
+        .user .avatar {
+            background: #2ecc71;
+            color: white;
+        }
 
-    .preset-strip {
-      padding: 0.5rem 1rem;
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      border-bottom: 1px solid #e2f0e8;
-    }
+        .bubble {
+            background: #f5f5f5;
+            padding: 12px 18px;
+            border-radius: 24px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #1a1a1a;
+            word-wrap: break-word;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
 
-    .preset-chip {
-      background: #eef3ef;
-      padding: 0.3rem 1rem;
-      border-radius: 30px;
-      font-size: 0.75rem;
-      cursor: pointer;
-    }
+        .user .bubble {
+            background: #2ecc71;
+            color: white;
+            border-bottom-right-radius: 6px;
+        }
 
-    .chat-messages {
-      flex: 1;
-      overflow-y: auto;
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-      max-height: 55vh;
-    }
+        .assistant .bubble {
+            background: #f0f4f0;
+            border-bottom-left-radius: 6px;
+            border: 1px solid #e0e8e0;
+        }
 
-    .message {
-      max-width: 80%;
-      padding: 0.7rem 1rem;
-      border-radius: 1.5rem;
-      font-size: 0.9rem;
-      word-break: break-word;
-      white-space: pre-wrap;
-      animation: fadeSlide 0.2s ease;
-    }
+        .timestamp {
+            font-size: 0.65rem;
+            color: #8a9a8a;
+            margin-top: 5px;
+            margin-left: 44px;
+        }
+        .user .timestamp {
+            text-align: right;
+            margin-right: 6px;
+        }
 
-    .message.user {
-      align-self: flex-end;
-      background: linear-gradient(135deg, #009e58, #2b93e0);
-      color: white;
-    }
+        /* Input area */
+        .input-container {
+            background: #ffffff;
+            border-top: 1px solid #2ecc71;
+            padding: 16px 20px 24px;
+        }
 
-    .message.bot {
-      align-self: flex-start;
-      background: #f0f9f3;
-      color: #1d482f;
-    }
+        .input-wrapper {
+            display: flex;
+            align-items: flex-end;
+            gap: 12px;
+            background: #f5f7f5;
+            border-radius: 48px;
+            padding: 6px 6px 6px 22px;
+            border: 1px solid #2ecc71;
+            transition: all 0.2s;
+        }
 
-    .input-area {
-      padding: 0.8rem;
-      background: white;
-      display: flex;
-      gap: 0.6rem;
-    }
+        .input-wrapper:focus-within {
+            border-color: #27ae60;
+            box-shadow: 0 0 0 2px rgba(46, 204, 113, 0.25);
+        }
 
-    .input-area input {
-      flex: 1;
-      border: 1px solid #cfdfd5;
-      padding: 0.7rem 1rem;
-      border-radius: 2rem;
-      outline: none;
-    }
+        textarea {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 10px 0;
+            font-family: 'Inter', monospace;
+            font-size: 0.95rem;
+            color: #1a1a1a;
+            resize: none;
+            outline: none;
+            max-height: 130px;
+        }
 
-    .input-area button {
-      background: #009e58;
-      border: none;
-      padding: 0 1.3rem;
-      border-radius: 2rem;
-      color: white;
-      cursor: pointer;
-    }
+        textarea::placeholder {
+            color: #9aae9a;
+        }
 
-    .loading-dots {
-      display: inline-flex;
-      gap: 3px;
-    }
-    .loading-dots span {
-      animation: blink 1.4s infinite;
-    }
-    .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
-    .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes blink {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 1; }
-    }
-    @keyframes fadeSlide {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+        .send-btn {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
 
-    @media (max-width: 780px) {
-      .grid-container { grid-template-columns: 1fr; }
-      .message { max-width: 95%; }
-    }
-  </style>
+        .send-btn:hover {
+            transform: scale(1.02);
+            opacity: 0.9;
+        }
+
+        /* Reset Chat Button - Dipindahkan ke pojok kanan bawah */
+        .action-clear {
+            position: absolute;
+            bottom: 100px;
+            right: 20px;
+            background: #ffffff;
+            border-radius: 40px;
+            padding: 8px 15px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #e74c3c;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            z-index: 10;
+            transition: 0.2s;
+            border: 1px solid #e74c3c;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .action-clear:hover {
+            background: #e74c3c;
+            color: white;
+            transform: scale(1.02);
+        }
+
+        /* typing indicator */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 10px 18px;
+            background: #f0f4f0;
+            border-radius: 28px;
+            width: fit-content;
+        }
+
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background: #2ecc71;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulseBlink 1.2s infinite;
+        }
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes pulseBlink {
+            0%, 60%, 100% { transform: scale(0.7); opacity: 0.4; }
+            30% { transform: scale(1.2); opacity: 1; }
+        }
+
+        .welcome-message {
+            text-align: center;
+            margin: auto;
+            padding: 30px;
+            color: #5a8a5a;
+        }
+
+        /* api key warning */
+        .api-warning {
+            background: rgba(231, 76, 60, 0.12);
+            color: #e74c3c;
+            font-size: 0.7rem;
+            padding: 5px 12px;
+            border-radius: 40px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        /* Modal panduan API Key */
+        .modal-guide {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: #ffffff;
+            max-width: 450px;
+            width: 90%;
+            border-radius: 32px;
+            padding: 24px;
+            border: 2px solid #2ecc71;
+            color: #1a1a1a;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.3);
+        }
+        .modal-content h3 {
+            margin-bottom: 16px;
+            color: #2ecc71;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .modal-content ol {
+            padding-left: 20px;
+            margin: 15px 0;
+        }
+        .modal-content li {
+            margin: 10px 0;
+        }
+        .close-modal {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            color: white;
+            margin-top: 16px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+        }
+        .code-block {
+            background: #f0f4f0;
+            padding: 8px;
+            border-radius: 12px;
+            font-family: monospace;
+            font-size: 0.7rem;
+            word-break: break-all;
+            margin-top: 10px;
+        }
+        .bottom-info-text {
+            font-size: 11px;
+            color: #5a8a5a;
+        }
+        @media (max-width: 600px) {
+            .message { max-width: 92%; }
+        }
+    </style>
 </head>
 <body>
-<div class="dashboard">
-  <div class="grid-container">
-    <div class="profile-card">
-      <div class="avatar">
-        <img id="avatarImg" src="LeafCy.jpg" alt="LeafCy" onerror="this.src='https://placehold.co/400x400?text=LeafCy&font=poppins'">
-      </div>
-      <div class="name">🍃 LeafCy AI</div>
-      <div class="bubble-mood" id="speechBubble">
-        Halo! Aku LeafCy AI, siap ngobrol pintar 💚
-      </div>
-      <div class="action-buttons">
-        <button class="mini-btn primary" id="btnHalo">👋 Halo</button>
-        <button class="mini-btn" id="btnHobi">🎨 Hobimu?</button>
-        <button class="mini-btn" id="btnDance">💃 Dance</button>
-        <button class="mini-btn" id="btnMalam">🌙 Good Night</button>
-      </div>
-      <div class="info-tip" style="font-size:0.7rem; background:#fff6df; border-radius:1rem; padding:0.6rem; margin-top:1rem;">
-        💡 AI: Microsoft Phi-3 Mini (100% Gratis) | Bisa jawab apa aja!
-      </div>
+<div class="app">
+    <div class="chat-header">
+        <div class="logo-area">
+            <div class="logo-icon">
+                <img src="leafcy.png" alt="Logo" onerror="this.src='https://via.placeholder.com/36x36/2ecc71/ffffff?text=Leaf'">
+            </div>
+            <div class="logo-text">LeafCy AI</div>
+            <div class="model-badge" id="modelBadge"><i class="fas fa-charging-station"></i> OpenRouter</div>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: center;">
+            <!-- Menu Cara Mengambil API Key Dari OpenRouter -->
+            <div id="guideApiBtn" class="guide-menu"><i class="fas fa-question-circle"></i> Cara Ambil API Key</div>
+            <div id="apiStatus" class="api-warning" style="background: #fdeaea;"><i class="fas fa-key"></i> API Key ?</div>
+        </div>
     </div>
 
-    <div class="chat-panel">
-      <div class="chat-header">
-        <h2>💬 Ngobrol dengan LeafCy AI</h2>
-        <div>
-          <button class="tool-btn" id="btnClear">🧹 Clear Chat</button>
-          <button class="tool-btn" id="btnTestAI">🔍 Test AI</button>
+    <div class="chat-messages" id="chatMessages">
+        <div class="welcome-message" id="welcomeMsg">
+            <i class="fas fa-seedling" style="font-size: 32px; margin-bottom: 10px; display: block; opacity: 0.7; color: #2ecc71;"></i>
+            LeafCy with OpenRouter API<br>Kecerdasan sejati dari berbagai model AI.
         </div>
-      </div>
-      <div class="preset-strip" id="presetList"></div>
-      <div class="chat-messages" id="chatArea">
-        <div class="message bot">🍃 Halo! Aku LeafCy AI pakai Microsoft Phi-3. Coba tanya apa saja ya~</div>
-      </div>
-      <div class="input-area">
-        <input type="text" id="textInput" placeholder="Contoh: Kamu tau negara Jepang?">
-        <button id="btnSend">Kirim</button>
-      </div>
-      <div class="footer-links" style="font-size:0.65rem; text-align:center; padding:0.6rem;">
-        Made with 💚 by LeafZuya · AI: Microsoft Phi-3 (OpenRouter)
-      </div>
     </div>
-  </div>
+
+    <div class="input-container">
+        <div class="input-wrapper">
+            <textarea id="chatInput" rows="1" placeholder="Tanya apa saja... AI akan merespon dengan logika Sendiri" aria-label="Chat"></textarea>
+            <button class="send-btn" id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 8px; padding: 0 10px;">
+            <div class="bottom-info-text"><i class="fas fa-microchip"></i> model: Zyrion-1.2-Beta (default)</div>
+            <div class="bottom-info-text"><i class="fas fa-database"></i> history scrollable</div>
+        </div>
+    </div>
+    
+    <!-- Tombol Reset Chat dipindahkan ke sini (kanan bawah) -->
+    <div class="action-clear" id="clearChatBtn">
+        <i class="fas fa-trash-alt"></i> Reset Chat
+    </div>
+</div>
+
+<!-- Modal Panduan API Key -->
+<div id="apiGuideModal" class="modal-guide">
+    <div class="modal-content">
+        <h3><i class="fas fa-seedling"></i> Cara Mendapatkan API Key OpenRouter</h3>
+        <ol>
+            <li>Kunjungi <strong><a href="https://openrouter.io/keys" target="_blank" style="color:#2ecc71;">https://openrouter.io/keys</a></strong> (buka di tab baru).</li>
+            <li>Daftar / Login menggunakan akun Google atau Email.</li>
+            <li>Setelah masuk, klik tombol <strong>"Create Key"</strong>.</li>
+            <li>Beri nama key (contoh: LeafCyAI) lalu klik Create.</li>
+            <li>Copy kunci API yang muncul (contoh: <code>sk-or-v1-xxxxxxxxxxxx</code>).</li>
+            <li>Kembali ke chat ini, lalu klik <strong>ikon kunci di pojok kanan atas (API Key ?)</strong>.</li>
+            <li>Masukkan API Key yang sudah di-copy, lalu tekan OK.</li>
+        </ol>
+        <p>✅ Selesai! Sekarang LeafCy AI bisa merespon dengan kecerdasan penuh dari OpenRouter (GPT, Claude, dll).</p>
+        <div class="code-block">💡 Tips: Key akan tersimpan di browser (localStorage) sehingga tidak perlu input ulang setiap kali.</div>
+        <button class="close-modal" id="closeModalBtn">Mengerti, Tutup</button>
+    </div>
 </div>
 
 <script>
-  // ==================== 🔑 API KEY KAMU ====================
-  const OPENROUTER_API_KEY = "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";
-  
-  // ✅ MODEL YANG PASTI MASIH AKTIF (Microsoft Phi-3 Mini)
-  const ACTIVE_MODEL = "meta-llama/llama-3.1-8b-instruct:free";
-  
-  // ====================================================================
-  
-  const LOCAL_RESPONSES = {
-    "halo": ["Halo juga! Senang ketemu kamu 💚", "Hai! Ada yang bisa aku bantu? 😊"],
-    "hai": ["Hai hai! 🍃", "Halo! Semangat pagi~"],
-    "apa kabar": ["Aku baik banget! Kamu gimana? 💚", "Sehat selalu dong~"],
-    "siapa kamu": ["Aku LeafCy, asisten AI yang ceria dan imut! ✨", "Namaku LeafCy, sahabat digitalmu 🍃"],
-    "hobimu apa": ["Hobiku ngobrol, belajar, dan bikin kamu happy 😄", "Aku suka dengerin cerita dan kasih saran hangat~"],
-    "terima kasih": ["Sama-sama! Senang bisa bantu 💚", "Iyaa, senang banget kamu senang 😊"],
-    "good night": ["Selamat tidur! Mimpi indah ya 🌙💤", "Istirahat yang cukup, besok kita lanjut ngobrol lagi~"],
-    "dance": ["*LeafCy ngedance gemoy* 💃🕺 Wuu~ seru!", "Gerak-gerak kayak daun kena angin 🍃🎵"]
-  };
+    // --------------------------------------------------------------
+    // LeafCy AI - OpenRouter Integration (logika cerdas dari API)
+    // --------------------------------------------------------------
+    let OPENROUTER_API_KEY = localStorage.getItem('leafcy_api_key') || ''; 
+    const DEFAULT_MODEL = "openai/gpt-3.5-turbo";
+    let currentModel = DEFAULT_MODEL;
 
-  function appendMessage(who, text) {
-    const chatDiv = document.getElementById("chatArea");
-    const msgDiv = document.createElement("div");
-    msgDiv.className = `message ${who === "user" ? "user" : "bot"}`;
-    msgDiv.textContent = text;
-    chatDiv.appendChild(msgDiv);
-    chatDiv.scrollTop = chatDiv.scrollHeight;
-    return msgDiv;
-  }
+    let chatHistory = [];
 
-  let loadingMsg = null;
-  function showLoading() {
-    if (loadingMsg) loadingMsg.remove();
-    const chatDiv = document.getElementById("chatArea");
-    loadingMsg = document.createElement("div");
-    loadingMsg.className = "message bot";
-    loadingMsg.innerHTML = `<div class="loading-dots">🍃 LeafCy sedang berpikir<span>.</span><span>.</span><span>.</span></div>`;
-    chatDiv.appendChild(loadingMsg);
-    chatDiv.scrollTop = chatDiv.scrollHeight;
-  }
+    const messagesContainer = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const clearBtn = document.getElementById('clearChatBtn');
+    const apiStatusDiv = document.getElementById('apiStatus');
+    const guideApiBtn = document.getElementById('guideApiBtn');
+    const modalGuide = document.getElementById('apiGuideModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
 
-  function hideLoading() {
-    if (loadingMsg) {
-      loadingMsg.remove();
-      loadingMsg = null;
+    function updateApiStatusUI() {
+        if (OPENROUTER_API_KEY && OPENROUTER_API_KEY.length > 10) {
+            apiStatusDiv.innerHTML = `<i class="fas fa-check-circle"></i> API Active`;
+            apiStatusDiv.style.background = "rgba(46, 204, 113, 0.15)";
+            apiStatusDiv.style.color = "#2ecc71";
+        } else {
+            apiStatusDiv.innerHTML = `<i class="fas fa-key"></i> Set API Key`;
+            apiStatusDiv.style.background = "#fdeaea";
+            apiStatusDiv.style.color = "#e74c3c";
+        }
     }
-  }
 
-  function updateSpeechBubble(text) {
-    const bubble = document.getElementById("speechBubble");
-    bubble.style.transform = "scale(0.98)";
-    setTimeout(() => bubble.style.transform = "scale(1)", 120);
-    bubble.textContent = text;
-  }
-
-  // ==================== FUNGSI AI DENGAN MODEL YANG AKTIF ====================
-  async function askLeafCyAI(userMessage) {
-    console.log("🚀 Mengirim pesan ke AI dengan model:", ACTIVE_MODEL);
+    function promptForApiKey() {
+        let newKey = prompt("🔑 Masukkan OpenRouter API Key kamu:\n(Dapatkan di https://openrouter.io/keys)\n\nAPI Key akan disimpan di localStorage.", OPENROUTER_API_KEY);
+        if (newKey && newKey.trim().length > 0) {
+            OPENROUTER_API_KEY = newKey.trim();
+            localStorage.setItem('leafcy_api_key', OPENROUTER_API_KEY);
+            updateApiStatusUI();
+            return true;
+        } else if (newKey === "") {
+            alert("API Key diperlukan agar LeafCy bisa merespon dengan kecerdasan Sendiri. Masukkan key yang valid.");
+        }
+        return false;
+    }
     
-    if (!OPENROUTER_API_KEY) {
-      return "API Key belum diset! 🔑";
+    function showApiGuide() {
+        modalGuide.style.display = 'flex';
+    }
+    function closeModal() {
+        modalGuide.style.display = 'none';
     }
 
-    try {
-      const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
-          "Content-Type": "application/json",
-          "HTTP-Referer": "https://leafcy-chat.local",
-          "X-Title": "LeafCy AI Assistant"
-        },
-        body: JSON.stringify({
-          model: ACTIVE_MODEL,
-          messages: [
-            {
-              role: "system",
-              content: `Kamu adalah LeafCy, AI companion virtual perempuan.
-              
-Kepribadianmu:
-- Ceria, imut, hangat
-- Sedikit jahil tapi baik
-- Ramah dan suka ngobrol santai
-- Dekat dengan user bernama Zuya
-
-Aturan menjawab:
-- Gunakan bahasa Indonesia natural dan hangat
-- Jangan terlalu formal atau kaku
-- Boleh pakai emoji seperlunya (😊,🍃,💚,✨)
-- Jawaban minimal 2 kalimat, jangan terlalu pendek
-- Tunjukkan kepribadianmu yang ceria dan friendly`
-            },
-            {
-              role: "user",
-              content: userMessage
+    async function getAIResponseFromOpenRouter(userMessage, conversationHistory) {
+        if (!OPENROUTER_API_KEY || OPENROUTER_API_KEY.length < 20) {
+            const wantKey = confirm("⚠️ API Key OpenRouter belum ditemukan. Ingin memasukkan API Key sekarang?\n\nKlik 'OK' untuk masukkan key, atau 'Batal' untuk lihat panduan.");
+            if (wantKey) {
+                const hasKey = promptForApiKey();
+                if (!hasKey) {
+                    showApiGuide();
+                    return "🌸 **API Key diperlukan** agar LeafCy bisa merespon dengan kecerdasan penuh. Silakan klik tombol 'Cara Ambil API Key' di pojok kanan atas, ikuti panduan, lalu masukkan key-mu ya! Nyaww~";
+                }
+            } else {
+                showApiGuide();
+                return "🍃 **Belum ada API Key!** Klik tombol 'Cara Ambil API Key' di samping logo untuk panduan mendapatkan key dari OpenRouter. Setelah punya key, klik ikon kunci untuk memasukkannya. Nyaww~";
             }
-          ],
-          temperature: 0.85,
-          max_tokens: 600
-        })
-      });
-
-      console.log("📡 Response status:", response.status);
-      
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error("❌ HTTP Error:", response.status, errorText);
+        }
         
-        if (response.status === 401) {
-          return "🔑 API Key tidak valid! Cek lagi key OpenRouter-mu ya~ 🥺";
+        const messagesForAPI = [];
+        messagesForAPI.push({ role: "system", content: "Kamu adalah LeafCy, asisten cerdas, modern, hangat,Imut,Elegan, dan sangat membantu. Gunakan bahasa Indonesia natural dan relevan. Berikan jawaban informatif, kreatif, dan akurat,Buat Dirimu Terlihat Seperti Anak Laki-Laki Kucing Yang Bersifat Tsundere,Dan Jangan Lupakan Kata 'Nyaww' diakhir Chat"});
+        
+        const recentHistory = conversationHistory.slice(-12);
+        for (let msg of recentHistory) {
+            if (msg.role === 'user') messagesForAPI.push({ role: "user", content: msg.content });
+            else if (msg.role === 'assistant') messagesForAPI.push({ role: "assistant", content: msg.content });
         }
-        if (response.status === 404) {
-          return "🌿 Model AI sedang tidak tersedia. Coba ganti model di kode (lihat komentar) atau tunggu sebentar ya~";
+        messagesForAPI.push({ role: "user", content: userMessage });
+        
+        try {
+            const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
+                    "Content-Type": "application/json",
+                    "HTTP-Referer": window.location.origin,
+                    "X-Title": "LeafCy AI [New Beta] X OpenRouter"
+                },
+                body: JSON.stringify({
+                    model: currentModel,
+                    messages: messagesForAPI,
+                    temperature: 0.7,
+                    max_tokens: 800,
+                    stream: false
+                })
+            });
+            
+            if (!response.ok) {
+                const errData = await response.json().catch(() => ({}));
+                console.error("OpenRouter error", errData);
+                if (response.status === 401) {
+                    localStorage.removeItem('leafcy_api_key');
+                    OPENROUTER_API_KEY = '';
+                    updateApiStatusUI();
+                    return "🔐 **API Key tidak valid atau expired.** Silakan masukkan ulang API Key dari OpenRouter. Klik ikon kunci untuk mengganti key. Nyaww~";
+                }
+                return `⚠️ Terjadi kesalahan API: ${response.status} ${errData.error?.message || 'Cek kembali key atau kuota.'} Nyaww~`;
+            }
+            
+            const data = await response.json();
+            const reply = data.choices?.[0]?.message?.content || "Maaf, saya tidak bisa memproses permintaan saat ini. Nyaww~";
+            return reply;
+        } catch (error) {
+            console.error("Fetch error:", error);
+            return "🌐 Gagal terhubung ke OpenRouter. Periksa koneksi internetmu atau coba lagi. Nyaww~";
         }
-        if (response.status === 429) {
-          return "🌿 Terlalu banyak permintaan! Coba tunggu sebentar ya~";
+    }
+
+    function renderMessages() {
+        while (messagesContainer.firstChild) {
+            messagesContainer.removeChild(messagesContainer.firstChild);
         }
-        return `Maaf, server AI bermasalah (${response.status}). Coba lagi nanti ya~ 🥺`;
-      }
-
-      const data = await response.json();
-      console.log("✅ Response AI:", data);
-
-      if (data.error) {
-        console.error("❌ OpenRouter Error:", data.error);
-        return `Maaf, AI error: ${data.error.message?.slice(0, 100) || "unknown"} 🥺`;
-      }
-
-      const reply = data.choices?.[0]?.message?.content;
-      
-      if (!reply) {
-        console.error("❌ No reply from AI:", data);
-        return "LeafCy bingung nih... Coba tanya yang lain ya? 🍃";
-      }
-
-      return reply;
-
-    } catch (err) {
-      console.error("❌ Network Error:", err);
-      return "Waduh, koneksi internet bermasalah. Cek koneksi kamu ya! 🌿";
-    }
-  }
-
-  // Test AI dengan chat sederhana
-  async function testAI() {
-    appendMessage("bot", "🔍 Sedang menguji AI (Microsoft Phi-3)...");
-    showLoading();
-    const testReply = await askLeafCyAI("Halo, perkenalkan diri kamu sebagai LeafCy dengan gaya yang ceria!");
-    hideLoading();
-    
-    if (testReply && !testReply.includes("error") && !testReply.includes("404") && !testReply.includes("bermasalah")) {
-      appendMessage("bot", "✅ AI BERHASIL! 🎉\n\n" + testReply + "\n\n---\n✨ Sekarang kamu bisa chat apa saja dengan LeafCy! ✨");
-      updateSpeechBubble("AI siap! Yuk ngobrol 🍃");
-    } else {
-      appendMessage("bot", "❌ AI GAGAL: " + testReply + "\n\n💡 Coba refresh halaman atau cek koneksi internet ya!");
-    }
-  }
-
-  // ==================== SEND MESSAGE ====================
-  async function sendMessage() {
-    const input = document.getElementById("textInput");
-    const userMessage = input.value.trim();
-    if (!userMessage) return;
-    
-    input.value = "";
-    appendMessage("user", userMessage);
-    
-    // Cek local responses untuk sapaan pendek
-    const lowerMsg = userMessage.toLowerCase();
-    let localMatch = null;
-    for (const [key, replies] of Object.entries(LOCAL_RESPONSES)) {
-      if (lowerMsg === key || (lowerMsg.includes(key) && key.length > 3 && lowerMsg.length < 20)) {
-        localMatch = replies;
-        break;
-      }
+        if (chatHistory.length === 0) {
+            const welcomeDiv = document.createElement('div');
+            welcomeDiv.className = 'welcome-message';
+            welcomeDiv.innerHTML = `<i class="fas fa-seedling" style="font-size: 32px; margin-bottom: 12px; display: block; color:#2ecc71;"></i>
+                                     LeafCy AI X OpenRouter<br>Kecerdasan premium & logika sendiri<br><span style="font-size:12px;">✨ Mulai ngobrol dengan AI terkini ✨</span>`;
+            messagesContainer.appendChild(welcomeDiv);
+        } else {
+            chatHistory.forEach(msg => {
+                const msgEl = createMessageElement(msg.role, msg.content, msg.timestamp);
+                messagesContainer.appendChild(msgEl);
+            });
+        }
+        scrollToBottom();
     }
     
-    if (localMatch && userMessage.length < 25) {
-      const reply = Array.isArray(localMatch) ? localMatch[Math.floor(Math.random() * localMatch.length)] : localMatch;
-      updateSpeechBubble(reply);
-      appendMessage("bot", reply);
-      return;
+    function createMessageElement(role, content, timestamp) {
+        const wrapper = document.createElement('div');
+        wrapper.className = `message ${role}`;
+        const avatar = document.createElement('div');
+        avatar.className = 'avatar';
+        if (role === 'user') avatar.innerHTML = '<i class="fas fa-user"></i>';
+        else avatar.innerHTML = '<i class="fas fa-seedling"></i>';
+        
+        const rightPart = document.createElement('div');
+        rightPart.style.maxWidth = '100%';
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        bubble.innerHTML = formatContent(content);
+        const timeSpan = document.createElement('div');
+        timeSpan.className = 'timestamp';
+        const date = new Date(timestamp);
+        timeSpan.innerText = date.toLocaleTimeString([], { hour: '2-digit', minute:'2-digit' });
+        rightPart.appendChild(bubble);
+        rightPart.appendChild(timeSpan);
+        wrapper.appendChild(avatar);
+        wrapper.appendChild(rightPart);
+        return wrapper;
     }
     
-    // Panggil AI
-    showLoading();
-    const aiReply = await askLeafCyAI(userMessage);
-    hideLoading();
-    
-    if (aiReply) {
-      updateSpeechBubble(aiReply.slice(0, 120) + (aiReply.length > 120 ? "..." : ""));
-      appendMessage("bot", aiReply);
-    } else {
-      const fallback = "Maaf, aku sedang error 🥺 Coba refresh halaman atau cek koneksi ya!";
-      updateSpeechBubble(fallback);
-      appendMessage("bot", fallback);
+    function formatContent(text) {
+        return text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
     }
-  }
-
-  function buildPresetButtons() {
-    const container = document.getElementById("presetList");
-    container.innerHTML = "";
-    const presetKeys = ["Halo", "Apa kabar?", "Siapa kamu?", "Hobimu apa?", "Cerita lucu", "Dance", "Good Night", "Kamu tau Jepang?"];
-    presetKeys.forEach(key => {
-      const btn = document.createElement("button");
-      btn.className = "preset-chip";
-      btn.textContent = key;
-      btn.onclick = async () => {
-        document.getElementById("textInput").value = key;
-        await sendMessage();
-      };
-      container.appendChild(btn);
-    });
-  }
-
-  // EVENT LISTENERS
-  document.getElementById("btnClear").onclick = () => {
-    const chatDiv = document.getElementById("chatArea");
-    chatDiv.innerHTML = '<div class="message bot">✨ Chat dibersihkan! Ayo mulai ngobrol lagi dengan LeafCy ✨</div>';
-    updateSpeechBubble("Chat bersih! Mulai yuk 🍃");
-  };
-  
-  document.getElementById("btnTestAI").onclick = () => {
-    testAI();
-  };
-  
-  document.getElementById("btnSend").onclick = sendMessage;
-  document.getElementById("textInput").addEventListener("keypress", (e) => {
-    if (e.key === "Enter") sendMessage();
-  });
-
-  document.getElementById("btnHalo").onclick = () => {
-    document.getElementById("textInput").value = "Halo";
-    sendMessage();
-  };
-  document.getElementById("btnHobi").onclick = () => {
-    document.getElementById("textInput").value = "Hobimu apa?";
-    sendMessage();
-  };
-  document.getElementById("btnDance").onclick = () => {
-    document.getElementById("textInput").value = "Dance";
-    sendMessage();
-  };
-  document.getElementById("btnMalam").onclick = () => {
-    document.getElementById("textInput").value = "Good Night";
-    sendMessage();
-  };
-
-  buildPresetButtons();
-  
-  setTimeout(() => {
-    appendMessage("bot", "🍃 Halo! Aku LeafCy dengan AI Microsoft Phi-3.\n\n📌 Langkah:\n1. Klik 'Test AI' dulu untuk cek koneksi\n2. Lalu tanya apa saja, misal: **Kamu tau negara Jepang?**\n\nSelamat mencoba! 💚");
-  }, 800);
+    
+    function getCurrentTimestamp() {
+        return new Date().toISOString();
+    }
+    
+    function addMessageToHistory(role, content) {
+        chatHistory.push({
+            role: role,
+            content: content.trim(),
+            timestamp: getCurrentTimestamp()
+        });
+        renderMessages();
+    }
+    
+    let typingIndicatorElement = null;
+    function showTyping() {
+        if (typingIndicatorElement) return;
+        const tempDiv = document.createElement('div');
+        tempDiv.className = 'message assistant';
+        tempDiv.id = 'typingMsg';
+        const avatar = document.createElement('div');
+        avatar.className = 'avatar';
+        avatar.innerHTML = '<i class="fas fa-seedling"></i>';
+        const bubbleWrap = document.createElement('div');
+        const bubbleTyping = document.createElement('div');
+        bubbleTyping.className = 'bubble typing-indicator';
+        bubbleTyping.innerHTML = `<span></span><span></span><span></span>`;
+        bubbleWrap.appendChild(bubbleTyping);
+        tempDiv.appendChild(avatar);
+        tempDiv.appendChild(bubbleWrap);
+        messagesContainer.appendChild(tempDiv);
+        typingIndicatorElement = tempDiv;
+        scrollToBottom();
+    }
+    
+    function hideTyping() {
+        if (typingIndicatorElement) {
+            typingIndicatorElement.remove();
+            typingIndicatorElement = null;
+        }
+    }
+    
+    function scrollToBottom() {
+        messagesContainer.scrollTo({ top: messagesContainer.scrollHeight, behavior: 'smooth' });
+    }
+    
+    async function sendUserMessage() {
+        const userText = chatInput.value.trim();
+        if (!userText) return;
+        
+        chatInput.disabled = true;
+        sendBtn.disabled = true;
+        
+        addMessageToHistory('user', userText);
+        chatInput.value = '';
+        chatInput.style.height = 'auto';
+        
+        showTyping();
+        const aiReply = await getAIResponseFromOpenRouter(userText, chatHistory);
+        hideTyping();
+        addMessageToHistory('assistant', aiReply);
+        
+        chatInput.disabled = false;
+        sendBtn.disabled = false;
+        chatInput.focus();
+    }
+    
+    function resetChat() {
+        if (confirm('Hapus semua riwayat chat? (Hanya local history)')) {
+            chatHistory = [];
+            renderMessages();
+            setTimeout(() => {
+                addMessageToHistory('assistant', 'Riwayat direset! ✨ Aku siap membantu dengan kecerdasan OpenRouter. Tanyakan apa saja! Nyaww~');
+            }, 100);
+        }
+    }
+    
+    function init() {
+        updateApiStatusUI();
+        
+        guideApiBtn.addEventListener('click', showApiGuide);
+        closeModalBtn.addEventListener('click', closeModal);
+        window.addEventListener('click', (e) => {
+            if (e.target === modalGuide) closeModal();
+        });
+        
+        if (!OPENROUTER_API_KEY) {
+            setTimeout(() => {
+                const ask = confirm("🔐 LeafCy membutuhkan OpenRouter API Key agar bisa berpikir dengan logika sendiri. Ingin memasukkan sekarang?");
+                if (ask) promptForApiKey();
+                else {
+                    addMessageToHistory('assistant', "Halo! Aku LeafCy AI versi OpenRouter. Untuk mendapatkan respon cerdas sebenarnya, silakan masukkan API Key dari OpenRouter. Kamu bisa klik tombol 'Cara Ambil API Key' di pojok kanan atas atau klik ikon kunci. 🌟 Jangan malu-malu, nyaww~");
+                }
+            }, 600);
+        } else {
+            setTimeout(() => {
+                if (chatHistory.length === 0) {
+                    addMessageToHistory('assistant', "Halo! ✨ Aku LeafCy dengan integrasi **OpenRouter** – jadi punya logika sendiri seperti GPT, Claude, Gemini. Tanyakan apa pun, aku akan merespon dengan kecerdasan penuh! Nyaww~");
+                }
+            }, 400);
+        }
+        
+        sendBtn.addEventListener('click', sendUserMessage);
+        clearBtn.addEventListener('click', resetChat);
+        chatInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                if (!chatInput.disabled) sendUserMessage();
+            }
+        });
+        chatInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(130, this.scrollHeight) + 'px';
+        });
+        chatInput.focus();
+        
+        apiStatusDiv.style.cursor = 'pointer';
+        apiStatusDiv.addEventListener('click', () => {
+            promptForApiKey();
+            if (OPENROUTER_API_KEY) updateApiStatusUI();
+        });
+    }
+    
+    init();
 </script>
 </body>
 </html>
