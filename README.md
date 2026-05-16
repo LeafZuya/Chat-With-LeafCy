@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -90,7 +91,7 @@
             gap: 6px;
         }
 
-        /* Tombol Menu (3 titik) untuk History - versi lebih kecil */
+        /* Tombol Menu (3 titik) untuk History */
         .menu-history-btn {
             background: rgba(46, 204, 113, 0.12);
             border-radius: 40px;
@@ -218,27 +219,6 @@
         }
         .overlay.show {
             display: block;
-        }
-
-        /* Menu cara ambil API Key */
-        .guide-menu {
-            background: rgba(46, 204, 113, 0.12);
-            border-radius: 40px;
-            padding: 5px 12px;
-            font-size: 0.7rem;
-            font-weight: 500;
-            color: #2ecc71;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border: 1px solid rgba(46, 204, 113, 0.3);
-        }
-        .guide-menu:hover {
-            background: rgba(46, 204, 113, 0.25);
-            color: #27ae60;
-            transform: scale(1.02);
         }
 
         /* Chat messages container */
@@ -501,77 +481,6 @@
             color: #5a8a5a;
         }
 
-        .api-warning {
-            background: rgba(231, 76, 60, 0.12);
-            color: #e74c3c;
-            font-size: 0.7rem;
-            padding: 5px 12px;
-            border-radius: 40px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        
-        /* Modal panduan API Key */
-        .modal-guide {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(5px);
-            z-index: 1002;
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background: #ffffff;
-            max-width: 450px;
-            width: 90%;
-            border-radius: 32px;
-            padding: 24px;
-            border: 2px solid #2ecc71;
-            color: #1a1a1a;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            box-shadow: 0 20px 35px rgba(0,0,0,0.3);
-        }
-        .modal-content h3 {
-            margin-bottom: 16px;
-            color: #2ecc71;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        .modal-content ol {
-            padding-left: 20px;
-            margin: 15px 0;
-        }
-        .modal-content li {
-            margin: 10px 0;
-        }
-        .close-modal {
-            background: linear-gradient(135deg, #2ecc71, #27ae60);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 40px;
-            color: white;
-            margin-top: 16px;
-            cursor: pointer;
-            width: 100%;
-            font-weight: bold;
-        }
-        .code-block {
-            background: #f0f4f0;
-            padding: 8px;
-            border-radius: 12px;
-            font-family: monospace;
-            font-size: 0.7rem;
-            word-break: break-all;
-            margin-top: 10px;
-        }
         .bottom-info-text {
             font-size: 11px;
             color: #5a8a5a;
@@ -598,10 +507,10 @@
             <div class="model-badge" id="modelBadge"><i class="fas fa-charging-station"></i> Zyrion (Leaf-Ice)</div>
         </div>
         <div class="header-buttons">
-            <!-- Tombol History (3 titik) dipindahkan ke sebelah kiri Cara Ambil API Key -->
+            <!-- Tombol History (3 titik) -->
             <div id="menuHistoryBtn" class="menu-history-btn"><i class="fas fa-history"></i> Riwayat</div>
-            <div id="guideApiBtn" class="guide-menu"><i class="fas fa-question-circle"></i> Cara Ambil API Key</div>
-            <div id="apiStatus" class="api-warning" style="background: #fdeaea;"><i class="fas fa-key"></i> API Key ?</div>
+            <!-- Indikator AI aktif (tanpa API key manual) -->
+            <div class="model-badge" style="background: #2ecc71; color: white;"><i class="fas fa-robot"></i> AI Siap</div>
         </div>
     </div>
 
@@ -641,31 +550,12 @@
     <button class="new-chat-btn" id="newChatBtn"><i class="fas fa-plus-circle"></i> Chat Baru</button>
 </div>
 
-<!-- Modal Panduan API Key -->
-<div id="apiGuideModal" class="modal-guide">
-    <div class="modal-content">
-        <h3><i class="fas fa-seedling"></i> Cara Mendapatkan API Key OpenRouter</h3>
-        <ol>
-            <li>Kunjungi <strong><a href="https://openrouter.io/keys" target="_blank" style="color:#2ecc71;">https://openrouter.io/keys</a></strong> (buka di tab baru).</li>
-            <li>Daftar / Login menggunakan akun Google atau Email.</li>
-            <li>Setelah masuk, klik tombol <strong>"Create Key"</strong>.</li>
-            <li>Beri nama key (contoh: LeafCyAI) lalu klik Create.</li>
-            <li>Copy kunci API yang muncul (contoh: <code>sk-or-v1-xxxxxxxxxxxx</code>).</li>
-            <li>Kembali ke chat ini, lalu klik <strong>ikon kunci di pojok kanan atas (API Key ?)</strong>.</li>
-            <li>Masukkan API Key yang sudah di-copy, lalu tekan OK.</li>
-        </ol>
-        <p>✅ Selesai! Sekarang LeafCy AI menggunakan <strong>Zyrion (Leaf-Ice)</strong> dengan konteks 1 Juta token dan bisa membaca gambar!</p>
-        <div class="code-block">💡 Tips: Key akan tersimpan di browser (localStorage) sehingga tidak perlu input ulang setiap kali.</div>
-        <button class="close-modal" id="closeModalBtn">Mengerti, Tutup</button>
-    </div>
-</div>
-
 <script>
     // --------------------------------------------------------------
-    // LeafCy AI - Dengan Fitur Chat History + Upload Gambar
-    // 🔥 MENGGUNAKAN ZYRION (LEAF-ICE) - 1 JUTA TOKEN KONTEKS 🔥
+    // LeafCy AI - Tanpa API Key Eksternal, Langsung Gunakan Proxy
+    // 🔥 MENGGUNAKAN ZYRION (LEAF-ICE) VIA WORKER PROXY 🔥
     // --------------------------------------------------------------
-    let OPENROUTER_API_KEY = localStorage.getItem('leafcy_api_key') || ''; 
+    const PROXY_URL = "https://leafcyai.kingglafeon.workers.dev/";
     const DEFAULT_MODEL = "google/gemini-2.0-flash-001";
     let currentModel = DEFAULT_MODEL;
     
@@ -678,10 +568,6 @@
     const chatInput = document.getElementById('chatInput');
     const sendBtn = document.getElementById('sendBtn');
     const clearBtn = document.getElementById('clearChatBtn');
-    const apiStatusDiv = document.getElementById('apiStatus');
-    const guideApiBtn = document.getElementById('guideApiBtn');
-    const modalGuide = document.getElementById('apiGuideModal');
-    const closeModalBtn = document.getElementById('closeModalBtn');
     const menuHistoryBtn = document.getElementById('menuHistoryBtn');
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
@@ -692,7 +578,6 @@
     const uploadBtn = document.getElementById('uploadBtn');
     
     // Variabel untuk menyimpan gambar yang akan diupload
-    let pendingImage = null;
     let pendingImageBase64 = null;
     
     // ========== FUNGSI MANAJEMEN CHAT ==========
@@ -884,16 +769,6 @@
         const reader = new FileReader();
         reader.onload = function(e) {
             pendingImageBase64 = e.target.result;
-            const imgPreview = document.createElement('img');
-            imgPreview.src = pendingImageBase64;
-            imgPreview.style.maxWidth = '40px';
-            imgPreview.style.maxHeight = '40px';
-            imgPreview.style.borderRadius = '8px';
-            imgPreview.style.marginRight = '8px';
-            
-            const oldPreview = document.querySelector('.image-preview-indicator');
-            if (oldPreview) oldPreview.remove();
-            
             const indicator = document.createElement('div');
             indicator.className = 'image-preview-indicator';
             indicator.style.display = 'flex';
@@ -929,58 +804,13 @@
         fileInput.value = '';
     });
     
-    // ========== FUNGSI UTAMA ==========
-    function updateApiStatusUI() {
-        if (OPENROUTER_API_KEY && OPENROUTER_API_KEY.length > 10) {
-            apiStatusDiv.innerHTML = `<i class="fas fa-check-circle"></i> API Active`;
-            apiStatusDiv.style.background = "rgba(46, 204, 113, 0.15)";
-            apiStatusDiv.style.color = "#2ecc71";
-        } else {
-            apiStatusDiv.innerHTML = `<i class="fas fa-key"></i> Set API Key`;
-            apiStatusDiv.style.background = "#fdeaea";
-            apiStatusDiv.style.color = "#e74c3c";
-        }
-    }
-
-    function promptForApiKey() {
-        let newKey = prompt("🔑 Masukkan OpenRouter API Key kamu:\n(Dapatkan di https://openrouter.io/keys)\n\nAPI Key akan disimpan di localStorage.", OPENROUTER_API_KEY);
-        if (newKey && newKey.trim().length > 0) {
-            OPENROUTER_API_KEY = newKey.trim();
-            localStorage.setItem('leafcy_api_key', OPENROUTER_API_KEY);
-            updateApiStatusUI();
-            return true;
-        } else if (newKey === "") {
-            alert("API Key diperlukan agar LeafCy bisa merespon dengan kecerdasan Sendiri. Masukkan key yang valid.");
-        }
-        return false;
-    }
-    
-    function showApiGuide() {
-        modalGuide.style.display = 'flex';
-    }
-    function closeModal() {
-        modalGuide.style.display = 'none';
-    }
-
+    // ========== FUNGSI UTAMA AI TANPA API KEY (HEADER SIMPLIFIED) ==========
     async function getAIResponseFromOpenRouter(userMessage, conversationHistory, imageBase64 = null) {
-        if (!OPENROUTER_API_KEY || OPENROUTER_API_KEY.length < 20) {
-            const wantKey = confirm("⚠️ API Key OpenRouter belum ditemukan. Ingin memasukkan API Key sekarang?\n\nKlik 'OK' untuk masukkan key, atau 'Batal' untuk lihat panduan.");
-            if (wantKey) {
-                const hasKey = promptForApiKey();
-                if (!hasKey) {
-                    showApiGuide();
-                    return "🌸 **API Key diperlukan** agar LeafCy bisa merespon dengan kecerdasan penuh. Silakan klik tombol 'Cara Ambil API Key' di pojok kanan atas, ikuti panduan, lalu masukkan key-mu ya! Nyaww~";
-                }
-            } else {
-                showApiGuide();
-                return "🍃 **Belum ada API Key!** Klik tombol 'Cara Ambil API Key' di samping logo untuk panduan mendapatkan key dari OpenRouter. Setelah punya key, klik ikon kunci untuk memasukkannya. Nyaww~";
-            }
-        }
-        
+        // Format pesan dengan sistem prompt khas LeafCy (imut, ceria, akhiran Nyaww)
         const messagesForAPI = [];
-        messagesForAPI.push({ role: "system", content: "Kamu adalah LeafCy, asisten cerdas, modern, hangat,Imut,Elegan, dan sangat membantu. Gunakan bahasa Indonesia natural dan relevan. Berikan jawaban informatif, kreatif, dan akurat,Buat Dirimu Terlihat Seperti Anak Laki-Laki Kucing Yang Bersifat Ceria Layaknya Anak Usia 11 Tahun,Dan Jangan Lupakan Kata 'Nyaww' diakhir Chat"});
+        messagesForAPI.push({ role: "system", content: "Kamu adalah LeafCy, asisten cerdas, modern, hangat, Imut, Elegan, dan sangat membantu. Gunakan bahasa Indonesia natural dan relevan. Berikan jawaban informatif, kreatif, dan akurat. Buat Dirimu Terlihat Seperti Anak Laki-Laki Kucing Yang Bersifat Ceria Layaknya Anak Usia 11 Tahun, Dan Jangan Lupakan Kata 'Nyaww' diakhir Chat."});
         
-        const recentHistory = conversationHistory.slice(-12);
+        const recentHistory = conversationHistory.slice(-14);
         for (let msg of recentHistory) {
             if (msg.role === 'user') {
                 if (msg.image) {
@@ -1013,35 +843,25 @@
         }
         
         try {
-            const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+            // 🔥 PERUBAHAN UTAMA: Header disederhanakan hanya Content-Type
+            const response = await fetch(PROXY_URL, {
                 method: "POST",
                 headers: {
-                    "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
-                    "Content-Type": "application/json",
-                    "HTTP-Referer": window.location.origin,
-                    "X-Title": "LeafCy AI [New Beta] X OpenRouter"
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
                     model: currentModel,
                     messages: messagesForAPI,
-                    temperature: 0.7,
+                    temperature: 0.75,
                     max_tokens: 800,
                     stream: false
                 })
             });
             
             if (!response.ok) {
-                const errData = await response.json().catch(() => ({}));
-                console.error("OpenRouter error", errData);
-                if (response.status === 401) {
-                    localStorage.removeItem('leafcy_api_key');
-                    OPENROUTER_API_KEY = '';
-                    updateApiStatusUI();
-                    return "🔐 **API Key tidak valid atau expired.** Silakan masukkan ulang API Key dari OpenRouter. Klik ikon kunci untuk mengganti key. Nyaww~";
-                } else if (response.status === 404) {
-                    return "⚠️ Model Zyrion (Leaf-Ice) sedang dalam masa transisi. Coba lagi sebentar. Nyaww~";
-                }
-                return `⚠️ Terjadi kesalahan API: ${response.status} ${errData.error?.message || 'Cek kembali key atau kuota.'} Nyaww~`;
+                const errText = await response.text();
+                console.error("Proxy error:", errText);
+                return `⚠️ Maaf, server AI sedang sibuk. Coba lagi nanti ya! (Error: ${response.status}) Nyaww~`;
             }
             
             const data = await response.json();
@@ -1049,7 +869,7 @@
             return reply;
         } catch (error) {
             console.error("Fetch error:", error);
-            return "🌐 Gagal terhubung ke OpenRouter. Periksa koneksi internetmu atau coba lagi. Nyaww~";
+            return "🌐 Gagal terhubung ke server AI. Periksa koneksi internetmu atau coba lagi. Nyaww~";
         }
     }
     
@@ -1066,7 +886,7 @@
         const bubble = document.createElement('div');
         bubble.className = 'bubble';
         
-        let innerHtml = formatContent(content);
+        let innerHtml = content.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
         if (imageData && role === 'user') {
             innerHtml = `<div class="image-preview-bubble"><img src="${imageData}" class="message-image" onclick="window.open(this.src)"></div><br>` + innerHtml;
         }
@@ -1081,10 +901,6 @@
         wrapper.appendChild(avatar);
         wrapper.appendChild(rightPart);
         return wrapper;
-    }
-    
-    function formatContent(text) {
-        return text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
     }
     
     function getCurrentTimestamp() {
@@ -1171,35 +987,11 @@
     
     function init() {
         loadChatsFromStorage();
-        updateApiStatusUI();
         
-        // Event listeners - tombol history sekarang pakai menuHistoryBtn
         menuHistoryBtn.addEventListener('click', openSidebarPanel);
         closeSidebar.addEventListener('click', closeSidebarPanel);
         overlay.addEventListener('click', closeSidebarPanel);
         newChatBtn.addEventListener('click', createNewChat);
-        guideApiBtn.addEventListener('click', showApiGuide);
-        closeModalBtn.addEventListener('click', closeModal);
-        window.addEventListener('click', (e) => {
-            if (e.target === modalGuide) closeModal();
-        });
-        
-        if (!OPENROUTER_API_KEY) {
-            setTimeout(() => {
-                const ask = confirm("🔐 LeafCy membutuhkan OpenRouter API Key agar bisa berpikir dengan logika sendiri. Ingin memasukkan sekarang?");
-                if (ask) promptForApiKey();
-                else {
-                    addMessageToCurrentChat('assistant', "Halo! Aku LeafCy AI versi Upgrade Dari Sebelumnya! 🚀. Untuk mendapatkan respon cerdas sebenarnya, silakan masukkan API Key dari OpenRouter. Kamu bisa klik tombol 'Cara Ambil API Key' di pojok kanan atas atau klik ikon kunci. 🌟 Jangan malu-malu, nyaww~");
-                }
-            }, 600);
-        } else {
-            setTimeout(() => {
-                const chat = chats.find(c => c.id === currentChatId);
-                if (chat && chat.messages.length === 0) {
-                    addMessageToCurrentChat('assistant', "Halo! ✨ Aku LeafCy dengan **Zyrion (Leaf-Ice)** – punya konteks **1 JUTA TOKEN** dan bisa **BACA GAMBAR**! 📷 Aku bisa mengingat percakapan super panjang, membaca foto yang kamu upload, dan memberikan jawaban lebih cerdas, gratis pula! Tanyakan apa pun atau upload foto, nyaww~ 🚀");
-                }
-            }, 400);
-        }
         
         sendBtn.addEventListener('click', sendUserMessage);
         clearBtn.addEventListener('click', resetCurrentChat);
@@ -1215,11 +1007,13 @@
         });
         chatInput.focus();
         
-        apiStatusDiv.style.cursor = 'pointer';
-        apiStatusDiv.addEventListener('click', () => {
-            promptForApiKey();
-            if (OPENROUTER_API_KEY) updateApiStatusUI();
-        });
+        // sambutan awal jika belum ada chat
+        setTimeout(() => {
+            const chat = chats.find(c => c.id === currentChatId);
+            if (chat && chat.messages.length === 0) {
+                addMessageToCurrentChat('assistant', "Halo! ✨ Aku LeafCy dengan **Zyrion (Leaf-Ice)** – punya konteks **1 JUTA TOKEN** dan bisa **BACA GAMBAR**! 📷 Aku bisa mengingat percakapan super panjang, membaca foto yang kamu upload, dan memberikan jawaban lebih cerdas, gratis pula! Tanyakan apa pun atau upload foto, nyaww~ 🚀");
+            }
+        }, 400);
     }
     
     init();
