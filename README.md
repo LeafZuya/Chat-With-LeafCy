@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* (style CSS selanjutnya tetap sama seperti kode Anda) */
         * {
             margin: 0;
             padding: 0;
@@ -43,6 +42,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
         }
 
         .logo-area {
@@ -304,7 +305,6 @@
             border: 1px solid #e0e8e0;
         }
 
-        /* Tombol hapus (sampah) di pojok kanan atas gelembung */
         .delete-message-btn {
             position: absolute;
             top: -8px;
@@ -451,6 +451,18 @@
             display: flex;
             gap: 12px;
             align-items: center;
+            flex-wrap: wrap;
+        }
+        .rate-limit-badge {
+            background: rgba(231, 76, 60, 0.12);
+            border-radius: 40px;
+            padding: 4px 10px;
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: #e74c3c;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
         @media (max-width: 600px) {
             .message { max-width: 92%; }
@@ -462,6 +474,21 @@
         }
         @keyframes fadeOut {
             to { opacity: 0; transform: scale(0.95); display: none; }
+        }
+        .typing-indicator span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #2ecc71;
+            margin: 0 2px;
+            animation: typing 1.4s infinite;
+        }
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-6px); opacity: 1; }
         }
     </style>
 </head>
@@ -479,6 +506,11 @@
             <div id="menuHistoryBtn" class="menu-history-btn"><i class="fas fa-history"></i> Riwayat</div>
             <div class="model-badge" style="background: #2ecc71; color: white;"><i class="fas fa-robot"></i> AI Siap</div>
         </div>
+    </div>
+    <div style="display: flex; justify-content: space-between; padding: 0 20px 8px 20px; gap: 8px; flex-wrap: wrap;">
+        <div class="rate-limit-badge" id="textLimitBadge"><i class="fas fa-comment-dots"></i> Teks: 0/35 jam ini</div>
+        <div class="rate-limit-badge" id="imageLimitBadge"><i class="fas fa-image"></i> Gambar: 0/2 jam ini</div>
+        <div class="rate-limit-badge" id="resetTimerBadge"><i class="fas fa-hourglass-half"></i> Reset: --:--</div>
     </div>
 
     <div class="chat-messages" id="chatMessages">
@@ -513,10 +545,22 @@
 </div>
 
 <script>
-    // KONSTAN PROXY (tetap sama)
+    // KONSTAN PROXY
     const PROXY_URL = "https://leafcyai.kingglafeon.workers.dev/";
-    const DEFAULT_MODEL = "google/gemini-2.0-flash-001";
-    let currentModel = DEFAULT_MODEL;
+    const CHAT_MODEL = "google/gemini-2.0-flash-001";
+    const IMAGE_MODEL = "google/gemini-2.5-flash-image";
+    let currentModel = CHAT_MODEL;
+    
+    // RATE LIMIT CONFIG
+    const MAX_TEXTS_PER_HOUR = 35;
+    const MAX_IMAGES_PER_HOUR = 2;
+    
+    // Struktur data rate limit
+    let rateLimit = {
+        textCount: 0,
+        imageCount: 0,
+        resetTime: null  // timestamp kapan reset
+    };
     
     // Struktur data utama
     let chats = [];
@@ -534,21 +578,104 @@
     const historyList = document.getElementById('historyList');
     const fileInput = document.getElementById('fileInput');
     const uploadBtn = document.getElementById('uploadBtn');
+    const textLimitBadge = document.getElementById('textLimitBadge');
+    const imageLimitBadge = document.getElementById('imageLimitBadge');
+    const resetTimerBadge = document.getElementById('resetTimerBadge');
     
     let pendingImageBase64 = null;
+    let countdownInterval = null;
     
-    // === INGATAN AI: kita menggunakan array "messages" FULL (termasuk yang dihapus secara visual) sebagai konteks.
-    // Tapi sekarang ketika user menghapus bubble, kita HANYA menghapus dari tampilan, BUKAN dari chat.messages.
-    // Jadi AI tetap punya ingatan penuh. Yang dihapus hanya flag "hidden" untuk UI.
-    // Agar lebih bersih: kita tambahkan properti "hidden" pada setiap message. Jika hidden true, tidak dirender.
-    // Dengan cara ini: histori lengkap tetap tersimpan, AI tetap ingat, user hanya menyembunyikan pesan dari tampilan.
+    // ========== RATE LIMIT FUNCTIONS ==========
+    function loadRateLimit() {
+        const saved = localStorage.getItem('leafcy_rate_limit');
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                rateLimit = parsed;
+                // Cek apakah resetTime sudah lewat
+                if (rateLimit.resetTime && Date.now() > rateLimit.resetTime) {
+                    resetRateLimit();
+                }
+            } catch(e) { resetRateLimit(); }
+        } else {
+            resetRateLimit();
+        }
+        updateRateLimitUI();
+        startCountdownTimer();
+    }
+    
+    function resetRateLimit() {
+        rateLimit = {
+            textCount: 0,
+            imageCount: 0,
+            resetTime: Date.now() + 60 * 60 * 1000 // +1 jam
+        };
+        saveRateLimit();
+        updateRateLimitUI();
+    }
+    
+    function saveRateLimit() {
+        localStorage.setItem('leafcy_rate_limit', JSON.stringify(rateLimit));
+    }
+    
+    function updateRateLimitUI() {
+        textLimitBadge.innerHTML = `<i class="fas fa-comment-dots"></i> Teks: ${rateLimit.textCount}/${MAX_TEXTS_PER_HOUR} jam ini`;
+        imageLimitBadge.innerHTML = `<i class="fas fa-image"></i> Gambar: ${rateLimit.imageCount}/${MAX_IMAGES_PER_HOUR} jam ini`;
+        
+        const remainingText = MAX_TEXTS_PER_HOUR - rateLimit.textCount;
+        const remainingImage = MAX_IMAGES_PER_HOUR - rateLimit.imageCount;
+        
+        if (remainingText <= 3) textLimitBadge.style.background = "rgba(231, 76, 60, 0.25)";
+        else textLimitBadge.style.background = "rgba(231, 76, 60, 0.12)";
+        
+        if (remainingImage <= 0) imageLimitBadge.style.background = "rgba(231, 76, 60, 0.25)";
+        else imageLimitBadge.style.background = "rgba(231, 76, 60, 0.12)";
+    }
+    
+    function startCountdownTimer() {
+        if (countdownInterval) clearInterval(countdownInterval);
+        countdownInterval = setInterval(() => {
+            if (!rateLimit.resetTime) return;
+            const remaining = rateLimit.resetTime - Date.now();
+            if (remaining <= 0) {
+                resetRateLimit();
+                updateRateLimitUI();
+                return;
+            }
+            const hours = Math.floor(remaining / 3600000);
+            const minutes = Math.floor((remaining % 3600000) / 60000);
+            const seconds = Math.floor((remaining % 60000) / 1000);
+            resetTimerBadge.innerHTML = `<i class="fas fa-hourglass-half"></i> Reset: ${hours.toString().padStart(2,'0')}:${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+        }, 1000);
+    }
+    
+    function canSendText() {
+        if (rateLimit.resetTime && Date.now() > rateLimit.resetTime) resetRateLimit();
+        return rateLimit.textCount < MAX_TEXTS_PER_HOUR;
+    }
+    
+    function canSendImage() {
+        if (rateLimit.resetTime && Date.now() > rateLimit.resetTime) resetRateLimit();
+        return rateLimit.imageCount < MAX_IMAGES_PER_HOUR;
+    }
+    
+    function incrementTextCount() {
+        rateLimit.textCount++;
+        saveRateLimit();
+        updateRateLimitUI();
+    }
+    
+    function incrementImageCount() {
+        rateLimit.imageCount++;
+        saveRateLimit();
+        updateRateLimitUI();
+    }
     
     // ========== FUNGSI MANAJEMEN CHAT ==========
     function loadChatsFromStorage() {
         const saved = localStorage.getItem('leafcy_chats');
         if (saved) {
             chats = JSON.parse(saved);
-            // Migrasi: pastikan setiap message punya properti hidden jika belum ada
             chats.forEach(chat => {
                 if (chat.messages) {
                     chat.messages.forEach(msg => {
@@ -594,7 +721,6 @@
         closeSidebarPanel();
     }
     
-    // 🔥 FUNGSI HAPUS PESAN (HANYA SEMBUNYIKAN DARI UI, TAPI TIDAK DIHAPUS DARI MEMORI AI)
     function hideMessagePermanently(messageIndex) {
         const chat = chats.find(c => c.id === currentChatId);
         if (!chat) return;
@@ -603,55 +729,46 @@
         const confirmDelete = confirm("Konfirmasi Hapus Pesan? (Pesan akan dihapus dari tampilan, tapi AI tetap ingat percakapan sebelumnya)");
         if (!confirmDelete) return;
         
-        // Alih-alih menghapus dari array, kita set hidden = true
         chat.messages[messageIndex].hidden = true;
         chat.updatedAt = new Date().toISOString();
         
-        // Update judul chat jika perlu (jika pesan pertama user di-hidden, cari user lain)
         if (chat.messages.length > 0) {
             const firstVisibleUserMsg = chat.messages.find(m => m.role === 'user' && !m.hidden);
             if (firstVisibleUserMsg) {
                 chat.title = firstVisibleUserMsg.content.substring(0, 30) + (firstVisibleUserMsg.content.length > 30 ? '...' : '');
             } else if (chat.messages.length > 0 && chat.messages[0].role === 'assistant' && !chat.messages[0].hidden) {
-                // jika tidak ada user sama sekali, pakai title default
                 chat.title = `Chat ${new Date(chat.createdAt).toLocaleString()}`;
             }
         }
         
         saveChatsToStorage();
-        loadChatToUI(); // Reload UI (pesan yang hidden tidak akan dirender)
+        loadChatToUI();
     }
     
     function loadChatToUI() {
         const chat = chats.find(c => c.id === currentChatId);
         if (!chat) return;
         
-        // Update title chat berdasarkan pesan user pertama yang masih visible (belum dihide)
         const firstVisibleUser = chat.messages.find(m => m.role === 'user' && !m.hidden);
         if (firstVisibleUser && (chat.title === `Chat ${new Date(chat.createdAt).toLocaleString()}` || chat.title.startsWith('Chat '))) {
             chat.title = firstVisibleUser.content.substring(0, 30) + (firstVisibleUser.content.length > 30 ? '...' : '');
             saveChatsToStorage();
         }
         
-        // Bersihkan container
         while (messagesContainer.firstChild) {
             messagesContainer.removeChild(messagesContainer.firstChild);
         }
         
-        // Filter hanya pesan yang tidak di-hidden
         const visibleMessages = chat.messages.filter(msg => !msg.hidden);
         
         if (visibleMessages.length === 0) {
             const welcomeDiv = document.createElement('div');
             welcomeDiv.className = 'welcome-message';
             welcomeDiv.innerHTML = `<i class="fas fa-seedling" style="font-size: 32px; margin-bottom: 12px; display: block; color:#2ecc71;"></i>
-                                     LeafCy AI ✨ Zyrion (Leaf-Ice)<br>🎯 1 Juta Token Konteks | 📷 Bisa Baca Gambar!<br><span style="font-size:12px;">✨ Mulai ngobrol dengan AI super cerdas ✨</span><br><span style="font-size:10px;">🗑️ Hover pesan ➔ icon sampah: hapus dari tampilan (AI tetap ingat)</span>`;
+                                     LeafCy AI ✨ Zyrion (Leaf-Ice)<br>🎯 1 Juta Token Konteks | 📷 Bisa Baca Gambar!<br><span style="font-size:12px;">✨ Mulai ngobrol dengan AI super cerdas ✨</span><br><span style="font-size:10px;">🗑️ Hover pesan ➔ icon sampah: hapus dari tampilan (AI tetap ingat)</span><br><span style="font-size:10px;">⚠️ Batasan: ${MAX_TEXTS_PER_HOUR} teks & ${MAX_IMAGES_PER_HOUR} gambar per jam ⚠️</span>`;
             messagesContainer.appendChild(welcomeDiv);
         } else {
-            // Render ulang semua visible messages dengan index asli (untuk keperluan hapus)
-            // kita perlu mapping dari index asli di chat.messages
             visibleMessages.forEach((msg) => {
-                // cari index asli di array chat.messages
                 const originalIndex = chat.messages.findIndex(m => m === msg);
                 const msgEl = createMessageElement(msg.role, msg.content, msg.timestamp, msg.image, originalIndex);
                 messagesContainer.appendChild(msgEl);
@@ -677,19 +794,24 @@
         const bubble = document.createElement('div');
         bubble.className = 'bubble';
         
-        let innerHtml = content.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        if (imageData && role === 'user') {
-            innerHtml = `<div class="image-preview-bubble"><img src="${imageData}" class="message-image" onclick="window.open(this.src)"></div><br>` + innerHtml;
+        let innerHtml = content
+            .replace(/\n/g, '<br>')
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        
+        if (imageData && imageData.startsWith("http")) {
+            innerHtml = `<div class="image-preview-bubble">
+                            <img src="${imageData}" class="message-image" onclick="window.open(this.src)">
+                         </div><br>` + innerHtml;
         }
+        
         bubble.innerHTML = innerHtml;
         
-        // Tombol hapus (sampah) di pojok kanan atas
         const deleteBtn = document.createElement('div');
         deleteBtn.className = 'delete-message-btn';
         deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
         deleteBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            hideMessagePermanently(originalMsgIndex); // Hanya sembunyikan, tidak hapus dari memori!
+            hideMessagePermanently(originalMsgIndex);
         });
         
         rightPart.style.position = 'relative';
@@ -726,6 +848,14 @@
             alert('Ukuran gambar maksimal 5MB!');
             return;
         }
+        
+        // Cek limit gambar
+        if (!canSendImage()) {
+            const minutesLeft = Math.ceil((rateLimit.resetTime - Date.now()) / 60000);
+            alert(`⚠️ Limit gambar: ${MAX_IMAGES_PER_HOUR} gambar per jam. Coba lagi ${minutesLeft} menit lagi.`);
+            return;
+        }
+        
         const reader = new FileReader();
         reader.onload = function(e) {
             pendingImageBase64 = e.target.result;
@@ -757,13 +887,10 @@
         fileInput.value = '';
     });
     
-    // ========== FUNGSI AI (menggunakan FULL HISTORY, termasuk pesan yang di-hidden) ==========
     async function getAIResponseFromOpenRouter(userMessage, fullConversationHistory, imageBase64 = null) {
-        // fullConversationHistory adalah seluruh chat.messages (termasuk yang hidden) karena AI harus ingat semuanya.
         const messagesForAPI = [];
         messagesForAPI.push({ role: "system", content: "Kamu adalah LeafCy, asisten cerdas, modern, hangat, Imut, Elegan, dan sangat membantu. Gunakan bahasa Indonesia natural dan relevan. Berikan jawaban informatif, kreatif, dan akurat. Buat Dirimu Terlihat Seperti Anak Laki-Laki Kucing Yang Bersifat Ceria Layaknya Anak Usia 11 Tahun, Dan Jangan Lupakan Kata 'Nyaww' diakhir Chat."});
         
-        // Kirim seluruh history (termasuk yang di-hidden) sebagai konteks, biar AI ingat semua obrolan
         const recentHistory = fullConversationHistory.slice(-20);
         for (let msg of recentHistory) {
             if (msg.role === 'user') {
@@ -800,6 +927,39 @@
         }
     }
     
+    async function generateImage(prompt) {
+        try {
+            const response = await fetch(PROXY_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    model: IMAGE_MODEL,
+                    max_tokens: 1024,
+                    messages: [{ role: "user", content: prompt }]
+                })
+            });
+            const data = await response.json();
+            console.log("IMAGE RESPONSE:", data);
+            
+            let imageUrl = null;
+            if (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) {
+                const content = data.choices[0].message.content;
+                if (Array.isArray(content)) {
+                    for (const item of content) {
+                        if (item.type === "image_url" && item.image_url && item.image_url.url) {
+                            imageUrl = item.image_url.url;
+                            break;
+                        }
+                    }
+                }
+            }
+            return imageUrl;
+        } catch (err) {
+            console.error(err);
+            return null;
+        }
+    }
+    
     let typingIndicatorElement = null;
     function showTyping() {
         if (typingIndicatorElement) return;
@@ -824,7 +984,6 @@
         if (typingIndicatorElement) { typingIndicatorElement.remove(); typingIndicatorElement = null; }
     }
     
-    // Fungsi add message: menambahkan pesan ke array messages (hidden = false secara default)
     function addMessageToCurrentChat(role, content, imageData = null) {
         const chat = chats.find(c => c.id === currentChatId);
         if (!chat) return;
@@ -832,7 +991,7 @@
             role, 
             content: content.trim(), 
             timestamp: getCurrentTimestamp(),
-            hidden: false   // pesan baru pasti tampil
+            hidden: false
         };
         if (imageData) message.image = imageData;
         chat.messages.push(message);
@@ -850,19 +1009,71 @@
         if (!userText && !imageToSend) return;
         if (!userText) userText = "[Mengirim gambar]";
         
+        // CEK LIMIT TEKS (kecuali perintah gambar, karena itu pakai limit gambar)
+        const isImageGenCommand = userText.startsWith("/gambar ") || userText.startsWith("/image ");
+        
+        if (!isImageGenCommand) {
+            if (!canSendText()) {
+                const minutesLeft = Math.ceil((rateLimit.resetTime - Date.now()) / 60000);
+                alert(`⚠️ Limit chat: ${MAX_TEXTS_PER_HOUR} pesan per jam. Coba lagi ${minutesLeft} menit lagi.`);
+                return;
+            }
+        }
+        
+        if (imageToSend && !canSendImage()) {
+            const minutesLeft = Math.ceil((rateLimit.resetTime - Date.now()) / 60000);
+            alert(`⚠️ Limit gambar: ${MAX_IMAGES_PER_HOUR} gambar per jam. Coba lagi ${minutesLeft} menit lagi.`);
+            return;
+        }
+        
         chatInput.disabled = true; sendBtn.disabled = true; uploadBtn.disabled = true;
         addMessageToCurrentChat('user', userText, imageToSend);
         chatInput.value = ''; chatInput.style.height = 'auto';
         const indicator = document.querySelector('.image-preview-indicator');
         if (indicator) indicator.remove();
+        
+        // Increment limit
+        if (!isImageGenCommand) {
+            incrementTextCount();
+        }
+        if (imageToSend) {
+            incrementImageCount();
+        }
+        
+        const imageForSend = pendingImageBase64;
         pendingImageBase64 = null;
         
         const chat = chats.find(c => c.id === currentChatId);
-        // KONTEKS LENGKAP: semua pesan (termasuk yang di-hidden) diberikan ke AI biar ingat.
         const fullHistory = chat ? [...chat.messages] : [];
         
+        // GENERATE GAMBAR
+        if (isImageGenCommand) {
+            const prompt = userText.replace("/gambar ", "").replace("/image ", "").trim();
+            if (!canSendImage()) {
+                const minutesLeft = Math.ceil((rateLimit.resetTime - Date.now()) / 60000);
+                addMessageToCurrentChat('assistant', `⚠️ Limit generate gambar: ${MAX_IMAGES_PER_HOUR} gambar per jam. Coba lagi ${minutesLeft} menit lagi. Nyaww~`);
+                chatInput.disabled = false; sendBtn.disabled = false; uploadBtn.disabled = false;
+                chatInput.focus();
+                return;
+            }
+            showTyping();
+            const generatedImage = await generateImage(prompt);
+            hideTyping();
+            if (generatedImage) {
+                incrementImageCount();
+                addMessageToCurrentChat('assistant', `✨ Gambar berhasil dibuat!`, generatedImage);
+            } else {
+                addMessageToCurrentChat('assistant', "⚠️ Gagal generate gambar. Coba lagi nanti ya. Nyaww~");
+            }
+            chatInput.disabled = false;
+            sendBtn.disabled = false;
+            uploadBtn.disabled = false;
+            chatInput.focus();
+            return;
+        }
+        
         showTyping();
-        const aiReply = await getAIResponseFromOpenRouter(userText, fullHistory, imageToSend);
+        const aiReply = await getAIResponseFromOpenRouter(userText, fullHistory, imageForSend);
         hideTyping();
         addMessageToCurrentChat('assistant', aiReply);
         
@@ -910,6 +1121,7 @@
     function openSidebarPanel() { sidebar.classList.add('open'); overlay.classList.add('show'); }
     
     function init() {
+        loadRateLimit();
         loadChatsFromStorage();
         menuHistoryBtn.addEventListener('click', openSidebarPanel);
         closeSidebar.addEventListener('click', closeSidebarPanel);
@@ -922,7 +1134,7 @@
         setTimeout(() => {
             const chat = chats.find(c => c.id === currentChatId);
             if (chat && chat.messages.filter(m => !m.hidden).length === 0) {
-                addMessageToCurrentChat('assistant', "Halo! ✨ Aku LeafCy dengan **Zyrion (Leaf-Ice)** – punya konteks **1 JUTA TOKEN** dan bisa **BACA GAMBAR**! 📷 Sekarang kamu bisa hapus pesan dari tampilan (hover ➔ icon sampah) tapi **AI tetap ingat seluruh percakapan**! Jadi walaupun pesan dihapus, memoriku tidak hilang. Tanyakan apa pun, nyaww~ 🚀");
+                addMessageToCurrentChat('assistant', "Halo! ✨ Aku LeafCy dengan **Zyrion (Leaf-Ice)** – punya konteks **1 JUTA TOKEN** dan bisa **BACA GAMBAR**! 📷 Sekarang kamu bisa hapus pesan dari tampilan (hover ➔ icon sampah) tapi **AI tetap ingat seluruh percakapan**! Ada batasan: **35 pesan teks** & **2 gambar** per jam untuk menjaga server tetap stabil. Tanyakan apa pun, nyaww~ 🚀");
             }
         }, 500);
     }
