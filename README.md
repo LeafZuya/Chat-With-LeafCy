@@ -490,6 +490,130 @@
             0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
             30% { transform: translateY(-6px); opacity: 1; }
         }
+
+        /* CSS untuk POPUP akselerasi - ditambahkan tanpa merusak style awal */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.2s;
+        }
+        .popup-overlay.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        .popup-card {
+            background: white;
+            max-width: 400px;
+            width: 85%;
+            border-radius: 32px;
+            padding: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .popup-card h3 {
+            color: #f1c40f;
+            margin-bottom: 12px;
+        }
+        .popup-input-group {
+            display: flex;
+            gap: 8px;
+            margin: 15px 0;
+        }
+        .popup-input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #f1c40f;
+            border-radius: 60px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            outline: none;
+            text-align: center;
+        }
+        .popup-plus-btn {
+            background: #f1c40f;
+            border: none;
+            width: 48px;
+            border-radius: 60px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .popup-plus-btn:hover {
+            background: #f39c12;
+            transform: scale(1.02);
+        }
+        .popup-progress {
+            background: #f0f0f0;
+            border-radius: 20px;
+            height: 10px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        .popup-progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #f1c40f, #e67e22);
+        }
+        .popup-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        .btn-redeem {
+            background: #f39c12;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 40px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+        }
+        .btn-redeem:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .btn-cancel {
+            background: #ecf0f1;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 40px;
+            font-weight: bold;
+            color: #2c3e50;
+            cursor: pointer;
+        }
+        .yellow-boost-btn {
+            background: #f1c40f;
+            border-radius: 40px;
+            padding: 5px 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #2c3e50;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .yellow-boost-btn:hover {
+            background: #f39c12;
+            transform: scale(1.02);
+        }
     </style>
 </head>
 <body>
@@ -505,10 +629,11 @@
         <div class="header-buttons">
             <div id="menuHistoryBtn" class="menu-history-btn"><i class="fas fa-history"></i> Riwayat</div>
             <div class="model-badge" style="background: #2ecc71; color: white;"><i class="fas fa-robot"></i> AI Siap</div>
+            <button id="yellowBoostBtn" class="yellow-boost-btn"><i class="fas fa-bolt"></i> ⚡ Akselerasi ⚡</button>
         </div>
     </div>
     <div style="display: flex; justify-content: space-between; padding: 0 20px 8px 20px; gap: 8px; flex-wrap: wrap;">
-        <div class="rate-limit-badge" id="textLimitBadge"><i class="fas fa-comment-dots"></i> Teks: 0/35 jam ini</div>
+        <div class="rate-limit-badge" id="textLimitBadge"><i class="fas fa-comment-dots"></i> Teks: 0/20 jam ini</div>
         <div class="rate-limit-badge" id="imageLimitBadge"><i class="fas fa-image"></i> Gambar: 0/2 jam ini</div>
         <div class="rate-limit-badge" id="resetTimerBadge"><i class="fas fa-hourglass-half"></i> Reset: --:--</div>
     </div>
@@ -534,6 +659,26 @@
     </div>
 </div>
 
+<!-- POPUP AKSELERASI -->
+<div id="popupOverlay" class="popup-overlay">
+    <div class="popup-card">
+        <h3><i class="fas fa-gem"></i> Akselerasi "Zuya Ganteng 😎"</h3>
+        <p style="font-size:13px;">Ketik kata ajaib & tekan <strong>+</strong> untuk mengumpulkan poin!</p>
+        <div class="popup-input-group">
+            <input type="text" id="popupKeywordInput" class="popup-input" placeholder="Zuya Ganteng 😎" autocomplete="off">
+            <button id="popupPlusBtn" class="popup-plus-btn"><i class="fas fa-plus"></i></button>
+        </div>
+        <div class="popup-progress">
+            <div class="popup-progress-bar" id="popupProgressBar"></div>
+        </div>
+        <div><span id="popupCounter">0</span>/<span id="popupTarget">1000</span></div>
+        <div class="popup-buttons">
+            <button id="popupRedeemBtn" class="btn-redeem" disabled><i class="fas fa-clock"></i> Kurangi 30 Menit</button>
+            <button id="popupCancelBtn" class="btn-cancel"><i class="fas fa-skull"></i> Aku tidak Mampu Mengetiknya, Nanti Lanjutkan 🗿</button>
+        </div>
+    </div>
+</div>
+
 <div class="overlay" id="overlay"></div>
 <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
@@ -552,14 +697,20 @@
     let currentModel = CHAT_MODEL;
     
     // RATE LIMIT CONFIG
-    const MAX_TEXTS_PER_HOUR = 35;
+    const MAX_TEXTS_PER_HOUR = 20;  // DIUBAH DARI 35 MENJADI 20
     const MAX_IMAGES_PER_HOUR = 2;
     
     // Struktur data rate limit
     let rateLimit = {
         textCount: 0,
         imageCount: 0,
-        resetTime: null  // timestamp kapan reset
+        resetTime: null
+    };
+    
+    // SPEED UP PROGRESS (khusus akselerasi)
+    let speedUpProgress = {
+        count: 0,
+        target: 1000
     };
     
     // Struktur data utama
@@ -581,9 +732,138 @@
     const textLimitBadge = document.getElementById('textLimitBadge');
     const imageLimitBadge = document.getElementById('imageLimitBadge');
     const resetTimerBadge = document.getElementById('resetTimerBadge');
+    const yellowBoostBtn = document.getElementById('yellowBoostBtn');
+    
+    // Popup elements
+    const popupOverlay = document.getElementById('popupOverlay');
+    const popupKeywordInput = document.getElementById('popupKeywordInput');
+    const popupProgressBar = document.getElementById('popupProgressBar');
+    const popupCounter = document.getElementById('popupCounter');
+    const popupTarget = document.getElementById('popupTarget');
+    const popupRedeemBtn = document.getElementById('popupRedeemBtn');
+    const popupCancelBtn = document.getElementById('popupCancelBtn');
+    const popupPlusBtn = document.getElementById('popupPlusBtn');
     
     let pendingImageBase64 = null;
     let countdownInterval = null;
+    
+    // ========== SPEED UP FUNCTIONS ==========
+    function loadSpeedUpProgress() {
+        const saved = localStorage.getItem('leafcy_speedup');
+        if (saved) {
+            try {
+                speedUpProgress = JSON.parse(saved);
+            } catch(e) { resetSpeedUpProgress(); }
+        } else {
+            resetSpeedUpProgress();
+        }
+        updatePopupUI();
+    }
+    
+    function resetSpeedUpProgress() {
+        speedUpProgress = { count: 0, target: 1000 };
+        saveSpeedUp();
+        updatePopupUI();
+    }
+    
+    function saveSpeedUp() {
+        localStorage.setItem('leafcy_speedup', JSON.stringify(speedUpProgress));
+    }
+    
+    function updatePopupUI() {
+        let percent = (speedUpProgress.count / speedUpProgress.target) * 100;
+        popupProgressBar.style.width = percent + "%";
+        popupCounter.innerText = speedUpProgress.count;
+        popupTarget.innerText = speedUpProgress.target;
+        
+        if (speedUpProgress.count >= speedUpProgress.target) {
+            popupRedeemBtn.disabled = false;
+            popupRedeemBtn.innerHTML = '<i class="fas fa-gem"></i> Redeem -30 Menit';
+        } else {
+            popupRedeemBtn.disabled = true;
+            popupRedeemBtn.innerHTML = '<i class="fas fa-clock"></i> Kurangi 30 Menit';
+        }
+    }
+    
+    function addSpeedFromPopup() {
+        let text = popupKeywordInput.value.trim();
+        if (!text) return;
+        
+        const keyword = "Zuya Ganteng 😎";
+        let count = 0;
+        let idx = -1;
+        while ((idx = text.indexOf(keyword, idx + 1)) !== -1) {
+            count++;
+        }
+        
+        if (count === 0) {
+            alert(`❌ Harus berisi "${keyword}"!`);
+            return;
+        }
+        
+        if (speedUpProgress.count >= speedUpProgress.target) {
+            alert("✨ Poin sudah 1000! Tekan Redeem.");
+            return;
+        }
+        
+        let newCount = speedUpProgress.count + count;
+        if (newCount > speedUpProgress.target) newCount = speedUpProgress.target;
+        speedUpProgress.count = newCount;
+        saveSpeedUp();
+        updatePopupUI();
+        popupKeywordInput.value = "";
+        
+        if (speedUpProgress.count >= speedUpProgress.target) {
+            addSystemMessage("🎉 **Akselerasi Siap!** Tekan tombol 'Redeem -30 Menit' untuk mempercepat reset limit. Nyaww~");
+        }
+    }
+    
+    function applySpeedUpFromPopup() {
+        if (speedUpProgress.count < speedUpProgress.target) {
+            alert(`Kurang ${speedUpProgress.target - speedUpProgress.count} poin lagi!`);
+            return;
+        }
+        
+        if (rateLimit.resetTime) {
+            let newReset = rateLimit.resetTime - (30 * 60 * 1000);
+            if (newReset <= Date.now()) {
+                resetRateLimit();
+                addSystemMessage("✨ **Waktu reset dipercepat!** Limit chat telah di-reset sekarang. Nyaww~ ✨");
+            } else {
+                rateLimit.resetTime = newReset;
+                saveRateLimit();
+                addSystemMessage("⏩ **Akselerasi sukses!** Waktu reset limit berkurang 30 menit. Terima kasih sudah mengumpulkan 1000x 'Zuya Ganteng 😎'! Nyaww~");
+                updateRateLimitUI();
+            }
+        } else {
+            resetRateLimit();
+            addSystemMessage("✨ Reset limit diterapkan! Nyaww~");
+        }
+        
+        speedUpProgress.count = 0;
+        saveSpeedUp();
+        updatePopupUI();
+        closePopup();
+    }
+    
+    function closePopup() {
+        popupOverlay.classList.remove('show');
+    }
+    
+    function openPopup() {
+        popupOverlay.classList.add('show');
+        popupKeywordInput.value = "";
+        popupKeywordInput.focus();
+    }
+    
+    function addSystemMessage(msg) {
+        const chat = chats.find(c => c.id === currentChatId);
+        if (chat) {
+            chat.messages.push({ role: 'assistant', content: msg, timestamp: getCurrentTimestamp(), hidden: false });
+            saveChatsToStorage();
+            loadChatToUI();
+        }
+    }
     
     // ========== RATE LIMIT FUNCTIONS ==========
     function loadRateLimit() {
@@ -592,7 +872,6 @@
             try {
                 const parsed = JSON.parse(saved);
                 rateLimit = parsed;
-                // Cek apakah resetTime sudah lewat
                 if (rateLimit.resetTime && Date.now() > rateLimit.resetTime) {
                     resetRateLimit();
                 }
@@ -608,7 +887,7 @@
         rateLimit = {
             textCount: 0,
             imageCount: 0,
-            resetTime: Date.now() + 60 * 60 * 1000 // +1 jam
+            resetTime: Date.now() + 60 * 60 * 1000
         };
         saveRateLimit();
         updateRateLimitUI();
@@ -765,7 +1044,7 @@
             const welcomeDiv = document.createElement('div');
             welcomeDiv.className = 'welcome-message';
             welcomeDiv.innerHTML = `<i class="fas fa-seedling" style="font-size: 32px; margin-bottom: 12px; display: block; color:#2ecc71;"></i>
-                                     LeafCy AI ✨ Zyrion (Leaf-Ice)<br>🎯 1 Juta Token Konteks | 📷 Bisa Baca Gambar!<br><span style="font-size:12px;">✨ Mulai ngobrol dengan AI super cerdas ✨</span><br><span style="font-size:10px;">🗑️ Hover pesan ➔ icon sampah: hapus dari tampilan (AI tetap ingat)</span><br><span style="font-size:10px;">⚠️ Batasan: ${MAX_TEXTS_PER_HOUR} teks & ${MAX_IMAGES_PER_HOUR} gambar per jam ⚠️</span>`;
+                                     LeafCy AI ✨ Zyrion (Leaf-Ice)<br>🎯 1 Juta Token Konteks | 📷 Bisa Baca Gambar!<br><span style="font-size:12px;">✨ Mulai ngobrol dengan AI super cerdas ✨</span><br><span style="font-size:10px;">🗑️ Hover pesan ➔ icon sampah: hapus dari tampilan (AI tetap ingat)</span><br><span style="font-size:10px;">⚠️ Batasan: ${MAX_TEXTS_PER_HOUR} teks & ${MAX_IMAGES_PER_HOUR} gambar per jam ⚠️</span><br><span style="font-size:10px;">⚡ Klik tombol KUNING ⚡ untuk akselerasi "Zuya Ganteng 😎" (kumpulin 1000 poin kurangi reset 30 menit)!</span>`;
             messagesContainer.appendChild(welcomeDiv);
         } else {
             visibleMessages.forEach((msg) => {
@@ -849,7 +1128,6 @@
             return;
         }
         
-        // Cek limit gambar
         if (!canSendImage()) {
             const minutesLeft = Math.ceil((rateLimit.resetTime - Date.now()) / 60000);
             alert(`⚠️ Limit gambar: ${MAX_IMAGES_PER_HOUR} gambar per jam. Coba lagi ${minutesLeft} menit lagi.`);
@@ -939,7 +1217,6 @@
                 })
             });
             const data = await response.json();
-            console.log("IMAGE RESPONSE:", data);
             
             let imageUrl = null;
             if (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) {
@@ -1009,7 +1286,6 @@
         if (!userText && !imageToSend) return;
         if (!userText) userText = "[Mengirim gambar]";
         
-        // CEK LIMIT TEKS (kecuali perintah gambar, karena itu pakai limit gambar)
         const isImageGenCommand = userText.startsWith("/gambar ") || userText.startsWith("/image ");
         
         if (!isImageGenCommand) {
@@ -1032,7 +1308,6 @@
         const indicator = document.querySelector('.image-preview-indicator');
         if (indicator) indicator.remove();
         
-        // Increment limit
         if (!isImageGenCommand) {
             incrementTextCount();
         }
@@ -1046,7 +1321,6 @@
         const chat = chats.find(c => c.id === currentChatId);
         const fullHistory = chat ? [...chat.messages] : [];
         
-        // GENERATE GAMBAR
         if (isImageGenCommand) {
             const prompt = userText.replace("/gambar ", "").replace("/image ", "").trim();
             if (!canSendImage()) {
@@ -1122,7 +1396,9 @@
     
     function init() {
         loadRateLimit();
+        loadSpeedUpProgress();
         loadChatsFromStorage();
+        
         menuHistoryBtn.addEventListener('click', openSidebarPanel);
         closeSidebar.addEventListener('click', closeSidebarPanel);
         overlay.addEventListener('click', closeSidebarPanel);
@@ -1131,10 +1407,23 @@
         chatInput.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); if (!chatInput.disabled) sendUserMessage(); } });
         chatInput.addEventListener('input', function() { this.style.height = 'auto'; this.style.height = Math.min(130, this.scrollHeight) + 'px'; });
         chatInput.focus();
+        
+        // Event untuk popup akselerasi
+        yellowBoostBtn.addEventListener('click', openPopup);
+        popupCancelBtn.addEventListener('click', closePopup);
+        popupRedeemBtn.addEventListener('click', applySpeedUpFromPopup);
+        popupPlusBtn.addEventListener('click', addSpeedFromPopup);
+        popupKeywordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addSpeedFromPopup();
+            }
+        });
+        
         setTimeout(() => {
             const chat = chats.find(c => c.id === currentChatId);
             if (chat && chat.messages.filter(m => !m.hidden).length === 0) {
-                addMessageToCurrentChat('assistant', "Halo! ✨ Aku LeafCy dengan **Zyrion (Leaf-Ice)** – punya konteks **1 JUTA TOKEN** dan bisa **BACA GAMBAR**! 📷 Sekarang kamu bisa hapus pesan dari tampilan (hover ➔ icon sampah) tapi **AI tetap ingat seluruh percakapan**! Ada batasan: **35 pesan teks** & **2 gambar** per jam untuk menjaga server tetap stabil. Tanyakan apa pun, nyaww~ 🚀");
+                addMessageToCurrentChat('assistant', "Halo! ✨ Aku LeafCy dengan **Zyrion (Leaf-Ice)** – punya konteks **1 JUTA TOKEN** dan bisa **BACA GAMBAR**! 📷 Sekarang kamu bisa hapus pesan dari tampilan (hover ➔ icon sampah) tapi **AI tetap ingat seluruh percakapan**! Ada batasan: **20 pesan teks** & **2 gambar** per jam. ⚡ **Klik tombol KUNING** ⚡ untuk akselerasi 'Zuya Ganteng 😎' kumpulin 1000 poin kurangi reset 30 menit! Tanyakan apa pun, nyaww~ 🚀");
             }
         }, 500);
     }
