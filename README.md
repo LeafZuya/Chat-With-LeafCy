@@ -90,6 +90,31 @@
             gap: 6px;
         }
 
+        /* TOMBOL AI SIAP - GRADASI PINK KEBIRUAN */
+        .btn-ai-ready {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #a1c4fd 100%);
+            border: none;
+            border-radius: 40px;
+            padding: 5px 14px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #2c3e66;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(255, 154, 158, 0.3);
+        }
+        .btn-ai-ready:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 14px rgba(161, 196, 253, 0.5);
+            background: linear-gradient(135deg, #ffb6ba, #fbe1d8, #b8d4ff);
+        }
+        .btn-ai-ready i {
+            font-size: 0.85rem;
+        }
+
         .menu-history-btn {
             background: rgba(46, 204, 113, 0.12);
             border-radius: 40px;
@@ -504,7 +529,8 @@
         </div>
         <div class="header-buttons">
             <div id="menuHistoryBtn" class="menu-history-btn"><i class="fas fa-history"></i> Riwayat</div>
-            <div class="model-badge" style="background: #2ecc71; color: white;"><i class="fas fa-robot"></i> AI Siap</div>
+            <!-- Tombol AI Siap yang diubah: gradasi pink kebiruan, saat diklik pindah ke my1.html -->
+            <button id="aiReadyBtn" class="btn-ai-ready"><i class="fas fa-rocket"></i> Switch Ke Leafia [FREE]</button>
         </div>
     </div>
     <div style="display: flex; justify-content: space-between; padding: 0 20px 8px 20px; gap: 8px; flex-wrap: wrap;">
@@ -581,9 +607,18 @@
     const textLimitBadge = document.getElementById('textLimitBadge');
     const imageLimitBadge = document.getElementById('imageLimitBadge');
     const resetTimerBadge = document.getElementById('resetTimerBadge');
+    const aiReadyBtn = document.getElementById('aiReadyBtn'); // Tombol AI Siap gradasi pink
     
     let pendingImageBase64 = null;
     let countdownInterval = null;
+    
+    // ========== TOMBOL AI SIAP: ARAH KE my1.html (FILE LOKAL) ==========
+    if (aiReadyBtn) {
+        aiReadyBtn.addEventListener('click', () => {
+            // Mengarahkan ke file lokal "my1.html" (dalam direktori yang sama)
+            window.location.href = "my1.html";
+        });
+    }
     
     // ========== RATE LIMIT FUNCTIONS ==========
     function loadRateLimit() {
