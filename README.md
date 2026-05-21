@@ -26,97 +26,94 @@
         body{
             display:flex;
             flex-direction:column;
+
             background:
                 radial-gradient(circle at top left, #1f3b73 0%, transparent 35%),
                 linear-gradient(135deg, #0f172a 0%, #16213e 100%);
         }
 
-        /* ===== TOP BAR ===== */
+        /* ===== MINI TOP BAR ===== */
         .switch-bar{
-            width:100%;
+            position:fixed;
+            top:10px;
+            left:10px;
+            right:10px;
+
+            z-index:9999;
+
             display:flex;
-            align-items:center;
             justify-content:space-between;
-            gap:12px;
+            align-items:center;
 
-            padding:
-                calc(env(safe-area-inset-top) + 10px)
-                14px
-                10px
-                14px;
-
-            background:rgba(10,10,20,0.92);
-            backdrop-filter:blur(12px);
-
-            border-bottom:1px solid rgba(255,255,255,0.08);
-
-            position:sticky;
-            top:0;
-            z-index:999;
-            flex-shrink:0;
+            pointer-events:none;
         }
 
+        /* ===== MODE BADGE ===== */
         .current-mode{
+            pointer-events:auto;
+
             display:flex;
             align-items:center;
-            gap:8px;
+            gap:6px;
 
-            background:rgba(255,255,255,0.08);
+            background:rgba(15,15,25,0.78);
+            backdrop-filter:blur(10px);
 
-            color:#f1f5f9;
+            color:white;
 
-            padding:10px 16px;
-            border-radius:18px;
+            padding:8px 12px;
 
-            font-size:0.95rem;
+            border-radius:999px;
+
+            font-size:0.78rem;
             font-weight:600;
 
-            min-height:52px;
-            flex:1;
+            border:1px solid rgba(255,255,255,0.08);
+
+            box-shadow:
+                0 4px 14px rgba(0,0,0,0.22);
         }
 
+        /* ===== SWITCH BUTTON ===== */
         .switch-btn{
+            pointer-events:auto;
+
             border:none;
             outline:none;
 
-            min-height:52px;
-
-            padding:12px 18px;
-
-            border-radius:18px;
-
-            background:linear-gradient(135deg,#2ecc71,#27ae60);
+            background:
+                linear-gradient(135deg,#2ecc71,#27ae60);
 
             color:white;
-            font-size:0.9rem;
+
+            padding:9px 14px;
+
+            border-radius:999px;
+
+            font-size:0.78rem;
             font-weight:700;
 
             display:flex;
             align-items:center;
-            justify-content:center;
-            gap:10px;
+            gap:7px;
 
             cursor:pointer;
 
-            transition:0.2s ease;
-
-            flex:1.2;
+            transition:0.18s ease;
 
             box-shadow:
-                0 4px 15px rgba(46,204,113,0.25);
+                0 4px 14px rgba(46,204,113,0.28);
         }
 
         .switch-btn:active{
-            transform:scale(0.97);
+            transform:scale(0.95);
         }
 
         /* ===== IFRAME ===== */
         .iframe-container{
-            flex:1;
             width:100%;
-            height:100%;
+            height:100vh;
             overflow:hidden;
-            position:relative;
         }
 
         iframe{
@@ -127,42 +124,23 @@
             background:white;
         }
 
-        /* ===== MOBILE FIX ===== */
-        @media (max-width:700px){
+        /* ===== MOBILE ===== */
+        @media (max-width:480px){
 
             .switch-bar{
-                flex-direction:column;
-                align-items:stretch;
-                gap:10px;
-            }
-
-            .current-mode,
-            .switch-btn{
-                width:100%;
+                top:8px;
+                left:8px;
+                right:8px;
             }
 
             .current-mode{
-                justify-content:center;
-                text-align:center;
-                font-size:1rem;
+                font-size:0.72rem;
+                padding:7px 10px;
             }
 
             .switch-btn{
-                font-size:1rem;
-                padding:14px 16px;
-            }
-        }
-
-        /* ===== EXTRA SMALL PHONE ===== */
-        @media (max-width:420px){
-
-            .current-mode{
-                font-size:0.92rem;
-                padding:12px;
-            }
-
-            .switch-btn{
-                font-size:0.92rem;
+                font-size:0.72rem;
+                padding:8px 11px;
             }
         }
     </style>
@@ -170,22 +148,22 @@
 
 <body>
 
-    <!-- TOP CONTROL -->
+    <!-- MINI FLOAT TOP -->
     <div class="switch-bar">
 
         <div class="current-mode" id="currentModeBadge">
             <i class="fas fa-leaf"></i>
-            <span>Mode: LeafCy</span>
+            <span>LeafCy</span>
         </div>
 
         <button class="switch-btn" id="switchBtn">
             <i class="fas fa-exchange-alt"></i>
-            <span>Switch To Leafia [FREE]</span>
+            <span>Leafia</span>
         </button>
 
     </div>
 
-    <!-- MAIN SCREEN -->
+    <!-- FULLSCREEN APP -->
     <div class="iframe-container">
         <iframe
             id="mainFrame"
@@ -201,7 +179,7 @@
 
         let currentMode = 'leafcy';
 
-        // ===== LISTEN FROM IFRAME =====
+        // ===== MESSAGE FROM IFRAME =====
         window.addEventListener('message', function(event){
 
             if(event.data === 'switchToWebsite1'){
@@ -214,12 +192,12 @@
 
                     currentModeBadge.innerHTML = `
                         <i class="fas fa-leaf"></i>
-                        <span>Mode: LeafCy</span>
+                        <span>LeafCy</span>
                     `;
 
                     switchBtn.innerHTML = `
                         <i class="fas fa-exchange-alt"></i>
-                        <span>Switch To Leafia [FREE]</span>
+                        <span>Leafia</span>
                     `;
 
                     switchBtn.style.background =
@@ -228,7 +206,7 @@
             }
         });
 
-        // ===== SWITCH BUTTON =====
+        // ===== SWITCH MODE =====
         switchBtn.addEventListener('click', function(){
 
             if(currentMode === 'leafcy'){
@@ -239,12 +217,12 @@
 
                 currentModeBadge.innerHTML = `
                     <i class="fas fa-feather-alt"></i>
-                    <span>Mode: Leafia</span>
+                    <span>Leafia</span>
                 `;
 
                 switchBtn.innerHTML = `
                     <i class="fas fa-exchange-alt"></i>
-                    <span>Balik Ke LeafCy [LIMITED]</span>
+                    <span>LeafCy</span>
                 `;
 
                 switchBtn.style.background =
@@ -258,12 +236,12 @@
 
                 currentModeBadge.innerHTML = `
                     <i class="fas fa-leaf"></i>
-                    <span>Mode: LeafCy</span>
+                    <span>LeafCy</span>
                 `;
 
                 switchBtn.innerHTML = `
                     <i class="fas fa-exchange-alt"></i>
-                    <span>Switch To Leafia [FREE]</span>
+                    <span>Leafia</span>
                 `;
 
                 switchBtn.style.background =
