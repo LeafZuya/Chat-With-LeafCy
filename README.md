@@ -78,16 +78,29 @@
             color: transparent;
         }
 
+        /* TOMBOL MODEL ZYRION BARU: WARNA KUNING */
         .model-badge {
-            background: rgba(46, 204, 113, 0.12);
+            background: linear-gradient(145deg, #ffd966, #ffb347);
             border-radius: 40px;
-            padding: 5px 12px;
-            font-size: 0.7rem;
-            font-weight: 500;
-            color: #2ecc71;
+            padding: 5px 14px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #4a2e00;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(255, 180, 60, 0.4);
+            border: none;
+        }
+        .model-badge:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(255, 180, 60, 0.6);
+            background: linear-gradient(145deg, #ffe08c, #ffaa33);
+        }
+        .model-badge i {
+            font-size: 0.8rem;
         }
 
         /* TOMBOL AI SIAP - GRADASI PINK KEBIRUAN */
@@ -241,6 +254,122 @@
         }
         .overlay.show {
             display: block;
+        }
+
+        /* GAYA POP-UP CERAH */
+        .custom-popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.2s, opacity 0.2s;
+        }
+        .custom-popup-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .popup-container {
+            width: 90%;
+            max-width: 500px;
+            background: linear-gradient(145deg, #fff9ef, #fff3e0);
+            border-radius: 48px;
+            box-shadow: 0 25px 45px rgba(255, 160, 60, 0.3);
+            padding: 24px 20px 28px;
+            text-align: center;
+            border: 1px solid #ffdd99;
+            animation: popupBounce 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+        }
+        @keyframes popupBounce {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .popup-container h3 {
+            font-size: 1.7rem;
+            color: #e67e22;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .popup-container p {
+            color: #b86f2c;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+        .challenge-textarea {
+            width: 100%;
+            padding: 14px;
+            border-radius: 60px;
+            border: 2px solid #ffe0a3;
+            background: white;
+            font-family: monospace;
+            font-size: 1rem;
+            text-align: center;
+            outline: none;
+            font-weight: bold;
+            color: #d35400;
+            margin-bottom: 10px;
+        }
+        .challenge-counter {
+            font-size: 0.9rem;
+            background: #ffecb3;
+            display: inline-block;
+            padding: 4px 16px;
+            border-radius: 30px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #b45f1b;
+        }
+        .popup-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn-redeem {
+            background: linear-gradient(95deg, #f39c12, #e67e22);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-redeem:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .btn-surrender {
+            background: #ecf0f1;
+            border: 1px solid #bdc3c7;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            color: #7f8c8d;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-surrender:hover {
+            background: #e2e6e8;
+        }
+        .btn-redeem:hover:not(:disabled) {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(243, 156, 18, 0.4);
         }
 
         .chat-messages {
@@ -525,11 +654,11 @@
                 <img src="leafcy.png" alt="Logo" onerror="this.src='https://via.placeholder.com/36x36/2ecc71/ffffff?text=Leaf'">
             </div>
             <div class="logo-text">LeafCy AI</div>
-            <div class="model-badge" id="modelBadge"><i class="fas fa-charging-station"></i> Zyrion (Leaf-Ice)</div>
+            <!-- TOMBOL KUNING ZYRION (dengan popup interaktif) -->
+            <div id="zyrionModelBtn" class="model-badge"><i class="fas fa-star"></i> Limited Challenge😹✨<i class="fas fa-chevron-down"></i></div>
         </div>
         <div class="header-buttons">
             <div id="menuHistoryBtn" class="menu-history-btn"><i class="fas fa-history"></i> Riwayat</div>
-            <!-- Tombol AI Siap yang diubah: gradasi pink kebiruan, saat diklik pindah ke my1.html -->
             <button id="aiReadyBtn" class="btn-ai-ready"><i class="fas fa-rocket"></i> Switch Ke Leafia [FREE]</button>
         </div>
     </div>
@@ -556,6 +685,20 @@
         <div style="display: flex; justify-content: space-between; margin-top: 8px; padding: 0 10px;">
             <div class="bottom-info-text"><i class="fas fa-microchip"></i> model: Zyrion (Leaf-Ice) (1M token)</div>
             <div class="bottom-info-text"><i class="fas fa-database"></i> Hapus pesan (hover) ✔️ AI tetap ingat konteks</div>
+        </div>
+    </div>
+</div>
+
+<!-- POPUP CERAH UNTUK CHALLENGE ZUYA -->
+<div id="challengePopup" class="custom-popup-overlay">
+    <div class="popup-container">
+        <h3><i class="fas fa-crown"></i> Tantangan Zuya <i class="fas fa-heart"></i></h3>
+        <p>Ketik <strong>"Zuya Ganteng 😎"</strong> sebanyak 1000x untuk dapat <span style="background:#f1c40f; padding:2px 8px; border-radius:20px;">Redeem -30 Menit Reset</span></p>
+        <input type="text" id="challengeInput" class="challenge-textarea" placeholder="Ketik di sini..." autocomplete="off">
+        <div class="challenge-counter" id="challengeCounter">Progress: 0 / 1000</div>
+        <div class="popup-buttons">
+            <button id="redeemBtn" class="btn-redeem" disabled><i class="fas fa-gift"></i> Redeem -30 Menit</button>
+            <button id="surrenderBtn" class="btn-surrender"><i class="fas fa-flag-checkered"></i> Itu Terlalu Sulit, Aku Menyerah Untuk Saat Ini🥀🗿</button>
         </div>
     </div>
 </div>
@@ -607,15 +750,114 @@
     const textLimitBadge = document.getElementById('textLimitBadge');
     const imageLimitBadge = document.getElementById('imageLimitBadge');
     const resetTimerBadge = document.getElementById('resetTimerBadge');
-    const aiReadyBtn = document.getElementById('aiReadyBtn'); // Tombol AI Siap gradasi pink
+    const aiReadyBtn = document.getElementById('aiReadyBtn');
+    const zyrionBtn = document.getElementById('zyrionModelBtn'); // tombol kuning popup
+    
+    // === ELEMEN POPUP ===
+    const popupOverlay = document.getElementById('challengePopup');
+    const challengeInput = document.getElementById('challengeInput');
+    const challengeCounterSpan = document.getElementById('challengeCounter');
+    const redeemBtn = document.getElementById('redeemBtn');
+    const surrenderBtn = document.getElementById('surrenderBtn');
+    
+    let challengeCount = 0;
+    let targetCount = 1000;
+    
+    // ========== FUNGSI POPUP CHALLENGE ==========
+    function openChallengePopup() {
+        // reset state setiap buka popup
+        challengeCount = 0;
+        challengeInput.value = '';
+        updateCounterDisplay();
+        redeemBtn.disabled = true;
+        popupOverlay.classList.add('active');
+        challengeInput.focus();
+    }
+    
+    function closeChallengePopup() {
+        popupOverlay.classList.remove('active');
+        challengeCount = 0;
+        challengeInput.value = '';
+    }
+    
+    function updateCounterDisplay() {
+        challengeCounterSpan.innerText = `Progress: ${challengeCount} / ${targetCount}`;
+        if (challengeCount >= targetCount) {
+            redeemBtn.disabled = false;
+        } else {
+            redeemBtn.disabled = true;
+        }
+    }
+    
+    // Fungsi redeem: kurangi waktu reset 30 menit
+    function redeemReduceResetTime() {
+        if (challengeCount < targetCount) return;
+        
+        if (rateLimit.resetTime && rateLimit.resetTime > Date.now()) {
+            let newResetTime = rateLimit.resetTime - (30 * 60 * 1000);
+            if (newResetTime < Date.now()) {
+                // jika sudah kurang dari sekarang, reset limit agar langsung ter-reset
+                resetRateLimit();
+            } else {
+                rateLimit.resetTime = newResetTime;
+                saveRateLimit();
+                updateRateLimitUI();
+            }
+        } else {
+            // jika resetTime sudah lewat, kita buat resetTime baru +30 menit dari sekarang? tapi user minta kurangi waktu reset, jadi kita majukan reset time? maksudnya mengurangi sisa waktu: beri hadiah kurangi 30 mnt dr reset yg akan datang
+            if (!rateLimit.resetTime || rateLimit.resetTime <= Date.now()) {
+                // dalam kondisi reset, set ulang resetTime jadi +1 jam dari sekarang lalu kurangi 30 menit
+                let futureReset = Date.now() + (60 * 60 * 1000);
+                let afterReduce = futureReset - (30 * 60 * 1000);
+                if (afterReduce < Date.now()) afterReduce = Date.now() + 1000;
+                rateLimit.resetTime = afterReduce;
+                saveRateLimit();
+                updateRateLimitUI();
+            }
+        }
+        // Tampilkan notifikasi sukses sederhana
+        alert("✨ Berhasil! Waktu reset rate limit dikurangi 30 menit. ✨\nTerima kasih sudah mengetik 1000x Zuya Ganteng 😎");
+        closeChallengePopup();
+    }
+    
+    // Event listener untuk input challenge
+    challengeInput.addEventListener('input', (e) => {
+        const typed = e.target.value;
+        // cek apakah tepat sama dengan "Zuya Ganteng 😎" (case sensitive sesuai permintaan)
+        if (typed === "Zuya Ganteng 😎") {
+            challengeCount++;
+            updateCounterDisplay();
+            challengeInput.value = ''; // kosongkan untuk input berikutnya
+            // efek visual kecil
+            challengeInput.style.transform = "scale(0.98)";
+            setTimeout(() => { challengeInput.style.transform = ""; }, 120);
+        }
+    });
+    
+    redeemBtn.addEventListener('click', () => {
+        if (challengeCount >= targetCount) {
+            redeemReduceResetTime();
+        } else {
+            alert(`Kurang ${targetCount - challengeCount} kali lagi! Harus tepat 1000x.`);
+        }
+    });
+    
+    surrenderBtn.addEventListener('click', () => {
+        closeChallengePopup();
+    });
+    
+    // Tombol kuning Zyrion memicu popup
+    zyrionBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openChallengePopup();
+    });
     
     let pendingImageBase64 = null;
     let countdownInterval = null;
     
-    // ========== TOMBOL AI SIAP: ARAH KE my1.html (FILE LOKAL) ==========
+    // ========== TOMBOL AI SIAP: ARAH KE my1.html ==========
     if (aiReadyBtn) {
         aiReadyBtn.addEventListener('click', () => {
-            // Mengarahkan ke file lokal "my1.html" (dalam direktori yang sama)
             window.location.href = "my1.html";
         });
     }
@@ -627,7 +869,6 @@
             try {
                 const parsed = JSON.parse(saved);
                 rateLimit = parsed;
-                // Cek apakah resetTime sudah lewat
                 if (rateLimit.resetTime && Date.now() > rateLimit.resetTime) {
                     resetRateLimit();
                 }
@@ -643,7 +884,7 @@
         rateLimit = {
             textCount: 0,
             imageCount: 0,
-            resetTime: Date.now() + 60 * 60 * 1000 // +1 jam
+            resetTime: Date.now() + 60 * 60 * 1000
         };
         saveRateLimit();
         updateRateLimitUI();
@@ -884,7 +1125,6 @@
             return;
         }
         
-        // Cek limit gambar
         if (!canSendImage()) {
             const minutesLeft = Math.ceil((rateLimit.resetTime - Date.now()) / 60000);
             alert(`⚠️ Limit gambar: ${MAX_IMAGES_PER_HOUR} gambar per jam. Coba lagi ${minutesLeft} menit lagi.`);
@@ -1044,7 +1284,6 @@
         if (!userText && !imageToSend) return;
         if (!userText) userText = "[Mengirim gambar]";
         
-        // CEK LIMIT TEKS (kecuali perintah gambar, karena itu pakai limit gambar)
         const isImageGenCommand = userText.startsWith("/gambar ") || userText.startsWith("/image ");
         
         if (!isImageGenCommand) {
@@ -1067,7 +1306,6 @@
         const indicator = document.querySelector('.image-preview-indicator');
         if (indicator) indicator.remove();
         
-        // Increment limit
         if (!isImageGenCommand) {
             incrementTextCount();
         }
@@ -1081,7 +1319,6 @@
         const chat = chats.find(c => c.id === currentChatId);
         const fullHistory = chat ? [...chat.messages] : [];
         
-        // GENERATE GAMBAR
         if (isImageGenCommand) {
             const prompt = userText.replace("/gambar ", "").replace("/image ", "").trim();
             if (!canSendImage()) {
