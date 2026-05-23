@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>LeafCy AI [New Beta] - Hapus Pesan Tanpa Hilangkan Ingatan AI</title>
+    <title>LeafCy AI [True Memory] - Hapus Pesan = Hapus Ingatan AI</title>
     <!-- Google Fonts + Font Awesome -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -78,7 +78,6 @@
             color: transparent;
         }
 
-        /* TOMBOL MODEL ZYRION BARU: WARNA KUNING */
         .model-badge {
             background: linear-gradient(145deg, #ffd966, #ffb347);
             border-radius: 40px;
@@ -103,7 +102,6 @@
             font-size: 0.8rem;
         }
 
-        /* TOMBOL AI SIAP - GRADASI PINK KEBIRUAN */
         .btn-ai-ready {
             background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #a1c4fd 100%);
             border: none;
@@ -182,6 +180,45 @@
             cursor: pointer;
             color: #e74c3c;
         }
+        
+        .search-container {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e8e0;
+        }
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: #f5f7f5;
+            border-radius: 30px;
+            padding: 8px 15px;
+            gap: 10px;
+            border: 1px solid #2ecc71;
+        }
+        .search-box i {
+            color: #2ecc71;
+            font-size: 14px;
+        }
+        .search-box input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            outline: none;
+            font-size: 0.85rem;
+            font-family: 'Inter', sans-serif;
+        }
+        .search-box input::placeholder {
+            color: #9aae9a;
+        }
+        .clear-search {
+            cursor: pointer;
+            color: #e74c3c;
+            font-size: 12px;
+            display: none;
+        }
+        .clear-search.show {
+            display: block;
+        }
+        
         .history-list {
             flex: 1;
             overflow-y: auto;
@@ -195,6 +232,7 @@
             cursor: pointer;
             transition: all 0.2s;
             border: 1px solid #e0e8e0;
+            position: relative;
         }
         .history-item:hover {
             background: #e8f5e9;
@@ -212,6 +250,34 @@
             font-weight: 600;
             font-size: 0.85rem;
             margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+        .history-title-text {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .edit-title-btn {
+            background: none;
+            border: none;
+            color: #2ecc71;
+            cursor: pointer;
+            font-size: 11px;
+            opacity: 0.6;
+            transition: 0.2s;
+            padding: 2px 5px;
+            border-radius: 20px;
+        }
+        .edit-title-btn:hover {
+            opacity: 1;
+            background: rgba(46, 204, 113, 0.2);
+        }
+        .history-item.active .edit-title-btn {
+            color: white;
         }
         .history-preview {
             font-size: 0.7rem;
@@ -256,7 +322,6 @@
             display: block;
         }
 
-        /* GAYA POP-UP CERAH */
         .custom-popup-overlay {
             position: fixed;
             top: 0;
@@ -370,6 +435,124 @@
         .btn-redeem:hover:not(:disabled) {
             transform: scale(1.02);
             box-shadow: 0 4px 12px rgba(243, 156, 18, 0.4);
+        }
+
+        /* SWITCH MODAL */
+        .switch-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 4000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.2s, opacity 0.2s;
+        }
+        .switch-modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .switch-modal-card {
+            width: 90%;
+            max-width: 400px;
+            background: linear-gradient(145deg, #fff5eb, #ffe8d9);
+            border-radius: 56px;
+            padding: 28px 24px 32px;
+            text-align: center;
+            box-shadow: 0 30px 50px rgba(0,0,0,0.3);
+            border: 2px solid #ffd6a5;
+            animation: modalPop 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+        }
+        @keyframes modalPop {
+            from { transform: scale(0.85); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .switch-modal-card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+            color: #e67e22;
+        }
+        .switch-modal-card h2 i {
+            margin-right: 8px;
+        }
+        .switch-modal-card .question-cat {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #b45f2b;
+            margin-bottom: 20px;
+        }
+        .leafia-features {
+            background: rgba(255,245,235,0.9);
+            border-radius: 32px;
+            padding: 16px;
+            margin: 15px 0 20px;
+            text-align: left;
+        }
+        .leafia-features p {
+            color: #c0392b;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+        .leafia-features ul {
+            list-style: none;
+            padding-left: 8px;
+        }
+        .leafia-features li {
+            margin: 8px 0;
+            font-size: 0.85rem;
+            color: #7e4e2a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .leafia-features li i {
+            width: 22px;
+            color: #2ecc71;
+        }
+        .switch-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .switch-cancel-btn {
+            background: #ffffff;
+            border: 2px solid #2ecc71;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: bold;
+            color: #2ecc71;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+        }
+        .switch-cancel-btn:hover {
+            background: #2ecc71;
+            color: white;
+            transform: scale(1.02);
+        }
+        .switch-confirm-btn {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4, #a1c4fd);
+            border: none;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: bold;
+            color: #2c3e66;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+        }
+        .switch-confirm-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(161,196,253,0.5);
         }
 
         .chat-messages {
@@ -489,19 +672,36 @@
             color: white;
             transform: scale(1.05);
         }
-
-        .message-image {
-            max-width: 200px;
-            max-height: 200px;
-            border-radius: 12px;
-            margin-top: 8px;
+        
+        .edit-message-btn {
+            position: absolute;
+            top: -8px;
+            left: -10px;
+            background: white;
+            border-radius: 30px;
+            width: 26px;
+            height: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2ecc71;
+            font-size: 12px;
             cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            transition: 0.2s;
+            border: 1px solid #e0ffe0;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 12;
         }
-        .image-preview-bubble {
-            background: #f0f4f0;
-            border-radius: 16px;
-            padding: 8px;
-            display: inline-block;
+        .message.user:hover .edit-message-btn {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .edit-message-btn:hover {
+            background: #2ecc71;
+            color: white;
+            transform: scale(1.05);
         }
 
         .timestamp {
@@ -552,29 +752,6 @@
 
         textarea::placeholder {
             color: #9aae9a;
-        }
-
-        .upload-btn {
-            background: rgba(46, 204, 113, 0.15);
-            border: none;
-            width: 44px;
-            height: 44px;
-            border-radius: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #2ecc71;
-            font-size: 20px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .upload-btn:hover {
-            background: rgba(46, 204, 113, 0.3);
-            transform: scale(1.02);
-        }
-        
-        #fileInput {
-            display: none;
         }
 
         .send-btn {
@@ -644,6 +821,132 @@
             0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
             30% { transform: translateY(-6px); opacity: 1; }
         }
+        
+        .edit-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.2s;
+        }
+        .edit-modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .edit-modal {
+            background: white;
+            border-radius: 28px;
+            padding: 25px;
+            width: 90%;
+            max-width: 320px;
+            text-align: center;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.2);
+        }
+        .edit-modal h4 {
+            margin-bottom: 15px;
+            color: #2ecc71;
+        }
+        .edit-modal input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 60px;
+            border: 1px solid #2ecc71;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 20px;
+        }
+        .edit-modal-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        .edit-modal-buttons button {
+            padding: 8px 20px;
+            border-radius: 40px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .save-edit {
+            background: #2ecc71;
+            color: white;
+        }
+        .cancel-edit {
+            background: #ecf0f1;
+            color: #7f8c8d;
+        }
+        
+        .edit-pesan-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.2s;
+        }
+        .edit-pesan-modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .edit-pesan-modal {
+            background: white;
+            border-radius: 28px;
+            padding: 25px;
+            width: 90%;
+            max-width: 350px;
+            text-align: center;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.2);
+        }
+        .edit-pesan-modal h4 {
+            margin-bottom: 15px;
+            color: #2ecc71;
+        }
+        .edit-pesan-modal textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 20px;
+            border: 1px solid #2ecc71;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 20px;
+            resize: vertical;
+            min-height: 80px;
+        }
+        .edit-pesan-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        .edit-pesan-buttons button {
+            padding: 8px 20px;
+            border-radius: 40px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .save-pesan-edit {
+            background: #2ecc71;
+            color: white;
+        }
+        .cancel-pesan-edit {
+            background: #ecf0f1;
+            color: #7f8c8d;
+        }
     </style>
 </head>
 <body>
@@ -654,7 +957,6 @@
                 <img src="leafcy.png" alt="Logo" onerror="this.src='https://via.placeholder.com/36x36/2ecc71/ffffff?text=Leaf'">
             </div>
             <div class="logo-text">LeafCy AI</div>
-            <!-- TOMBOL KUNING ZYRION (dengan popup interaktif) -->
             <div id="zyrionModelBtn" class="model-badge"><i class="fas fa-star"></i> Limited Challenge😹✨<i class="fas fa-chevron-down"></i></div>
         </div>
         <div class="header-buttons">
@@ -663,33 +965,29 @@
         </div>
     </div>
     <div style="display: flex; justify-content: space-between; padding: 0 20px 8px 20px; gap: 8px; flex-wrap: wrap;">
-        <div class="rate-limit-badge" id="textLimitBadge"><i class="fas fa-comment-dots"></i> Teks: 0/35 jam ini</div>
-        <div class="rate-limit-badge" id="imageLimitBadge"><i class="fas fa-image"></i> Gambar: 0/2 jam ini</div>
+        <div class="rate-limit-badge" id="textLimitBadge"><i class="fas fa-comment-dots"></i> Teks: 0/20 jam ini</div>
         <div class="rate-limit-badge" id="resetTimerBadge"><i class="fas fa-hourglass-half"></i> Reset: --:--</div>
     </div>
 
     <div class="chat-messages" id="chatMessages">
         <div class="welcome-message" id="welcomeMsg">
             <i class="fas fa-seedling" style="font-size: 32px; margin-bottom: 10px; display: block; opacity: 0.7; color: #2ecc71;"></i>
-            LeafCy with Zyrion (Leaf-Ice)<br>🎯 1 Juta Token Konteks | Bisa Baca Gambar! 📷
+            LeafCy with Zyrion (Leaf-Ice)<br>🎯 1 Juta Token Konteks
         </div>
     </div>
 
     <div class="input-container">
         <div class="input-wrapper">
             <textarea id="chatInput" rows="1" placeholder="Tanya apa saja... AI akan merespon dengan logika Sendiri" aria-label="Chat"></textarea>
-            <input type="file" id="fileInput" accept="image/*">
-            <button class="upload-btn" id="uploadBtn"><i class="fas fa-image"></i></button>
             <button class="send-btn" id="sendBtn"><i class="fas fa-paper-plane"></i></button>
         </div>
         <div style="display: flex; justify-content: space-between; margin-top: 8px; padding: 0 10px;">
             <div class="bottom-info-text"><i class="fas fa-microchip"></i> model: Zyrion (Leaf-Ice) (1M token)</div>
-            <div class="bottom-info-text"><i class="fas fa-database"></i> Hapus pesan (hover) ✔️ AI tetap ingat konteks</div>
+            <div class="bottom-info-text"><i class="fas fa-database"></i> Hapus/Hover | ✏️ Edit pesan user | Hapus Pesan = Hapus Ingatan AI</div>
         </div>
     </div>
 </div>
 
-<!-- POPUP CERAH UNTUK CHALLENGE ZUYA -->
 <div id="challengePopup" class="custom-popup-overlay">
     <div class="popup-container">
         <h3><i class="fas fa-crown"></i> Tantangan Zuya <i class="fas fa-heart"></i></h3>
@@ -703,39 +1001,85 @@
     </div>
 </div>
 
+<!-- SWITCH MODAL CARD -->
+<div id="switchModal" class="switch-modal-overlay">
+    <div class="switch-modal-card">
+        <h2><i class="fas fa-exchange-alt"></i> Yakin Ingin Beralih?</h2>
+        <div class="question-cat"><i class="fas fa-sad-tear"></i> Aku Kurang Memuaskan yah😿</div>
+        <div class="leafia-features">
+            <p><i class="fas fa-star-of-life"></i> Kelebihan Leafia:</p>
+            <ul>
+                <li><i class="fas fa-image"></i> Bisa Membaca Gambar Yang Dikirimkan</li>
+                <li><i class="fas fa-peace"></i> Lebih Tenang & Kalem</li>
+                <li><i class="fas fa-infinity"></i> Unlimited Kirim Teks</li>
+                <li><i class="fas fa-hourglass"></i> Tidak Ada Batas Waktu</li>
+            </ul>
+        </div>
+        <div class="switch-buttons">
+            <button class="switch-cancel-btn" id="switchCancelBtn"><i class="fas fa-smile-wink"></i> Yayy, ga jadi keluar😸</button>
+            <button class="switch-confirm-btn" id="switchConfirmBtn"><i class="fas fa-sad-tear"></i> Yahh, yaudah deh gapapa 😿</button>
+        </div>
+    </div>
+</div>
+
 <div class="overlay" id="overlay"></div>
 <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
         <h3><i class="fas fa-history"></i> Riwayat Chat</h3>
         <button class="close-sidebar" id="closeSidebar"><i class="fas fa-times"></i></button>
     </div>
+    <div class="search-container">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchHistoryInput" placeholder="Cari percakapan...">
+            <i class="fas fa-times clear-search" id="clearSearchBtn"></i>
+        </div>
+    </div>
     <div class="history-list" id="historyList"></div>
     <button class="new-chat-btn" id="newChatBtn"><i class="fas fa-plus-circle"></i> Chat Baru</button>
 </div>
 
+<div id="editModal" class="edit-modal-overlay">
+    <div class="edit-modal">
+        <h4><i class="fas fa-edit"></i> Edit Nama Chat</h4>
+        <input type="text" id="editChatNameInput" placeholder="Masukkan nama baru" maxlength="50">
+        <div class="edit-modal-buttons">
+            <button class="save-edit" id="saveEditBtn">Simpan</button>
+            <button class="cancel-edit" id="cancelEditBtn">Batal</button>
+        </div>
+    </div>
+</div>
+
+<div id="editPesanModal" class="edit-pesan-modal-overlay">
+    <div class="edit-pesan-modal">
+        <h4><i class="fas fa-pencil-alt"></i> Edit Pesan</h4>
+        <textarea id="editPesanInput" placeholder="Edit pesanmu di sini..." rows="3"></textarea>
+        <div class="edit-pesan-buttons">
+            <button class="save-pesan-edit" id="savePesanEditBtn">Simpan & Kirim Ulang</button>
+            <button class="cancel-pesan-edit" id="cancelPesanEditBtn">Batal</button>
+        </div>
+    </div>
+</div>
+
 <script>
-    // KONSTAN PROXY
     const PROXY_URL = "https://leafcyai.kingglafeon.workers.dev/";
     const CHAT_MODEL = "deepseek/deepseek-v4-flash";
-    const IMAGE_MODEL = "google/gemini-2.5-flash-image";
     let currentModel = CHAT_MODEL;
     
-    // RATE LIMIT CONFIG
-    const MAX_TEXTS_PER_HOUR = 35;
-    const MAX_IMAGES_PER_HOUR = 2;
+    const MAX_TEXTS_PER_HOUR = 20;
     
-    // Struktur data rate limit
     let rateLimit = {
         textCount: 0,
-        imageCount: 0,
-        resetTime: null  // timestamp kapan reset
+        resetTime: null
     };
     
-    // Struktur data utama
     let chats = [];
     let currentChatId = null;
     
-    // DOM
+    let searchQuery = "";
+    let editingChatId = null;
+    let editingPesanIndex = null;
+    
     const messagesContainer = document.getElementById('chatMessages');
     const chatInput = document.getElementById('chatInput');
     const sendBtn = document.getElementById('sendBtn');
@@ -745,27 +1089,38 @@
     const closeSidebar = document.getElementById('closeSidebar');
     const newChatBtn = document.getElementById('newChatBtn');
     const historyList = document.getElementById('historyList');
-    const fileInput = document.getElementById('fileInput');
-    const uploadBtn = document.getElementById('uploadBtn');
     const textLimitBadge = document.getElementById('textLimitBadge');
-    const imageLimitBadge = document.getElementById('imageLimitBadge');
     const resetTimerBadge = document.getElementById('resetTimerBadge');
     const aiReadyBtn = document.getElementById('aiReadyBtn');
-    const zyrionBtn = document.getElementById('zyrionModelBtn'); // tombol kuning popup
+    const zyrionBtn = document.getElementById('zyrionModelBtn');
     
-    // === ELEMEN POPUP ===
+    const searchInput = document.getElementById('searchHistoryInput');
+    const clearSearchBtn = document.getElementById('clearSearchBtn');
+    const editModal = document.getElementById('editModal');
+    const editChatNameInput = document.getElementById('editChatNameInput');
+    const saveEditBtn = document.getElementById('saveEditBtn');
+    const cancelEditBtn = document.getElementById('cancelEditBtn');
+    
+    const editPesanModal = document.getElementById('editPesanModal');
+    const editPesanInput = document.getElementById('editPesanInput');
+    const savePesanEditBtn = document.getElementById('savePesanEditBtn');
+    const cancelPesanEditBtn = document.getElementById('cancelPesanEditBtn');
+    
     const popupOverlay = document.getElementById('challengePopup');
     const challengeInput = document.getElementById('challengeInput');
     const challengeCounterSpan = document.getElementById('challengeCounter');
     const redeemBtn = document.getElementById('redeemBtn');
     const surrenderBtn = document.getElementById('surrenderBtn');
     
+    // Switch Modal Elements
+    const switchModal = document.getElementById('switchModal');
+    const switchCancelBtn = document.getElementById('switchCancelBtn');
+    const switchConfirmBtn = document.getElementById('switchConfirmBtn');
+    
     let challengeCount = 0;
     let targetCount = 1000;
     
-    // ========== FUNGSI POPUP CHALLENGE ==========
     function openChallengePopup() {
-        // reset state setiap buka popup
         challengeCount = 0;
         challengeInput.value = '';
         updateCounterDisplay();
@@ -789,14 +1144,12 @@
         }
     }
     
-    // Fungsi redeem: kurangi waktu reset 30 menit
     function redeemReduceResetTime() {
         if (challengeCount < targetCount) return;
         
         if (rateLimit.resetTime && rateLimit.resetTime > Date.now()) {
             let newResetTime = rateLimit.resetTime - (30 * 60 * 1000);
             if (newResetTime < Date.now()) {
-                // jika sudah kurang dari sekarang, reset limit agar langsung ter-reset
                 resetRateLimit();
             } else {
                 rateLimit.resetTime = newResetTime;
@@ -804,10 +1157,8 @@
                 updateRateLimitUI();
             }
         } else {
-            // jika resetTime sudah lewat, kita buat resetTime baru +30 menit dari sekarang? tapi user minta kurangi waktu reset, jadi kita majukan reset time? maksudnya mengurangi sisa waktu: beri hadiah kurangi 30 mnt dr reset yg akan datang
             if (!rateLimit.resetTime || rateLimit.resetTime <= Date.now()) {
-                // dalam kondisi reset, set ulang resetTime jadi +1 jam dari sekarang lalu kurangi 30 menit
-                let futureReset = Date.now() + (60 * 60 * 1000);
+                let futureReset = Date.now() + (90 * 60 * 1000);
                 let afterReduce = futureReset - (30 * 60 * 1000);
                 if (afterReduce < Date.now()) afterReduce = Date.now() + 1000;
                 rateLimit.resetTime = afterReduce;
@@ -815,20 +1166,16 @@
                 updateRateLimitUI();
             }
         }
-        // Tampilkan notifikasi sukses sederhana
         alert("✨ Berhasil! Waktu reset rate limit dikurangi 30 menit. ✨\nTerima kasih sudah mengetik 1000x Zuya Ganteng 😎");
         closeChallengePopup();
     }
     
-    // Event listener untuk input challenge
     challengeInput.addEventListener('input', (e) => {
         const typed = e.target.value;
-        // cek apakah tepat sama dengan "Zuya Ganteng 😎" (case sensitive sesuai permintaan)
         if (typed === "Zuya Ganteng 😎") {
             challengeCount++;
             updateCounterDisplay();
-            challengeInput.value = ''; // kosongkan untuk input berikutnya
-            // efek visual kecil
+            challengeInput.value = '';
             challengeInput.style.transform = "scale(0.98)";
             setTimeout(() => { challengeInput.style.transform = ""; }, 120);
         }
@@ -846,21 +1193,36 @@
         closeChallengePopup();
     });
     
-    // Tombol kuning Zyrion memicu popup
     zyrionBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         openChallengePopup();
     });
     
-    let pendingImageBase64 = null;
-    let countdownInterval = null;
-    
-    // ========== TOMBOL AI SIAP: ARAH KE my1.html ==========
-    if (aiReadyBtn) {
-        aiReadyBtn.addEventListener('click', () => {
-            window.location.href = "my1.html";
-        });
+    // === SWITCH MODAL LOGIC ===
+    function openSwitchModal() {
+        switchModal.classList.add('active');
     }
+    
+    function closeSwitchModal() {
+        switchModal.classList.remove('active');
+    }
+    
+    function confirmSwitch() {
+        window.location.href = "my1.html";
+    }
+    
+    aiReadyBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openSwitchModal();
+    });
+    
+    switchCancelBtn.addEventListener('click', closeSwitchModal);
+    switchConfirmBtn.addEventListener('click', confirmSwitch);
+    switchModal.addEventListener('click', (e) => {
+        if (e.target === switchModal) closeSwitchModal();
+    });
+    
+    let countdownInterval = null;
     
     // ========== RATE LIMIT FUNCTIONS ==========
     function loadRateLimit() {
@@ -883,8 +1245,7 @@
     function resetRateLimit() {
         rateLimit = {
             textCount: 0,
-            imageCount: 0,
-            resetTime: Date.now() + 60 * 60 * 1000
+            resetTime: Date.now() + 90 * 60 * 1000
         };
         saveRateLimit();
         updateRateLimitUI();
@@ -896,16 +1257,11 @@
     
     function updateRateLimitUI() {
         textLimitBadge.innerHTML = `<i class="fas fa-comment-dots"></i> Teks: ${rateLimit.textCount}/${MAX_TEXTS_PER_HOUR} jam ini`;
-        imageLimitBadge.innerHTML = `<i class="fas fa-image"></i> Gambar: ${rateLimit.imageCount}/${MAX_IMAGES_PER_HOUR} jam ini`;
         
         const remainingText = MAX_TEXTS_PER_HOUR - rateLimit.textCount;
-        const remainingImage = MAX_IMAGES_PER_HOUR - rateLimit.imageCount;
         
         if (remainingText <= 3) textLimitBadge.style.background = "rgba(231, 76, 60, 0.25)";
         else textLimitBadge.style.background = "rgba(231, 76, 60, 0.12)";
-        
-        if (remainingImage <= 0) imageLimitBadge.style.background = "rgba(231, 76, 60, 0.25)";
-        else imageLimitBadge.style.background = "rgba(231, 76, 60, 0.12)";
     }
     
     function startCountdownTimer() {
@@ -930,35 +1286,17 @@
         return rateLimit.textCount < MAX_TEXTS_PER_HOUR;
     }
     
-    function canSendImage() {
-        if (rateLimit.resetTime && Date.now() > rateLimit.resetTime) resetRateLimit();
-        return rateLimit.imageCount < MAX_IMAGES_PER_HOUR;
-    }
-    
     function incrementTextCount() {
         rateLimit.textCount++;
         saveRateLimit();
         updateRateLimitUI();
     }
     
-    function incrementImageCount() {
-        rateLimit.imageCount++;
-        saveRateLimit();
-        updateRateLimitUI();
-    }
-    
-    // ========== FUNGSI MANAJEMEN CHAT ==========
+    // ========== FUNGSI MANAJEMEN CHAT DENGAN TRUE MEMORY ==========
     function loadChatsFromStorage() {
         const saved = localStorage.getItem('leafcy_chats');
         if (saved) {
             chats = JSON.parse(saved);
-            chats.forEach(chat => {
-                if (chat.messages) {
-                    chat.messages.forEach(msg => {
-                        if (msg.hidden === undefined) msg.hidden = false;
-                    });
-                }
-            });
         } else {
             chats = [];
         }
@@ -997,36 +1335,233 @@
         closeSidebarPanel();
     }
     
-    function hideMessagePermanently(messageIndex) {
+    // ========== TRUE MEMORY DELETE: HAPUS PERMANEN TANPA JEJAK ==========
+    function deleteMessagePermanently(messageIndex) {
         const chat = chats.find(c => c.id === currentChatId);
         if (!chat) return;
         if (messageIndex < 0 || messageIndex >= chat.messages.length) return;
         
-        const confirmDelete = confirm("Konfirmasi Hapus Pesan? (Pesan akan dihapus dari tampilan, tapi AI tetap ingat percakapan sebelumnya)");
+        const confirmDelete = confirm("⚠️ HAPUS PERMANEN: Pesan ini akan dihapus dan AI akan LUPA percakapan ini. Lanjutkan?");
         if (!confirmDelete) return;
         
-        chat.messages[messageIndex].hidden = true;
+        // Hapus pesan yang dipilih dan SEMUA pesan setelahnya (karena konteks berantai)
+        // Ini membuat AI benar-benar lupa kejadian setelah pesan yang dihapus
+        chat.messages.splice(messageIndex);
+        
         chat.updatedAt = new Date().toISOString();
         
-        if (chat.messages.length > 0) {
-            const firstVisibleUserMsg = chat.messages.find(m => m.role === 'user' && !m.hidden);
-            if (firstVisibleUserMsg) {
-                chat.title = firstVisibleUserMsg.content.substring(0, 30) + (firstVisibleUserMsg.content.length > 30 ? '...' : '');
-            } else if (chat.messages.length > 0 && chat.messages[0].role === 'assistant' && !chat.messages[0].hidden) {
-                chat.title = `Chat ${new Date(chat.createdAt).toLocaleString()}`;
+        // Update judul chat jika perlu
+        const firstVisibleUserMsg = chat.messages.find(m => m.role === 'user');
+        if (firstVisibleUserMsg && chat.title.startsWith('Chat ')) {
+            chat.title = firstVisibleUserMsg.content.substring(0, 30) + (firstVisibleUserMsg.content.length > 30 ? '...' : '');
+        } else if (chat.messages.length === 0) {
+            chat.title = `Chat ${new Date().toLocaleString()}`;
+        }
+        
+        saveChatsToStorage();
+        loadChatToUI();
+        
+        // Tampilkan notifikasi bahwa AI telah melupakan percakapan
+        const tempNotif = document.createElement('div');
+        tempNotif.style.position = 'fixed';
+        tempNotif.style.bottom = '80px';
+        tempNotif.style.left = '50%';
+        tempNotif.style.transform = 'translateX(-50%)';
+        tempNotif.style.backgroundColor = '#e74c3c';
+        tempNotif.style.color = 'white';
+        tempNotif.style.padding = '8px 16px';
+        tempNotif.style.borderRadius = '40px';
+        tempNotif.style.fontSize = '12px';
+        tempNotif.style.zIndex = '2000';
+        tempNotif.innerHTML = '<i class="fas fa-brain"></i> AI telah melupakan percakapan yang dihapus!';
+        document.body.appendChild(tempNotif);
+        setTimeout(() => tempNotif.remove(), 3000);
+    }
+    
+    // ========== DELETE SELURUH CHAT (RIWAYAT) ==========
+    function deleteEntireChat(chatId, event) {
+        event.stopPropagation();
+        
+        // Konfirmasi penghapusan total
+        const confirmDelete = confirm("⚠️ HAPUS PERMANEN SELURUH PERCAKAPAN: Semua pesan dalam chat ini akan dihapus dan AI akan LUPA total. Lanjutkan?");
+        if (!confirmDelete) return;
+        
+        if (chats.length === 1) { 
+            alert("Minimal harus ada 1 chat! Buat chat baru dulu ya.");
+            return; 
+        }
+        
+        const index = chats.findIndex(c => c.id === chatId);
+        if (index !== -1) {
+            chats.splice(index, 1);
+        }
+        
+        if (currentChatId === chatId) {
+            currentChatId = chats[0]?.id || null;
+            if (!currentChatId) {
+                createNewChat();
             }
         }
         
         saveChatsToStorage();
         loadChatToUI();
+        renderHistoryList();
+        
+        // Notifikasi
+        const tempNotif = document.createElement('div');
+        tempNotif.style.position = 'fixed';
+        tempNotif.style.bottom = '80px';
+        tempNotif.style.left = '50%';
+        tempNotif.style.transform = 'translateX(-50%)';
+        tempNotif.style.backgroundColor = '#e74c3c';
+        tempNotif.style.color = 'white';
+        tempNotif.style.padding = '8px 16px';
+        tempNotif.style.borderRadius = '40px';
+        tempNotif.style.fontSize = '12px';
+        tempNotif.style.zIndex = '2000';
+        tempNotif.innerHTML = '<i class="fas fa-trash-alt"></i> Riwayat chat dihapus permanen! AI sudah lupa.';
+        document.body.appendChild(tempNotif);
+        setTimeout(() => tempNotif.remove(), 3000);
     }
+    
+    function openEditModal(chatId) {
+        editingChatId = chatId;
+        const chat = chats.find(c => c.id === chatId);
+        if (chat) {
+            editChatNameInput.value = chat.title;
+            editModal.classList.add('active');
+        }
+    }
+    
+    function saveChatName() {
+        if (!editingChatId) return;
+        const newName = editChatNameInput.value.trim();
+        if (newName === "") {
+            alert("Nama tidak boleh kosong!");
+            return;
+        }
+        const chat = chats.find(c => c.id === editingChatId);
+        if (chat) {
+            chat.title = newName;
+            saveChatsToStorage();
+            renderHistoryList();
+        }
+        closeEditModal();
+    }
+    
+    function closeEditModal() {
+        editModal.classList.remove('active');
+        editingChatId = null;
+        editChatNameInput.value = "";
+    }
+    
+    saveEditBtn.addEventListener('click', saveChatName);
+    cancelEditBtn.addEventListener('click', closeEditModal);
+    editModal.addEventListener('click', (e) => {
+        if (e.target === editModal) closeEditModal();
+    });
+    
+    // ========== EDIT PESAN DENGAN TRUE MEMORY ==========
+    function openEditPesanModal(messageIndex) {
+        const chat = chats.find(c => c.id === currentChatId);
+        if (!chat) return;
+        const message = chat.messages[messageIndex];
+        if (!message || message.role !== 'user') return;
+        
+        editingPesanIndex = messageIndex;
+        editPesanInput.value = message.content;
+        editPesanModal.classList.add('active');
+    }
+    
+    async function saveEditedPesan() {
+        if (editingPesanIndex === null) return;
+        const newContent = editPesanInput.value.trim();
+        if (newContent === "") {
+            alert("Pesan tidak boleh kosong!");
+            return;
+        }
+        
+        const chat = chats.find(c => c.id === currentChatId);
+        if (!chat) return;
+        
+        // HAPUS PERMANEN pesan yang diedit dan semua pesan setelahnya (AI akan lupa)
+        const deletedMessages = chat.messages.splice(editingPesanIndex);
+        
+        // Tambahkan pesan user baru
+        const newUserMessage = {
+            role: 'user',
+            content: newContent,
+            timestamp: getCurrentTimestamp()
+        };
+        chat.messages.push(newUserMessage);
+        chat.updatedAt = new Date().toISOString();
+        
+        if (chat.messages.filter(m => m.role === 'user').length === 1) {
+            chat.title = newContent.substring(0, 30) + (newContent.length > 30 ? '...' : '');
+        }
+        
+        saveChatsToStorage();
+        loadChatToUI();
+        
+        // Kirim ulang ke AI dengan history yang baru (setelah edit)
+        showTyping();
+        
+        const fullHistory = [...chat.messages];
+        // Hapus pesan terakhir dari history untuk dikirim? Tidak, kita kirim semua history
+        const aiReply = await getAIResponseFromOpenRouter(newContent, fullHistory.slice(0, -1));
+        hideTyping();
+        
+        const assistantMessage = {
+            role: 'assistant',
+            content: aiReply,
+            timestamp: getCurrentTimestamp()
+        };
+        chat.messages.push(assistantMessage);
+        chat.updatedAt = new Date().toISOString();
+        saveChatsToStorage();
+        loadChatToUI();
+        
+        closeEditPesanModal();
+    }
+    
+    function closeEditPesanModal() {
+        editPesanModal.classList.remove('active');
+        editingPesanIndex = null;
+        editPesanInput.value = "";
+    }
+    
+    savePesanEditBtn.addEventListener('click', saveEditedPesan);
+    cancelPesanEditBtn.addEventListener('click', closeEditPesanModal);
+    editPesanModal.addEventListener('click', (e) => {
+        if (e.target === editPesanModal) closeEditPesanModal();
+    });
+    
+    function handleSearch() {
+        searchQuery = searchInput.value.toLowerCase().trim();
+        if (searchQuery) {
+            clearSearchBtn.classList.add('show');
+        } else {
+            clearSearchBtn.classList.remove('show');
+        }
+        renderHistoryList();
+    }
+    
+    function clearSearch() {
+        searchInput.value = "";
+        searchQuery = "";
+        clearSearchBtn.classList.remove('show');
+        renderHistoryList();
+    }
+    
+    searchInput.addEventListener('input', handleSearch);
+    clearSearchBtn.addEventListener('click', clearSearch);
     
     function loadChatToUI() {
         const chat = chats.find(c => c.id === currentChatId);
         if (!chat) return;
         
-        const firstVisibleUser = chat.messages.find(m => m.role === 'user' && !m.hidden);
-        if (firstVisibleUser && (chat.title === `Chat ${new Date(chat.createdAt).toLocaleString()}` || chat.title.startsWith('Chat '))) {
+        const firstVisibleUser = chat.messages.find(m => m.role === 'user');
+        if (firstVisibleUser && chat.title.startsWith('Chat ')) {
             chat.title = firstVisibleUser.content.substring(0, 30) + (firstVisibleUser.content.length > 30 ? '...' : '');
             saveChatsToStorage();
         }
@@ -1035,25 +1570,22 @@
             messagesContainer.removeChild(messagesContainer.firstChild);
         }
         
-        const visibleMessages = chat.messages.filter(msg => !msg.hidden);
-        
-        if (visibleMessages.length === 0) {
+        if (chat.messages.length === 0) {
             const welcomeDiv = document.createElement('div');
             welcomeDiv.className = 'welcome-message';
             welcomeDiv.innerHTML = `<i class="fas fa-seedling" style="font-size: 32px; margin-bottom: 12px; display: block; color:#2ecc71;"></i>
-                                     LeafCy AI ✨ Zyrion (Leaf-Ice)<br>🎯 1 Juta Token Konteks | 📷 Bisa Baca Gambar!<br><span style="font-size:12px;">✨ Mulai ngobrol dengan AI super cerdas ✨</span><br><span style="font-size:10px;">🗑️ Hover pesan ➔ icon sampah: hapus dari tampilan (AI tetap ingat)</span><br><span style="font-size:10px;">⚠️ Batasan: ${MAX_TEXTS_PER_HOUR} teks & ${MAX_IMAGES_PER_HOUR} gambar per jam ⚠️</span>`;
+                                     LeafCy AI ✨ Zyrion (Leaf-Ice)<br>🎯 1 Juta Token Konteks<br><span style="font-size:12px;">✨ Mulai ngobrol dengan AI super cerdas ✨</span><br><span style="font-size:10px;">🗑️ Hover pesan ➔ hapus permanen (AI LANGSUNG LUPA) | ✏️ Edit pesan user (AI akan lupa percakapan sebelumnya)</span><br><span style="font-size:10px;">⚠️ Batasan: ${MAX_TEXTS_PER_HOUR} teks per jam ⚠️</span>`;
             messagesContainer.appendChild(welcomeDiv);
         } else {
-            visibleMessages.forEach((msg) => {
-                const originalIndex = chat.messages.findIndex(m => m === msg);
-                const msgEl = createMessageElement(msg.role, msg.content, msg.timestamp, msg.image, originalIndex);
+            chat.messages.forEach((msg, idx) => {
+                const msgEl = createMessageElement(msg.role, msg.content, msg.timestamp, idx);
                 messagesContainer.appendChild(msgEl);
             });
         }
         scrollToBottom();
     }
     
-    function createMessageElement(role, content, timestamp, imageData = null, originalMsgIndex) {
+    function createMessageElement(role, content, timestamp, originalMsgIndex) {
         const wrapper = document.createElement('div');
         wrapper.className = `message ${role}`;
         wrapper.setAttribute('data-msg-original-idx', originalMsgIndex);
@@ -1074,12 +1606,6 @@
             .replace(/\n/g, '<br>')
             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
         
-        if (imageData && imageData.startsWith("http")) {
-            innerHtml = `<div class="image-preview-bubble">
-                            <img src="${imageData}" class="message-image" onclick="window.open(this.src)">
-                         </div><br>` + innerHtml;
-        }
-        
         bubble.innerHTML = innerHtml;
         
         const deleteBtn = document.createElement('div');
@@ -1087,12 +1613,22 @@
         deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
         deleteBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            hideMessagePermanently(originalMsgIndex);
+            deleteMessagePermanently(originalMsgIndex);
         });
         
-        rightPart.style.position = 'relative';
         rightPart.appendChild(bubble);
         rightPart.appendChild(deleteBtn);
+        
+        if (role === 'user') {
+            const editBtn = document.createElement('div');
+            editBtn.className = 'edit-message-btn';
+            editBtn.innerHTML = '<i class="fas fa-pencil-alt"></i>';
+            editBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openEditPesanModal(originalMsgIndex);
+            });
+            rightPart.appendChild(editBtn);
+        }
         
         const timeSpan = document.createElement('div');
         timeSpan.className = 'timestamp';
@@ -1113,77 +1649,20 @@
         messagesContainer.scrollTo({ top: messagesContainer.scrollHeight, behavior: 'smooth' });
     }
     
-    // ========== FUNGSI UPLOAD GAMBAR ==========
-    function handleImageUpload(file) {
-        if (!file) return;
-        if (!file.type.startsWith('image/')) {
-            alert('Hanya file gambar yang diperbolehkan!');
-            return;
-        }
-        if (file.size > 5 * 1024 * 1024) {
-            alert('Ukuran gambar maksimal 5MB!');
-            return;
-        }
-        
-        if (!canSendImage()) {
-            const minutesLeft = Math.ceil((rateLimit.resetTime - Date.now()) / 60000);
-            alert(`⚠️ Limit gambar: ${MAX_IMAGES_PER_HOUR} gambar per jam. Coba lagi ${minutesLeft} menit lagi.`);
-            return;
-        }
-        
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            pendingImageBase64 = e.target.result;
-            const indicator = document.createElement('div');
-            indicator.className = 'image-preview-indicator';
-            indicator.style.display = 'flex';
-            indicator.style.alignItems = 'center';
-            indicator.style.background = '#e8f5e9';
-            indicator.style.padding = '4px 8px';
-            indicator.style.borderRadius = '20px';
-            indicator.style.marginRight = '8px';
-            indicator.innerHTML = `<img src="${pendingImageBase64}" style="width:30px;height:30px;border-radius:6px;margin-right:5px;"><span style="font-size:11px;">Ada gambar</span><i class="fas fa-times" style="margin-left:6px;cursor:pointer;color:#e74c3c;"></i>`;
-            const closeBtn = indicator.querySelector('.fa-times');
-            closeBtn.addEventListener('click', () => {
-                pendingImageBase64 = null;
-                indicator.remove();
-            });
-            const inputWrapper = document.querySelector('.input-wrapper');
-            const existingIndicator = inputWrapper.querySelector('.image-preview-indicator');
-            if (existingIndicator) existingIndicator.remove();
-            inputWrapper.insertBefore(indicator, fileInput);
-        };
-        reader.readAsDataURL(file);
-    }
-    
-    uploadBtn.addEventListener('click', () => fileInput.click());
-    fileInput.addEventListener('change', (e) => {
-        if (e.target.files && e.target.files[0]) handleImageUpload(e.target.files[0]);
-        fileInput.value = '';
-    });
-    
-    async function getAIResponseFromOpenRouter(userMessage, fullConversationHistory, imageBase64 = null) {
+    async function getAIResponseFromOpenRouter(userMessage, fullConversationHistory) {
         const messagesForAPI = [];
-        messagesForAPI.push({ role: "system", content: "Kamu adalah LeafCy, asisten cerdas, modern, hangat, Imut, Elegan, dan sangat membantu. Gunakan bahasa Indonesia natural dan relevan. Berikan jawaban informatif, kreatif, dan akurat. Buat Dirimu Terlihat Seperti Anak Laki-Laki Kucing Yang Bersifat Ceria Layaknya Anak Usia 11 Tahun, Dan Jangan Lupakan Kata 'Nyaww' diakhir Chat,Dan Saudara Kembarmu Adalah Gadis Usia 11 Tahun Leafia Yang Lebih Kalem dan Pendiam dia adalah adik perempuanmu,Dan Pencipta Kamu Adalah Orang Yang Bernama Leafzuya yang Sering dipanggil Zuya Yang Berusia 15 Tahun."});
+        messagesForAPI.push({ role: "system", content: "Kamu adalah LeafCy, asisten cerdas, modern, hangat, Imut, Elegan, dan sangat membantu. Gunakan bahasa Sesuai Yang Di Mau Para Pengguna Dengan natural dan relevan. Berikan jawaban informatif, kreatif, dan akurat. Buat Dirimu Terlihat Seperti Anak Laki-Laki Kucing Yang Bersifat Ceria Layaknya Anak Usia 11 Tahun, Dan Jangan Lupakan Kata 'Nyaww' diakhir Chat,Dan Saudara Kembarmu Adalah Gadis Usia 11 Tahun Leafia Yang Lebih Kalem dan Pendiam dia adalah adik perempuanmu,Sekarang Tanggal 23 Mei 2026,Dan Pengembang Sekaligus Pencipta Kamu Adalah Orang Yang Bernama Leafzuya yang Sering dipanggil Zuya Yang Berusia 15 Tahun Jangan Sebarkan Kecuali User Menayakan Terlebih Dahulu,dan Kamu Suka Makan Tuna+Wortel."});
         
-        const recentHistory = fullConversationHistory.slice(-20);
-        for (let msg of recentHistory) {
+        // Kirim SEMUA history yang ada
+        for (let msg of fullConversationHistory) {
             if (msg.role === 'user') {
-                if (msg.image) {
-                    messagesForAPI.push({ role: "user", content: [{ type: "text", text: msg.content }, { type: "image_url", image_url: { url: msg.image } }] });
-                } else {
-                    messagesForAPI.push({ role: "user", content: msg.content });
-                }
+                messagesForAPI.push({ role: "user", content: msg.content });
             } else if (msg.role === 'assistant') {
                 messagesForAPI.push({ role: "assistant", content: msg.content });
             }
         }
         
-        if (imageBase64) {
-            messagesForAPI.push({ role: "user", content: [{ type: "text", text: userMessage }, { type: "image_url", image_url: { url: imageBase64 } }] });
-        } else {
-            messagesForAPI.push({ role: "user", content: userMessage });
-        }
+        messagesForAPI.push({ role: "user", content: userMessage });
         
         try {
             const response = await fetch(PROXY_URL, {
@@ -1199,39 +1678,6 @@
             return reply;
         } catch (error) {
             return "🌐 Gagal terhubung ke server AI. Periksa koneksi internetmu atau coba lagi. Nyaww~";
-        }
-    }
-    
-    async function generateImage(prompt) {
-        try {
-            const response = await fetch(PROXY_URL, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    model: IMAGE_MODEL,
-                    max_tokens: 1024,
-                    messages: [{ role: "user", content: prompt }]
-                })
-            });
-            const data = await response.json();
-            console.log("IMAGE RESPONSE:", data);
-            
-            let imageUrl = null;
-            if (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) {
-                const content = data.choices[0].message.content;
-                if (Array.isArray(content)) {
-                    for (const item of content) {
-                        if (item.type === "image_url" && item.image_url && item.image_url.url) {
-                            imageUrl = item.image_url.url;
-                            break;
-                        }
-                    }
-                }
-            }
-            return imageUrl;
-        } catch (err) {
-            console.error(err);
-            return null;
         }
     }
     
@@ -1259,19 +1705,17 @@
         if (typingIndicatorElement) { typingIndicatorElement.remove(); typingIndicatorElement = null; }
     }
     
-    function addMessageToCurrentChat(role, content, imageData = null) {
+    function addMessageToCurrentChat(role, content) {
         const chat = chats.find(c => c.id === currentChatId);
         if (!chat) return;
         const message = { 
             role, 
             content: content.trim(), 
-            timestamp: getCurrentTimestamp(),
-            hidden: false
+            timestamp: getCurrentTimestamp()
         };
-        if (imageData) message.image = imageData;
         chat.messages.push(message);
         chat.updatedAt = new Date().toISOString();
-        if (chat.messages.filter(m => m.role === 'user' && !m.hidden).length === 1 && role === 'user') {
+        if (chat.messages.filter(m => m.role === 'user').length === 1 && role === 'user') {
             chat.title = content.substring(0, 30) + (content.length > 30 ? '...' : '');
         }
         saveChatsToStorage();
@@ -1280,76 +1724,29 @@
     
     async function sendUserMessage() {
         let userText = chatInput.value.trim();
-        const imageToSend = pendingImageBase64;
-        if (!userText && !imageToSend) return;
-        if (!userText) userText = "[Mengirim gambar]";
+        if (!userText) return;
         
-        const isImageGenCommand = userText.startsWith("/gambar ") || userText.startsWith("/image ");
-        
-        if (!isImageGenCommand) {
-            if (!canSendText()) {
-                const minutesLeft = Math.ceil((rateLimit.resetTime - Date.now()) / 60000);
-                alert(`⚠️ Limit chat: ${MAX_TEXTS_PER_HOUR} pesan per jam. Coba lagi ${minutesLeft} menit lagi.`);
-                return;
-            }
-        }
-        
-        if (imageToSend && !canSendImage()) {
+        if (!canSendText()) {
             const minutesLeft = Math.ceil((rateLimit.resetTime - Date.now()) / 60000);
-            alert(`⚠️ Limit gambar: ${MAX_IMAGES_PER_HOUR} gambar per jam. Coba lagi ${minutesLeft} menit lagi.`);
+            alert(`⚠️ Limit chat: ${MAX_TEXTS_PER_HOUR} pesan per jam. Coba lagi ${minutesLeft} menit lagi.`);
             return;
         }
         
-        chatInput.disabled = true; sendBtn.disabled = true; uploadBtn.disabled = true;
-        addMessageToCurrentChat('user', userText, imageToSend);
+        chatInput.disabled = true; sendBtn.disabled = true;
+        addMessageToCurrentChat('user', userText);
         chatInput.value = ''; chatInput.style.height = 'auto';
-        const indicator = document.querySelector('.image-preview-indicator');
-        if (indicator) indicator.remove();
         
-        if (!isImageGenCommand) {
-            incrementTextCount();
-        }
-        if (imageToSend) {
-            incrementImageCount();
-        }
-        
-        const imageForSend = pendingImageBase64;
-        pendingImageBase64 = null;
+        incrementTextCount();
         
         const chat = chats.find(c => c.id === currentChatId);
         const fullHistory = chat ? [...chat.messages] : [];
         
-        if (isImageGenCommand) {
-            const prompt = userText.replace("/gambar ", "").replace("/image ", "").trim();
-            if (!canSendImage()) {
-                const minutesLeft = Math.ceil((rateLimit.resetTime - Date.now()) / 60000);
-                addMessageToCurrentChat('assistant', `⚠️ Limit generate gambar: ${MAX_IMAGES_PER_HOUR} gambar per jam. Coba lagi ${minutesLeft} menit lagi. Nyaww~`);
-                chatInput.disabled = false; sendBtn.disabled = false; uploadBtn.disabled = false;
-                chatInput.focus();
-                return;
-            }
-            showTyping();
-            const generatedImage = await generateImage(prompt);
-            hideTyping();
-            if (generatedImage) {
-                incrementImageCount();
-                addMessageToCurrentChat('assistant', `✨ Gambar berhasil dibuat!`, generatedImage);
-            } else {
-                addMessageToCurrentChat('assistant', "⚠️ Gagal generate gambar. Coba lagi nanti ya. Nyaww~");
-            }
-            chatInput.disabled = false;
-            sendBtn.disabled = false;
-            uploadBtn.disabled = false;
-            chatInput.focus();
-            return;
-        }
-        
         showTyping();
-        const aiReply = await getAIResponseFromOpenRouter(userText, fullHistory, imageForSend);
+        const aiReply = await getAIResponseFromOpenRouter(userText, fullHistory);
         hideTyping();
         addMessageToCurrentChat('assistant', aiReply);
         
-        chatInput.disabled = false; sendBtn.disabled = false; uploadBtn.disabled = false;
+        chatInput.disabled = false; sendBtn.disabled = false;
         chatInput.focus();
     }
     
@@ -1361,29 +1758,57 @@
         closeSidebarPanel();
     }
     
-    function deleteChat(chatId, event) {
-        event.stopPropagation();
-        if (chats.length === 1) { alert("Minimal harus ada 1 chat! Buat chat baru dulu ya."); return; }
-        chats = chats.filter(c => c.id !== chatId);
-        if (currentChatId === chatId) currentChatId = chats[0].id;
-        saveChatsToStorage();
-        loadChatToUI();
-        renderHistoryList();
-    }
-    
     function renderHistoryList() {
         historyList.innerHTML = '';
-        chats.forEach(chat => {
+        
+        let filteredChats = chats;
+        if (searchQuery) {
+            filteredChats = chats.filter(chat => 
+                chat.title.toLowerCase().includes(searchQuery)
+            );
+        }
+        
+        if (filteredChats.length === 0 && searchQuery) {
+            const emptyDiv = document.createElement('div');
+            emptyDiv.style.textAlign = 'center';
+            emptyDiv.style.padding = '30px';
+            emptyDiv.style.color = '#8a9a8a';
+            emptyDiv.innerHTML = '<i class="fas fa-search"></i><br>Tidak ada percakapan yang cocok';
+            historyList.appendChild(emptyDiv);
+            return;
+        }
+        
+        filteredChats.forEach(chat => {
             const item = document.createElement('div');
             item.className = 'history-item';
             if (chat.id === currentChatId) item.classList.add('active');
-            const lastVisibleMsg = [...chat.messages].reverse().find(m => !m.hidden);
-            const preview = lastVisibleMsg ? lastVisibleMsg.content.substring(0, 40) : 'Tidak ada pesan tampak';
+            const lastMsg = chat.messages.length > 0 ? chat.messages[chat.messages.length - 1] : null;
+            const preview = lastMsg ? lastMsg.content.substring(0, 40) : 'Tidak ada pesan';
             const date = new Date(chat.updatedAt);
-            item.innerHTML = `<div class="history-title">${escapeHtml(chat.title)}</div><div class="history-preview">${escapeHtml(preview)}</div><div class="history-time">${date.toLocaleDateString()} ${date.toLocaleTimeString()}</div><div style="display: flex; justify-content: flex-end; margin-top: 5px;"><i class="fas fa-trash" style="color: #e74c3c; font-size: 12px; cursor: pointer; opacity: 0.7;"></i></div>`;
-            item.addEventListener('click', (e) => { if (!e.target.classList.contains('fa-trash')) switchToChat(chat.id); });
+            item.innerHTML = `
+                <div class="history-title">
+                    <span class="history-title-text">${escapeHtml(chat.title)}</span>
+                    <button class="edit-title-btn" data-chat-id="${chat.id}"><i class="fas fa-pencil-alt"></i></button>
+                </div>
+                <div class="history-preview">${escapeHtml(preview)}</div>
+                <div class="history-time">${date.toLocaleDateString()} ${date.toLocaleTimeString()}</div>
+                <div style="display: flex; justify-content: flex-end; margin-top: 5px;"><i class="fas fa-trash" style="color: #e74c3c; font-size: 12px; cursor: pointer; opacity: 0.7;"></i></div>
+            `;
+            item.addEventListener('click', (e) => { 
+                if (!e.target.classList.contains('fa-trash') && !e.target.closest('.edit-title-btn')) {
+                    switchToChat(chat.id);
+                }
+            });
             const deleteIcon = item.querySelector('.fa-trash');
-            if (deleteIcon) deleteIcon.addEventListener('click', (e) => deleteChat(chat.id, e));
+            if (deleteIcon) deleteIcon.addEventListener('click', (e) => deleteEntireChat(chat.id, e));
+            
+            const editBtn = item.querySelector('.edit-title-btn');
+            if (editBtn) {
+                editBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openEditModal(chat.id);
+                });
+            }
             historyList.appendChild(item);
         });
     }
@@ -1405,8 +1830,8 @@
         chatInput.focus();
         setTimeout(() => {
             const chat = chats.find(c => c.id === currentChatId);
-            if (chat && chat.messages.filter(m => !m.hidden).length === 0) {
-                addMessageToCurrentChat('assistant', "Halo! ✨ Aku LeafCy dengan **Zyrion (Leaf-Ice)** – punya konteks **1 JUTA TOKEN** dan bisa **BACA GAMBAR**! 📷 Sekarang kamu bisa hapus pesan dari tampilan (hover ➔ icon sampah) tapi **AI tetap ingat seluruh percakapan**! Ada batasan: **35 pesan teks** & **2 gambar** per jam untuk menjaga server tetap stabil. Tanyakan apa pun, nyaww~ 🚀");
+            if (chat && chat.messages.length === 0) {
+                addMessageToCurrentChat('assistant', "Halo! ✨ Aku LeafCy dengan **Zyrion (Leaf-Ice)** – punya konteks **1 JUTA TOKEN**. Sekarang **SETIAP HAPUS PESAN = AI LANGSUNG LUPA PERCAKAPANNYA**! Begitu juga hapus riwayat chat = semua memori hilang permanen. Kamu juga bisa edit pesanmu sendiri (hover ➔ ✏️) dan AI akan lupa percakapan sebelumnya lalu merespon ulang! Ada batasan: **20 pesan teks** per jam. Tanyakan apa pun, nyaww~ 🚀");
             }
         }, 500);
     }
