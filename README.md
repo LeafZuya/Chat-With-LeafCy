@@ -33,6 +33,7 @@
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             position: relative;
+            z-index: 1;
         }
 
         .chat-header {
@@ -44,6 +45,8 @@
             justify-content: space-between;
             flex-wrap: wrap;
             gap: 8px;
+            position: relative;
+            z-index: 100;
         }
 
         .logo-area {
@@ -92,6 +95,9 @@
             transition: transform 0.2s, box-shadow 0.2s;
             box-shadow: 0 2px 8px rgba(255, 180, 60, 0.4);
             border: none;
+            position: relative;
+            z-index: 101;
+            pointer-events: auto;
         }
         .model-badge:hover {
             transform: scale(1.02);
@@ -116,6 +122,9 @@
             align-items: center;
             gap: 8px;
             box-shadow: 0 2px 8px rgba(255, 154, 158, 0.3);
+            position: relative;
+            z-index: 101;
+            pointer-events: auto;
         }
         .btn-ai-ready:hover {
             transform: scale(1.03);
@@ -139,6 +148,9 @@
             display: flex;
             align-items: center;
             gap: 6px;
+            position: relative;
+            z-index: 101;
+            pointer-events: auto;
         }
         .menu-history-btn:hover {
             background: rgba(46, 204, 113, 0.25);
@@ -159,6 +171,9 @@
             gap: 6px;
             background: rgba(46, 204, 113, 0.12);
             color: #2ecc71;
+            position: relative;
+            z-index: 101;
+            pointer-events: auto;
         }
         .bgm-toggle-btn.bgm-on {
             background: rgba(46, 204, 113, 0.25);
@@ -175,13 +190,13 @@
             filter: brightness(0.95);
         }
         
-        /* Karakter LeafCy - Pojok Kanan Atas */
+        /* Karakter LeafCy - Pojok Kanan Atas (DIPERBAIKI) */
         .leafcy-character {
             position: fixed;
             top: 80px;
             right: -200px;
-            width: 100px;
-            z-index: 1500;
+            width: 80px;
+            z-index: 500;
             transition: right 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
             pointer-events: none;
             filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
@@ -196,7 +211,7 @@
             border: 2px solid #ffd966;
         }
         .leafcy-character.show {
-            right: 20px;
+            right: 80px;
             animation: sway 0.5s ease-in-out infinite;
             transform-origin: center bottom;
         }
@@ -241,7 +256,7 @@
             height: 100%;
             background: #ffffff;
             box-shadow: 2px 0 20px rgba(0,0,0,0.1);
-            z-index: 1001;
+            z-index: 2000;
             transition: left 0.3s ease;
             display: flex;
             flex-direction: column;
@@ -267,6 +282,7 @@
             font-size: 1.5rem;
             cursor: pointer;
             color: #e74c3c;
+            z-index: 2001;
         }
         
         .search-container {
@@ -403,7 +419,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.5);
-            z-index: 1000;
+            z-index: 1999;
             display: none;
         }
         .overlay.show {
@@ -881,6 +897,8 @@
             gap: 12px;
             align-items: center;
             flex-wrap: wrap;
+            position: relative;
+            z-index: 100;
         }
         .rate-limit-badge {
             background: rgba(231, 76, 60, 0.12);
@@ -896,6 +914,10 @@
         @media (max-width: 600px) {
             .message { max-width: 92%; }
             .sidebar { width: 280px; }
+            .leafcy-character.show {
+                right: 10px;
+                width: 60px;
+            }
         }
 
         .message-fade-out {
@@ -1045,6 +1067,19 @@
             background: #ecf0f1;
             color: #7f8c8d;
         }
+        
+        /* Perbaikan tambahan untuk memastikan tombol bisa diklik */
+        button, .menu-history-btn, .bgm-toggle-btn, .btn-ai-ready, .model-badge {
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .header-buttons button, 
+        .header-buttons .menu-history-btn,
+        .header-buttons .bgm-toggle-btn,
+        .header-buttons .btn-ai-ready {
+            pointer-events: auto !important;
+        }
     </style>
 </head>
 <body>
@@ -1087,7 +1122,7 @@
     </div>
 </div>
 
-<!-- Karakter LeafCy yang muncul saat lirik laki/duet - POJOK KANAN ATAS -->
+<!-- Karakter LeafCy yang muncul saat lirik laki/duet - POJOK KANAN ATAS (DIPERBAIKI) -->
 <div id="leafcyChar" class="leafcy-character">
     <img src="leafia.png" alt="LeafCy" onerror="this.src='https://via.placeholder.com/100x100/2ecc71/ffffff?text=LeafCy'">
 </div>
@@ -2055,13 +2090,77 @@
     function closeSidebarPanel() { sidebar.classList.remove('open'); overlay.classList.remove('show'); }
     function openSidebarPanel() { sidebar.classList.add('open'); overlay.classList.add('show'); }
     
+    // ========== OPEN CHALLENGE POPUP ==========
+    function openChallengePopup() {
+        challengeInput.value = '';
+        updateCounterDisplay();
+        popupOverlay.classList.add('active');
+        challengeInput.focus();
+    }
+    
+    function closeChallengePopup() {
+        popupOverlay.classList.remove('active');
+    }
+    
+    function updateCounterDisplay() {
+        challengeCounterSpan.innerText = `Progress: ${challengeCount} / ${targetCount}`;
+        if (challengeCount >= targetCount) {
+            redeemBtn.disabled = false;
+        } else {
+            redeemBtn.disabled = true;
+        }
+    }
+    
+    function redeemReduceResetTime() {
+        if (challengeCount < targetCount) return;
+        
+        if (rateLimit.resetTime && rateLimit.resetTime > Date.now()) {
+            let newResetTime = rateLimit.resetTime - (30 * 60 * 1000);
+            if (newResetTime < Date.now()) {
+                resetRateLimit();
+            } else {
+                rateLimit.resetTime = newResetTime;
+                saveRateLimit();
+                updateRateLimitUI();
+            }
+        } else {
+            if (!rateLimit.resetTime || rateLimit.resetTime <= Date.now()) {
+                let futureReset = Date.now() + (90 * 60 * 1000);
+                let afterReduce = futureReset - (30 * 60 * 1000);
+                if (afterReduce < Date.now()) afterReduce = Date.now() + 1000;
+                rateLimit.resetTime = afterReduce;
+                saveRateLimit();
+                updateRateLimitUI();
+            }
+        }
+        alert("✨ Berhasil! Waktu reset rate limit dikurangi 30 menit. ✨\nTerima kasih sudah mengetik 1000x Zuya Ganteng 😎");
+        closeChallengePopup();
+    }
+    
     function init() {
         loadRateLimit();
         loadChatsFromStorage();
         initBgm();
-        loadChallengeProgress(); // Load progress challenge yang tersimpan
+        loadChallengeProgress();
         
-        menuHistoryBtn.addEventListener('click', openSidebarPanel);
+        // Event listener untuk tombol riwayat (dipastikan bisa diklik)
+        if (menuHistoryBtn) {
+            menuHistoryBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                openSidebarPanel();
+            });
+        }
+        
+        // Event listener untuk tombol limited challenge
+        if (zyrionBtn) {
+            zyrionBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                openChallengePopup();
+            });
+        }
+        
         closeSidebar.addEventListener('click', closeSidebarPanel);
         overlay.addEventListener('click', closeSidebarPanel);
         newChatBtn.addEventListener('click', createNewChat);
@@ -2070,66 +2169,13 @@
         chatInput.addEventListener('input', function() { this.style.height = 'auto'; this.style.height = Math.min(130, this.scrollHeight) + 'px'; });
         chatInput.focus();
         
-        // CHALLENGE POPUP
-        zyrionBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            openChallengePopup();
-        });
-        
-        function openChallengePopup() {
-            // Tidak mereset challengeCount, tetap menggunakan nilai yang sudah ada
-            challengeInput.value = '';
-            updateCounterDisplay();
-            popupOverlay.classList.add('active');
-            challengeInput.focus();
-        }
-        
-        function closeChallengePopup() {
-            popupOverlay.classList.remove('active');
-            // Tidak mereset challengeCount, progress tetap disimpan
-        }
-        
-        function updateCounterDisplay() {
-            challengeCounterSpan.innerText = `Progress: ${challengeCount} / ${targetCount}`;
-            if (challengeCount >= targetCount) {
-                redeemBtn.disabled = false;
-            } else {
-                redeemBtn.disabled = true;
-            }
-        }
-        
-        function redeemReduceResetTime() {
-            if (challengeCount < targetCount) return;
-            
-            if (rateLimit.resetTime && rateLimit.resetTime > Date.now()) {
-                let newResetTime = rateLimit.resetTime - (30 * 60 * 1000);
-                if (newResetTime < Date.now()) {
-                    resetRateLimit();
-                } else {
-                    rateLimit.resetTime = newResetTime;
-                    saveRateLimit();
-                    updateRateLimitUI();
-                }
-            } else {
-                if (!rateLimit.resetTime || rateLimit.resetTime <= Date.now()) {
-                    let futureReset = Date.now() + (90 * 60 * 1000);
-                    let afterReduce = futureReset - (30 * 60 * 1000);
-                    if (afterReduce < Date.now()) afterReduce = Date.now() + 1000;
-                    rateLimit.resetTime = afterReduce;
-                    saveRateLimit();
-                    updateRateLimitUI();
-                }
-            }
-            alert("✨ Berhasil! Waktu reset rate limit dikurangi 30 menit. ✨\nTerima kasih sudah mengetik 1000x Zuya Ganteng 😎");
-            closeChallengePopup();
-        }
-        
+        // CHALLENGE POPUP EVENTS
         challengeInput.addEventListener('input', (e) => {
             const typed = e.target.value;
             if (typed === "Zuya Ganteng 😎") {
                 challengeCount++;
                 updateCounterDisplay();
-                saveChallengeProgress(); // Simpan progress setiap kali bertambah
+                saveChallengeProgress();
                 challengeInput.value = '';
                 challengeInput.style.transform = "scale(0.98)";
                 setTimeout(() => { challengeInput.style.transform = ""; }, 120);
