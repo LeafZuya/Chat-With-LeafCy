@@ -1204,7 +1204,7 @@
             <div id="menuHistoryBtn" class="menu-history-btn"><i class="fas fa-history"></i> Riwayat</div>
             <div id="bgmToggleBtn" class="bgm-toggle-btn bgm-off"><i class="fas fa-music"></i> BGM Off</div>
             <button id="darkModeBtn" class="dark-mode-btn"><i class="fas fa-moon"></i> Dark Mode</button>
-            <a href="privasi.html" id="privacyBtn" class="privacy-btn" target="_blank"><i class="fas fa-shield-alt"></i> Kebijakan Privasi</a>
+            <a href="Privasi.html" id="privacyBtn" class="privacy-btn" target="_blank"><i class="fas fa-shield-alt"></i> Kebijakan Privasi</a>
             <button id="aiReadyBtn" class="btn-ai-ready"><i class="fas fa-rocket"></i> Switch Ke Leafia [FREE]</button>
         </div>
     </div>
