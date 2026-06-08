@@ -1,0 +1,2623 @@
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>LeafCy AI Kucing Kecil Yang Ceria</title>
+
+<!-- Basic -->
+<meta name="application-name" content="LeafCy AI">
+<meta name="apple-mobile-web-app-title" content="LeafCy AI">
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="LeafCy AI">
+<meta property="og:title" content="LeafCy AI Kucing Kecil Yang Ceria">
+<meta property="og:description" content="Kucing Kecil Yang Ceria Dan Membantu ✨">
+<meta property="og:image" content="/favicon.png">
+<meta property="og:type" content="website">
+
+<!-- Twitter / Discord Preview -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="LeafCy AI Kucing Kecil Yang Ceria">
+<meta name="twitter:description" content="Kucing Kecil Yang Ceria Dan Membantu ✨">
+<meta name="twitter:image" content="/favicon.png">
+
+<!-- Extra -->
+<meta name="description" content="LeafCy AI Kucing Kecil Yang Ceria Dan Membantu ✨">
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <!-- Google Fonts + Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Light Mode (Default) */
+        :root {
+            --bg-gradient-start: #e8f5e9;
+            --bg-gradient-end: #c8e6c9;
+            --app-bg: #ffffff;
+            --text-primary: #1a1a1a;
+            --bubble-user: #2ecc71;
+            --bubble-user-text: white;
+            --bubble-assistant: #f0f4f0;
+            --bubble-assistant-border: #e0e8e0;
+            --header-border: #2ecc71;
+            --input-bg: #f5f7f5;
+            --input-border: #2ecc71;
+            --timestamp-color: #8a9a8a;
+            --sidebar-bg: #ffffff;
+            --sidebar-border: #2ecc71;
+            --history-item-bg: #f5f7f5;
+            --history-item-hover: #e8f5e9;
+            --history-item-border: #e0e8e0;
+            --modal-bg: white;
+            --modal-shadow: rgba(0,0,0,0.2);
+        }
+
+        /* Dark Mode */
+        body.dark {
+            --bg-gradient-start: #1a2a1a;
+            --bg-gradient-end: #0d1a0d;
+            --app-bg: #1e2a1e;
+            --text-primary: #e0e0e0;
+            --bubble-user: #2ecc71;
+            --bubble-user-text: #1a1a1a;
+            --bubble-assistant: #2a3a2a;
+            --bubble-assistant-border: #3a5a3a;
+            --header-border: #2ecc71;
+            --input-bg: #2a3a2a;
+            --input-border: #2ecc71;
+            --timestamp-color: #6a8a6a;
+            --sidebar-bg: #1e2a1e;
+            --sidebar-border: #2ecc71;
+            --history-item-bg: #2a3a2a;
+            --history-item-hover: #3a5a3a;
+            --history-item-border: #3a5a3a;
+            --modal-bg: #2a3a2a;
+            --modal-shadow: rgba(0,0,0,0.5);
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            transition: background 0.3s ease;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 900px;
+            height: 100vh;
+            background: var(--app-bg);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+            transition: background 0.3s ease;
+        }
+
+        .chat-header {
+            padding: 16px 24px;
+            background: var(--app-bg);
+            border-bottom: 1px solid var(--header-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            position: relative;
+            z-index: 100;
+            transition: background 0.3s ease;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.4rem;
+            letter-spacing: -0.4px;
+            background: linear-gradient(120deg, #2ecc71, #27ae60);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .model-badge {
+            background: linear-gradient(145deg, #ffd966, #ffb347);
+            border-radius: 40px;
+            padding: 5px 14px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #4a2e00;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(255, 180, 60, 0.4);
+            border: none;
+            position: relative;
+            z-index: 101;
+            pointer-events: auto;
+        }
+        .model-badge:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(255, 180, 60, 0.6);
+            background: linear-gradient(145deg, #ffe08c, #ffaa33);
+        }
+        .model-badge i {
+            font-size: 0.8rem;
+        }
+
+        .btn-ai-ready {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #a1c4fd 100%);
+            border: none;
+            border-radius: 40px;
+            padding: 5px 14px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #2c3e66;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(255, 154, 158, 0.3);
+            position: relative;
+            z-index: 101;
+            pointer-events: auto;
+        }
+        .btn-ai-ready:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 14px rgba(161, 196, 253, 0.5);
+            background: linear-gradient(135deg, #ffb6ba, #fbe1d8, #b8d4ff);
+        }
+        .btn-ai-ready i {
+            font-size: 0.85rem;
+        }
+
+        /* Donation Button */
+        .donation-btn {
+            background: linear-gradient(135deg, #8B0000 0%, #1a1a1a 100%);
+            border: none;
+            border-radius: 40px;
+            padding: 5px 14px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(139, 0, 0, 0.4);
+            position: relative;
+            z-index: 101;
+            pointer-events: auto;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+        }
+        .donation-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(135deg, #a00000 0%, #2a2a2a 100%);
+        }
+        .donation-btn i {
+            font-size: 0.85rem;
+        }
+
+        /* Dark Mode Toggle Button */
+        .dark-mode-btn {
+            background: rgba(46, 204, 113, 0.12);
+            border-radius: 40px;
+            padding: 5px 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #2ecc71;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+            z-index: 101;
+            pointer-events: auto;
+        }
+        .dark-mode-btn:hover {
+            background: rgba(46, 204, 113, 0.25);
+            transform: scale(1.02);
+        }
+
+        /* Privacy Policy Button */
+        .privacy-btn {
+            background: rgba(46, 204, 113, 0.12);
+            border-radius: 40px;
+            padding: 5px 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #2ecc71;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+            z-index: 101;
+            pointer-events: auto;
+            text-decoration: none;
+        }
+        .privacy-btn:hover {
+            background: rgba(46, 204, 113, 0.25);
+            transform: scale(1.02);
+        }
+
+        .menu-history-btn {
+            background: rgba(46, 204, 113, 0.12);
+            border-radius: 40px;
+            padding: 5px 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #2ecc71;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+            z-index: 101;
+            pointer-events: auto;
+        }
+        .menu-history-btn:hover {
+            background: rgba(46, 204, 113, 0.25);
+            transform: scale(1.02);
+        }
+        
+        /* BGM Toggle Button */
+        .bgm-toggle-btn {
+            border-radius: 40px;
+            padding: 5px 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(46, 204, 113, 0.12);
+            color: #2ecc71;
+            position: relative;
+            z-index: 101;
+            pointer-events: auto;
+        }
+        .bgm-toggle-btn.bgm-on {
+            background: rgba(46, 204, 113, 0.25);
+            border-color: #2ecc71;
+            color: #2ecc71;
+        }
+        .bgm-toggle-btn.bgm-off {
+            background: rgba(46, 204, 113, 0.12);
+            border-color: rgba(46, 204, 113, 0.3);
+            color: #2ecc71;
+        }
+        .bgm-toggle-btn:hover {
+            transform: scale(1.02);
+            filter: brightness(0.95);
+        }
+        
+        /* Karakter LeafCy - Pojok Kanan Atas (DIPERBAIKI) */
+        .leafcy-character {
+            position: fixed;
+            top: 80px;
+            right: -200px;
+            width: 80px;
+            z-index: 500;
+            transition: right 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            pointer-events: none;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
+        }
+        .leafcy-character img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 20px;
+            background: rgba(255,255,240,0.7);
+            backdrop-filter: blur(4px);
+            border: 2px solid #ffd966;
+        }
+        .leafcy-character.show {
+            right: 80px;
+            animation: sway 0.5s ease-in-out infinite;
+            transform-origin: center bottom;
+        }
+        .leafcy-character.hide {
+            right: -200px;
+            animation: none;
+        }
+        
+        @keyframes sway {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(3deg); }
+            75% { transform: rotate(-3deg); }
+            100% { transform: rotate(0deg); }
+        }
+        
+        /* Floating Music Notes */
+        .floating-note {
+            position: fixed;
+            font-size: 18px;
+            pointer-events: none;
+            z-index: 1600;
+            opacity: 0;
+            animation: floatNote 1.2s ease-out forwards;
+        }
+        
+        @keyframes floatNote {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(0.8);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx, -40px), var(--ty, -60px)) scale(1.2);
+            }
+        }
+        
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -320px;
+            width: 300px;
+            height: 100%;
+            background: var(--sidebar-bg);
+            box-shadow: 2px 0 20px rgba(0,0,0,0.1);
+            z-index: 2000;
+            transition: left 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border-right: 2px solid var(--sidebar-border);
+        }
+        .sidebar.open {
+            left: 0;
+        }
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--sidebar-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .sidebar-header h3 {
+            color: #2ecc71;
+            font-size: 1.1rem;
+        }
+        .close-sidebar {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #e74c3c;
+            z-index: 2001;
+        }
+        
+        .search-container {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--history-item-border);
+        }
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: var(--history-item-bg);
+            border-radius: 30px;
+            padding: 8px 15px;
+            gap: 10px;
+            border: 1px solid #2ecc71;
+        }
+        .search-box i {
+            color: #2ecc71;
+            font-size: 14px;
+        }
+        .search-box input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            outline: none;
+            font-size: 0.85rem;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+        }
+        .search-box input::placeholder {
+            color: #9aae9a;
+        }
+        .clear-search {
+            cursor: pointer;
+            color: #e74c3c;
+            font-size: 12px;
+            display: none;
+        }
+        .clear-search.show {
+            display: block;
+        }
+        
+        .history-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        .history-item {
+            padding: 12px 15px;
+            margin: 5px 0;
+            background: var(--history-item-bg);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid var(--history-item-border);
+            position: relative;
+            color: var(--text-primary);
+        }
+        .history-item:hover {
+            background: var(--history-item-hover);
+            transform: translateX(5px);
+        }
+        .history-item.active {
+            background: #2ecc71;
+            color: white;
+            border-color: #2ecc71;
+        }
+        .history-item.active .history-preview {
+            color: white;
+        }
+        .history-title {
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+        .history-title-text {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .edit-title-btn {
+            background: none;
+            border: none;
+            color: #2ecc71;
+            cursor: pointer;
+            font-size: 11px;
+            opacity: 0.6;
+            transition: 0.2s;
+            padding: 2px 5px;
+            border-radius: 20px;
+        }
+        .edit-title-btn:hover {
+            opacity: 1;
+            background: rgba(46, 204, 113, 0.2);
+        }
+        .history-item.active .edit-title-btn {
+            color: white;
+        }
+        .history-preview {
+            font-size: 0.7rem;
+            color: var(--timestamp-color);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .history-time {
+            font-size: 0.6rem;
+            color: var(--timestamp-color);
+            margin-top: 5px;
+        }
+        .history-item.active .history-time {
+            color: rgba(255,255,255,0.7);
+        }
+        .new-chat-btn {
+            margin: 15px;
+            padding: 10px;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1999;
+            display: none;
+        }
+        .overlay.show {
+            display: block;
+        }
+
+        .custom-popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.2s, opacity 0.2s;
+        }
+        .custom-popup-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .popup-container {
+            width: 90%;
+            max-width: 500px;
+            background: linear-gradient(145deg, #fff9ef, #fff3e0);
+            border-radius: 48px;
+            box-shadow: 0 25px 45px rgba(255, 160, 60, 0.3);
+            padding: 24px 20px 28px;
+            text-align: center;
+            border: 1px solid #ffdd99;
+            animation: popupBounce 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+        }
+        @keyframes popupBounce {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .popup-container h3 {
+            font-size: 1.7rem;
+            color: #e67e22;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .popup-container p {
+            color: #b86f2c;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+        .challenge-textarea {
+            width: 100%;
+            padding: 14px;
+            border-radius: 60px;
+            border: 2px solid #ffe0a3;
+            background: white;
+            font-family: monospace;
+            font-size: 1rem;
+            text-align: center;
+            outline: none;
+            font-weight: bold;
+            color: #d35400;
+            margin-bottom: 10px;
+        }
+        .challenge-counter {
+            font-size: 0.9rem;
+            background: #ffecb3;
+            display: inline-block;
+            padding: 4px 16px;
+            border-radius: 30px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #b45f1b;
+        }
+        .popup-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn-redeem {
+            background: linear-gradient(95deg, #f39c12, #e67e22);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-redeem:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .btn-surrender {
+            background: #ecf0f1;
+            border: 1px solid #bdc3c7;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            color: #7f8c8d;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-surrender:hover {
+            background: #e2e6e8;
+        }
+        .btn-redeem:hover:not(:disabled) {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(243, 156, 18, 0.4);
+        }
+
+        /* DONATION MODAL CARD - GRADIENT RED TO BLACK */
+        .donation-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 4500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.2s, opacity 0.2s;
+        }
+        .donation-modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .donation-card {
+            width: 90%;
+            max-width: 480px;
+            background: linear-gradient(135deg, #8B0000 0%, #1a1a1a 100%);
+            border-radius: 56px;
+            padding: 28px 24px 32px;
+            text-align: center;
+            box-shadow: 0 30px 50px rgba(0,0,0,0.4);
+            border: 2px solid #ff6b6b;
+            animation: donationPop 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        @keyframes donationPop {
+            from { transform: scale(0.85); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .donation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff4d4d, #333333, #ff4d4d);
+        }
+        .donation-card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .donation-card h2 i {
+            margin-right: 8px;
+            color: #ffcccc;
+        }
+        .donation-options {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 25px 0 15px;
+        }
+        .donation-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 60px;
+            padding: 8px 8px 8px 20px;
+            backdrop-filter: blur(4px);
+            transition: transform 0.2s;
+        }
+        .donation-option:hover {
+            transform: scale(1.02);
+        }
+        .donation-option span {
+            font-weight: 600;
+            color: white;
+            font-size: 1rem;
+        }
+        .donation-btn-red {
+            background: linear-gradient(135deg, #b22222, #ff4444);
+            border: none;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        .donation-btn-red:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #cc3333, #ff6666);
+            box-shadow: 0 4px 12px rgba(255, 68, 68, 0.4);
+        }
+        .donation-btn-dark {
+            background: linear-gradient(135deg, #555555, #222222);
+            border: 2px solid #2ecc71;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        .donation-btn-dark:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #666666, #333333);
+            border-color: #3eff7a;
+            box-shadow: 0 4px 12px rgba(46, 204, 113, 0.4);
+        }
+        .close-donation {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-radius: 40px;
+            padding: 8px 20px;
+            margin-top: 20px;
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.2s;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .close-donation:hover {
+            background: rgba(255,255,255,0.35);
+        }
+
+        /* SWITCH MODAL */
+        .switch-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 4000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.2s, opacity 0.2s;
+        }
+        .switch-modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .switch-modal-card {
+            width: 90%;
+            max-width: 400px;
+            background: linear-gradient(145deg, #fff5eb, #ffe8d9);
+            border-radius: 56px;
+            padding: 28px 24px 32px;
+            text-align: center;
+            box-shadow: 0 30px 50px rgba(0,0,0,0.3);
+            border: 2px solid #ffd6a5;
+            animation: modalPop 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+        }
+        @keyframes modalPop {
+            from { transform: scale(0.85); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .switch-modal-card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+            color: #e67e22;
+        }
+        .switch-modal-card h2 i {
+            margin-right: 8px;
+        }
+        .switch-modal-card .question-cat {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #b45f2b;
+            margin-bottom: 20px;
+        }
+        .leafia-features {
+            background: rgba(255,245,235,0.9);
+            border-radius: 32px;
+            padding: 16px;
+            margin: 15px 0 20px;
+            text-align: left;
+        }
+        .leafia-features p {
+            color: #c0392b;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+        .leafia-features ul {
+            list-style: none;
+            padding-left: 8px;
+        }
+        .leafia-features li {
+            margin: 8px 0;
+            font-size: 0.85rem;
+            color: #7e4e2a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .leafia-features li i {
+            width: 22px;
+            color: #2ecc71;
+        }
+        .switch-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .switch-cancel-btn {
+            background: #ffffff;
+            border: 2px solid #2ecc71;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: bold;
+            color: #2ecc71;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+        }
+        .switch-cancel-btn:hover {
+            background: #2ecc71;
+            color: white;
+            transform: scale(1.02);
+        }
+        .switch-confirm-btn {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4, #a1c4fd);
+            border: none;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: bold;
+            color: #2c3e66;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+        }
+        .switch-confirm-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(161,196,253,0.5);
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px 20px 20px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            scroll-behavior: smooth;
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 5px;
+        }
+        .chat-messages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #2ecc71;
+            border-radius: 10px;
+        }
+
+        .message {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            max-width: 85%;
+            animation: fadeSlideUp 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            position: relative;
+        }
+
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 100%;
+            background: #e8f5e9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user .avatar {
+            background: #2ecc71;
+            color: white;
+        }
+        .user .avatar i {
+            color: white;
+        }
+
+        .bubble {
+            background: var(--bubble-assistant);
+            padding: 12px 18px;
+            border-radius: 24px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--text-primary);
+            word-wrap: break-word;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            position: relative;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .user .bubble {
+            background: var(--bubble-user);
+            color: var(--bubble-user-text);
+            border-bottom-right-radius: 6px;
+        }
+
+        .assistant .bubble {
+            background: var(--bubble-assistant);
+            border-bottom-left-radius: 6px;
+            border: 1px solid var(--bubble-assistant-border);
+        }
+
+        .delete-message-btn {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            background: var(--modal-bg);
+            border-radius: 30px;
+            width: 26px;
+            height: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e74c3c;
+            font-size: 12px;
+            cursor: pointer;
+            box-shadow: 0 2px 6px var(--modal-shadow);
+            transition: 0.2s;
+            border: 1px solid #ffe0e0;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 12;
+        }
+        .message:hover .delete-message-btn {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .delete-message-btn:hover {
+            background: #e74c3c;
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .edit-message-btn {
+            position: absolute;
+            top: -8px;
+            left: -10px;
+            background: var(--modal-bg);
+            border-radius: 30px;
+            width: 26px;
+            height: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2ecc71;
+            font-size: 12px;
+            cursor: pointer;
+            box-shadow: 0 2px 6px var(--modal-shadow);
+            transition: 0.2s;
+            border: 1px solid #e0ffe0;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 12;
+        }
+        .message.user:hover .edit-message-btn {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .edit-message-btn:hover {
+            background: #2ecc71;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .timestamp {
+            font-size: 0.65rem;
+            color: var(--timestamp-color);
+            margin-top: 5px;
+            margin-left: 44px;
+        }
+        .user .timestamp {
+            text-align: right;
+            margin-right: 6px;
+        }
+
+        .input-container {
+            background: var(--app-bg);
+            border-top: 1px solid var(--header-border);
+            padding: 16px 20px 24px;
+            transition: background 0.3s ease;
+        }
+
+        .input-wrapper {
+            display: flex;
+            align-items: flex-end;
+            gap: 12px;
+            background: var(--input-bg);
+            border-radius: 48px;
+            padding: 6px 6px 6px 22px;
+            border: 1px solid var(--input-border);
+            transition: all 0.2s;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: #27ae60;
+            box-shadow: 0 0 0 2px rgba(46, 204, 113, 0.25);
+        }
+
+        textarea {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 10px 0;
+            font-family: 'Inter', monospace;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            resize: none;
+            outline: none;
+            max-height: 130px;
+        }
+
+        textarea::placeholder {
+            color: #9aae9a;
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .send-btn:hover {
+            transform: scale(1.02);
+            opacity: 0.9;
+        }
+
+        .bottom-info-text {
+            font-size: 11px;
+            color: #5a8a5a;
+        }
+        .header-buttons {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 100;
+        }
+        .rate-limit-badge {
+            background: rgba(231, 76, 60, 0.12);
+            border-radius: 40px;
+            padding: 4px 10px;
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: #e74c3c;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        @media (max-width: 600px) {
+            .message { max-width: 92%; }
+            .sidebar { width: 280px; }
+            .leafcy-character.show {
+                right: 10px;
+                width: 60px;
+            }
+        }
+
+        .message-fade-out {
+            animation: fadeOut 0.2s ease forwards;
+        }
+        @keyframes fadeOut {
+            to { opacity: 0; transform: scale(0.95); display: none; }
+        }
+        .typing-indicator span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #2ecc71;
+            margin: 0 2px;
+            animation: typing 1.4s infinite;
+        }
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-6px); opacity: 1; }
+        }
+        
+        .edit-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.2s;
+        }
+        .edit-modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .edit-modal {
+            background: var(--modal-bg);
+            border-radius: 28px;
+            padding: 25px;
+            width: 90%;
+            max-width: 320px;
+            text-align: center;
+            box-shadow: 0 20px 35px var(--modal-shadow);
+            color: var(--text-primary);
+        }
+        .edit-modal h4 {
+            margin-bottom: 15px;
+            color: #2ecc71;
+        }
+        .edit-modal input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 60px;
+            border: 1px solid #2ecc71;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 20px;
+            background: var(--input-bg);
+            color: var(--text-primary);
+        }
+        .edit-modal-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        .edit-modal-buttons button {
+            padding: 8px 20px;
+            border-radius: 40px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .save-edit {
+            background: #2ecc71;
+            color: white;
+        }
+        .cancel-edit {
+            background: #ecf0f1;
+            color: #7f8c8d;
+        }
+        
+        .edit-pesan-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.2s;
+        }
+        .edit-pesan-modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .edit-pesan-modal {
+            background: var(--modal-bg);
+            border-radius: 28px;
+            padding: 25px;
+            width: 90%;
+            max-width: 350px;
+            text-align: center;
+            box-shadow: 0 20px 35px var(--modal-shadow);
+            color: var(--text-primary);
+        }
+        .edit-pesan-modal h4 {
+            margin-bottom: 15px;
+            color: #2ecc71;
+        }
+        .edit-pesan-modal textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 20px;
+            border: 1px solid #2ecc71;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 20px;
+            resize: vertical;
+            min-height: 80px;
+            background: var(--input-bg);
+            color: var(--text-primary);
+        }
+        .edit-pesan-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        .edit-pesan-buttons button {
+            padding: 8px 20px;
+            border-radius: 40px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .save-pesan-edit {
+            background: #2ecc71;
+            color: white;
+        }
+        .cancel-pesan-edit {
+            background: #ecf0f1;
+            color: #7f8c8d;
+        }
+        
+        /* Perbaikan tambahan untuk memastikan tombol bisa diklik */
+        button, .menu-history-btn, .bgm-toggle-btn, .btn-ai-ready, .model-badge, .dark-mode-btn, .privacy-btn, .donation-btn {
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .header-buttons button, 
+        .header-buttons .menu-history-btn,
+        .header-buttons .bgm-toggle-btn,
+        .header-buttons .btn-ai-ready,
+        .header-buttons .dark-mode-btn,
+        .header-buttons .privacy-btn,
+        .header-buttons .donation-btn {
+            pointer-events: auto !important;
+        }
+    </style>
+</head>
+<body>
+<div class="app">
+    <div class="chat-header">
+        <div class="logo-area">
+            <div class="logo-icon">
+                <img src="leafcy.png" alt="Logo" onerror="this.src='https://via.placeholder.com/36x36/2ecc71/ffffff?text=Leaf'">
+            </div>
+            <div class="logo-text">LeafCy AI</div>
+            <div id="zyrionModelBtn" class="model-badge"><i class="fas fa-star"></i> Limited Challenge😹✨<i class="fas fa-chevron-down"></i></div>
+        </div>
+        <div class="header-buttons">
+            <div id="menuHistoryBtn" class="menu-history-btn"><i class="fas fa-history"></i> Riwayat</div>
+            <div id="bgmToggleBtn" class="bgm-toggle-btn bgm-off"><i class="fas fa-music"></i> BGM Off</div>
+            <button id="darkModeBtn" class="dark-mode-btn"><i class="fas fa-moon"></i> Dark Mode</button>
+            <a href="Privasi.html" id="privacyBtn" class="privacy-btn" target="_blank"><i class="fas fa-shield-alt"></i> Kebijakan Privasi</a>
+            <button id="aiReadyBtn" class="btn-ai-ready"><i class="fas fa-rocket"></i> Switch Ke Leafia [FREE]</button>
+            <button id="donationBtn" class="donation-btn"><i class="fas fa-heart"></i> Donasi Support 🥰</button>
+        </div>
+    </div>
+    <div style="display: flex; justify-content: space-between; padding: 0 20px 8px 20px; gap: 8px; flex-wrap: wrap;">
+        <div class="rate-limit-badge" id="textLimitBadge"><i class="fas fa-comment-dots"></i> Teks: 0/20 jam ini</div>
+        <div class="rate-limit-badge" id="resetTimerBadge"><i class="fas fa-hourglass-half"></i> Reset: --:--</div>
+    </div>
+
+    <div class="chat-messages" id="chatMessages">
+        <div class="welcome-message" id="welcomeMsg">
+            <i class="fas fa-seedling" style="font-size: 32px; margin-bottom: 10px; display: block; opacity: 0.7; color: #2ecc71;"></i>
+            LeafCy with Zyrion (Leaf-Ice)<br>🎯 1 Juta Token Konteks
+        </div>
+    </div>
+
+    <div class="input-container">
+        <div class="input-wrapper">
+            <textarea id="chatInput" rows="1" placeholder="Tanya apa saja... AI akan merespon dengan logika Sendiri" aria-label="Chat"></textarea>
+            <button class="send-btn" id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 8px; padding: 0 10px;">
+            <div class="bottom-info-text"><i class="fas fa-microchip"></i> model: Gemma 4 31B (Google)</div>
+            <div class="bottom-info-text"><i class="fas fa-database"></i> Kalo Mau Pesannya Garis Baru,Pencet Shift+Return/Garis Baru</div>
+        </div>
+    </div>
+</div>
+
+<!-- Karakter LeafCy yang muncul saat lirik laki/duet - POJOK KANAN ATAS (DIPERBAIKI) -->
+<div id="leafcyChar" class="leafcy-character">
+    <img src="leafia.png" alt="LeafCy" onerror="this.src='https://via.placeholder.com/100x100/2ecc71/ffffff?text=LeafCy'">
+</div>
+
+<div id="challengePopup" class="custom-popup-overlay">
+    <div class="popup-container">
+        <h3><i class="fas fa-crown"></i> Tantangan Zuya <i class="fas fa-heart"></i></h3>
+        <p>Ketik <strong>"Zuya Ganteng 😎"</strong> sebanyak 1000x untuk dapat <span style="background:#f1c40f; padding:2px 8px; border-radius:20px;">Redeem -30 Menit Reset</span></p>
+        <input type="text" id="challengeInput" class="challenge-textarea" placeholder="Ketik di sini..." autocomplete="off">
+        <div class="challenge-counter" id="challengeCounter">Progress: 0 / 1000</div>
+        <div class="popup-buttons">
+            <button id="redeemBtn" class="btn-redeem" disabled><i class="fas fa-gift"></i> Redeem -30 Menit</button>
+            <button id="surrenderBtn" class="btn-surrender"><i class="fas fa-flag-checkered"></i> Itu Terlalu Sulit, Aku Menyerah Untuk Saat Ini🥀🗿</button>
+        </div>
+    </div>
+</div>
+
+<!-- DONATION MODAL CARD -->
+<div id="donationModal" class="donation-modal-overlay">
+    <div class="donation-card">
+        <h2><i class="fas fa-hand-holding-heart"></i> Dukung Kami</h2>
+        <div class="donation-options">
+            <div class="donation-option">
+                <span><i class="fas fa-coffee"></i> Trakteer</span>
+                <button id="trakteerBtn" class="donation-btn-red"><i class="fas fa-external-link-alt"></i> Trakteer</button>
+            </div>
+            <div class="donation-option">
+                <span><i class="fas fa-hand-holding-usd"></i> Donasi Palestina</span>
+                <button id="palestineBtn" class="donation-btn-dark"><i class="fas fa-heart"></i> Donasi Palestina</button>
+            </div>
+        </div>
+        <button class="close-donation" id="closeDonationBtn"><i class="fas fa-times-circle"></i> Tutup</button>
+    </div>
+</div>
+
+<!-- SWITCH MODAL CARD -->
+<div id="switchModal" class="switch-modal-overlay">
+    <div class="switch-modal-card">
+        <h2><i class="fas fa-exchange-alt"></i> Yakin Ingin Beralih?</h2>
+        <div class="question-cat"><i class="fas fa-sad-tear"></i> Aku Kurang Memuaskan yah😿</div>
+        <div class="leafia-features">
+            <p><i class="fas fa-star-of-life"></i> Kelebihan Leafia:</p>
+            <ul>
+                <li><i class="fas fa-image"></i> Bisa Membaca Gambar Yang Dikirimkan</li>
+                <li><i class="fas fa-peace"></i> Lebih Tenang & Kalem</li>
+                <li><i class="fas fa-infinity"></i> Unlimited Kirim Teks</li>
+                <li><i class="fas fa-hourglass"></i> Tidak Ada Batas Waktu</li>
+            </ul>
+        </div>
+        <div class="switch-buttons">
+            <button class="switch-cancel-btn" id="switchCancelBtn"><i class="fas fa-smile-wink"></i> Yayy, ga jadi keluar😸</button>
+            <button class="switch-confirm-btn" id="switchConfirmBtn"><i class="fas fa-sad-tear"></i> Yahh, yaudah deh gapapa 😿</button>
+        </div>
+    </div>
+</div>
+
+<div class="overlay" id="overlay"></div>
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <h3><i class="fas fa-history"></i> Riwayat Chat</h3>
+        <button class="close-sidebar" id="closeSidebar"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="search-container">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchHistoryInput" placeholder="Cari percakapan...">
+            <i class="fas fa-times clear-search" id="clearSearchBtn"></i>
+        </div>
+    </div>
+    <div class="history-list" id="historyList"></div>
+    <button class="new-chat-btn" id="newChatBtn"><i class="fas fa-plus-circle"></i> Chat Baru</button>
+</div>
+
+<div id="editModal" class="edit-modal-overlay">
+    <div class="edit-modal">
+        <h4><i class="fas fa-edit"></i> Edit Nama Chat</h4>
+        <input type="text" id="editChatNameInput" placeholder="Masukkan nama baru" maxlength="50">
+        <div class="edit-modal-buttons">
+            <button class="save-edit" id="saveEditBtn">Simpan</button>
+            <button class="cancel-edit" id="cancelEditBtn">Batal</button>
+        </div>
+    </div>
+</div>
+
+<div id="editPesanModal" class="edit-pesan-modal-overlay">
+    <div class="edit-pesan-modal">
+        <h4><i class="fas fa-pencil-alt"></i> Edit Pesan</h4>
+        <textarea id="editPesanInput" placeholder="Edit pesanmu di sini..." rows="3"></textarea>
+        <div class="edit-pesan-buttons">
+            <button class="save-pesan-edit" id="savePesanEditBtn">Simpan & Kirim Ulang</button>
+            <button class="cancel-pesan-edit" id="cancelPesanEditBtn">Batal</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const PROXY_URL = "https://leafcyai.kingglafeon.workers.dev/";
+    // PERUBAHAN: Model diubah menjadi google/gemma-4-31b-it:free
+    const CHAT_MODEL = "google/gemma-4-31b-it:free";
+    let currentModel = CHAT_MODEL;
+    
+    const MAX_TEXTS_PER_HOUR = 20;
+    
+    let rateLimit = {
+        textCount: 0,
+        resetTime: null
+    };
+    
+    let chats = [];
+    let currentChatId = null;
+    
+    let searchQuery = "";
+    let editingChatId = null;
+    let editingPesanIndex = null;
+    
+    const messagesContainer = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const menuHistoryBtn = document.getElementById('menuHistoryBtn');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const closeSidebar = document.getElementById('closeSidebar');
+    const newChatBtn = document.getElementById('newChatBtn');
+    const historyList = document.getElementById('historyList');
+    const textLimitBadge = document.getElementById('textLimitBadge');
+    const resetTimerBadge = document.getElementById('resetTimerBadge');
+    const aiReadyBtn = document.getElementById('aiReadyBtn');
+    const zyrionBtn = document.getElementById('zyrionModelBtn');
+    const darkModeBtn = document.getElementById('darkModeBtn');
+    
+    // Donation Elements
+    const donationBtn = document.getElementById('donationBtn');
+    const donationModal = document.getElementById('donationModal');
+    const closeDonationBtn = document.getElementById('closeDonationBtn');
+    const trakteerBtn = document.getElementById('trakteerBtn');
+    const palestineBtn = document.getElementById('palestineBtn');
+    
+    // BGM Elements
+    const bgmToggleBtn = document.getElementById('bgmToggleBtn');
+    let bgmAudio = null;
+    let isBgmPlaying = false;
+    
+    // Elemen karakter LeafCy
+    const leafcyChar = document.getElementById('leafcyChar');
+    const logoIcon = document.querySelector('.logo-icon');
+    
+    const searchInput = document.getElementById('searchHistoryInput');
+    const clearSearchBtn = document.getElementById('clearSearchBtn');
+    const editModal = document.getElementById('editModal');
+    const editChatNameInput = document.getElementById('editChatNameInput');
+    const saveEditBtn = document.getElementById('saveEditBtn');
+    const cancelEditBtn = document.getElementById('cancelEditBtn');
+    
+    const editPesanModal = document.getElementById('editPesanModal');
+    const editPesanInput = document.getElementById('editPesanInput');
+    const savePesanEditBtn = document.getElementById('savePesanEditBtn');
+    const cancelPesanEditBtn = document.getElementById('cancelPesanEditBtn');
+    
+    const popupOverlay = document.getElementById('challengePopup');
+    const challengeInput = document.getElementById('challengeInput');
+    const challengeCounterSpan = document.getElementById('challengeCounter');
+    const redeemBtn = document.getElementById('redeemBtn');
+    const surrenderBtn = document.getElementById('surrenderBtn');
+    
+    // Switch Modal Elements
+    const switchModal = document.getElementById('switchModal');
+    const switchCancelBtn = document.getElementById('switchCancelBtn');
+    const switchConfirmBtn = document.getElementById('switchConfirmBtn');
+    
+    let challengeCount = 0;
+    let targetCount = 1000;
+    
+    // ========== DONATION MODAL FUNCTIONS ==========
+    function openDonationModal() {
+        donationModal.classList.add('active');
+    }
+    
+    function closeDonationModal() {
+        donationModal.classList.remove('active');
+    }
+    
+    function openTrakteer() {
+        window.open('https://trakteer.id/leafzuya%28daffa%29', '_blank');
+    }
+    
+    function openPalestineDonation() {
+        window.open('https://www.rumahzakat.org/donasi/palestina', '_blank');
+    }
+    
+    donationBtn.addEventListener('click', openDonationModal);
+    closeDonationBtn.addEventListener('click', closeDonationModal);
+    trakteerBtn.addEventListener('click', openTrakteer);
+    palestineBtn.addEventListener('click', openPalestineDonation);
+    donationModal.addEventListener('click', (e) => {
+        if (e.target === donationModal) closeDonationModal();
+    });
+    
+    // ========== DARK MODE FUNCTION ==========
+    let isDarkMode = false;
+    
+    function loadDarkModePreference() {
+        const savedMode = localStorage.getItem('leafcy_dark_mode');
+        if (savedMode === 'dark') {
+            enableDarkMode();
+        } else {
+            enableLightMode();
+        }
+    }
+    
+    function enableDarkMode() {
+        document.body.classList.add('dark');
+        isDarkMode = true;
+        darkModeBtn.innerHTML = '<i class="fas fa-sun"></i> Light Mode';
+        localStorage.setItem('leafcy_dark_mode', 'dark');
+    }
+    
+    function enableLightMode() {
+        document.body.classList.remove('dark');
+        isDarkMode = false;
+        darkModeBtn.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
+        localStorage.setItem('leafcy_dark_mode', 'light');
+    }
+    
+    function toggleDarkMode() {
+        if (isDarkMode) {
+            enableLightMode();
+        } else {
+            enableDarkMode();
+        }
+    }
+    
+    darkModeBtn.addEventListener('click', toggleDarkMode);
+    
+    // Load saved challenge progress dari localStorage
+    function loadChallengeProgress() {
+        const savedProgress = localStorage.getItem('leafcy_challenge_progress');
+        if (savedProgress !== null) {
+            challengeCount = parseInt(savedProgress);
+            updateCounterDisplay();
+        }
+    }
+    
+    function saveChallengeProgress() {
+        localStorage.setItem('leafcy_challenge_progress', challengeCount);
+    }
+    
+    // ========== MUSIC NOTE ANIMATION ==========
+    function spawnFloatingNote(fromElement) {
+        if (!fromElement) return;
+        
+        const rect = fromElement.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        const notes = ['fa-music', 'fa-head-side-headphones', 'fa-drumstick-bite', 'fa-microphone-alt', 'fa-guitar'];
+        const randomNote = notes[Math.floor(Math.random() * notes.length)];
+        
+        const noteDiv = document.createElement('div');
+        noteDiv.className = 'floating-note';
+        noteDiv.innerHTML = `<i class="fas ${randomNote}" style="color: ${Math.random() > 0.5 ? '#2ecc71' : '#27ae60'}; filter: drop-shadow(0 0 3px rgba(0,0,0,0.2));"></i>`;
+        
+        noteDiv.style.left = centerX + 'px';
+        noteDiv.style.top = centerY + 'px';
+        
+        const randomTx = (Math.random() - 0.5) * 80 - 40;
+        const randomTy = (Math.random() - 0.5) * 70 - 70;
+        noteDiv.style.setProperty('--tx', randomTx + 'px');
+        noteDiv.style.setProperty('--ty', randomTy + 'px');
+        
+        document.body.appendChild(noteDiv);
+        
+        setTimeout(() => {
+            if (noteDiv && noteDiv.parentNode) noteDiv.remove();
+        }, 1200);
+    }
+    
+    function burstFloatingNotes(fromElement, count = 2) {
+        if (!fromElement) return;
+        for (let i = 0; i < count; i++) {
+            setTimeout(() => {
+                spawnFloatingNote(fromElement);
+            }, i * 120);
+        }
+    }
+    
+    let noteIntervalId = null;
+    let leafCyNoteIntervalId = null;
+    
+    function startMusicNoteAnimation() {
+        if (noteIntervalId) clearInterval(noteIntervalId);
+        noteIntervalId = setInterval(() => {
+            if (isBgmPlaying && logoIcon) {
+                burstFloatingNotes(logoIcon, 2);
+            }
+        }, 1000);
+    }
+    
+    function startLeafCyNoteAnimation() {
+        if (leafCyNoteIntervalId) clearInterval(leafCyNoteIntervalId);
+        leafCyNoteIntervalId = setInterval(() => {
+            if (isBgmPlaying && currentLeafCyState && leafcyChar && leafcyChar.classList.contains('show')) {
+                burstFloatingNotes(leafcyChar, 3);
+            }
+        }, 800);
+    }
+    
+    function stopMusicNoteAnimation() {
+        if (noteIntervalId) {
+            clearInterval(noteIntervalId);
+            noteIntervalId = null;
+        }
+        if (leafCyNoteIntervalId) {
+            clearInterval(leafCyNoteIntervalId);
+            leafCyNoteIntervalId = null;
+        }
+    }
+    
+    // ========== BGM & LIRIK SYNC KARAKTER ==========
+    const maleOrDuetIntervals = [
+        { start: 3, end: 21 },   // 00:20 - 00:36 Laki-laki
+        { start: 36, end: 54 },   // 00:54 - 01:29 Laki-laki
+        { start: 55, end: 88 }, // 02:03 - 03:12 Duet
+        { start: 106, end: 192 },
+    ];
+    
+    let animationFrameId = null;
+    let currentLeafCyState = false;
+    
+    function showLeafCyCharacter() {
+        if (!leafcyChar) return;
+        if (currentLeafCyState) return;
+        leafcyChar.classList.remove('hide');
+        leafcyChar.classList.add('show');
+        currentLeafCyState = true;
+        burstFloatingNotes(leafcyChar, 6);
+    }
+    
+    function hideLeafCyCharacter() {
+        if (!leafcyChar) return;
+        if (!currentLeafCyState) return;
+        leafcyChar.classList.remove('show');
+        leafcyChar.classList.add('hide');
+        currentLeafCyState = false;
+    }
+    
+    function startLeafCyAnimationSync() {
+        if (!bgmAudio) return;
+        const syncLoop = () => {
+            if (!bgmAudio || !isBgmPlaying || bgmAudio.paused || bgmAudio.ended) {
+                hideLeafCyCharacter();
+                if (animationFrameId) cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+                return;
+            }
+            const currentTime = bgmAudio.currentTime;
+            let isMaleOrDuetActive = false;
+            for (let interval of maleOrDuetIntervals) {
+                if (currentTime >= interval.start && currentTime < interval.end) {
+                    isMaleOrDuetActive = true;
+                    break;
+                }
+            }
+            if (isMaleOrDuetActive) {
+                showLeafCyCharacter();
+            } else {
+                hideLeafCyCharacter();
+            }
+            animationFrameId = requestAnimationFrame(syncLoop);
+        };
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+        animationFrameId = requestAnimationFrame(syncLoop);
+    }
+    
+    function stopLeafCyAnimationSync() {
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+        }
+        hideLeafCyCharacter();
+    }
+    
+    function initBgm() {
+        bgmAudio = new Audio('Xiao.mp3');
+        bgmAudio.loop = true;
+        bgmAudio.volume = 0.5;
+        
+        const savedBgmState = localStorage.getItem('leafcy_bgm_state');
+        if (savedBgmState === 'on') {
+            enableBgm();
+        } else {
+            disableBgm();
+        }
+    }
+    
+    function enableBgm() {
+        if (bgmAudio) {
+            bgmAudio.play().catch(e => console.log("Autoplay diblokir browser:", e));
+            isBgmPlaying = true;
+            startLeafCyAnimationSync();
+            startMusicNoteAnimation();
+            startLeafCyNoteAnimation();
+        }
+        bgmToggleBtn.classList.remove('bgm-off');
+        bgmToggleBtn.classList.add('bgm-on');
+        bgmToggleBtn.innerHTML = '<i class="fas fa-music"></i> BGM On';
+        localStorage.setItem('leafcy_bgm_state', 'on');
+    }
+    
+    function disableBgm() {
+        if (bgmAudio) {
+            bgmAudio.pause();
+            isBgmPlaying = false;
+            stopLeafCyAnimationSync();
+            stopMusicNoteAnimation();
+        }
+        bgmToggleBtn.classList.remove('bgm-on');
+        bgmToggleBtn.classList.add('bgm-off');
+        bgmToggleBtn.innerHTML = '<i class="fas fa-music"></i> BGM Off';
+        localStorage.setItem('leafcy_bgm_state', 'off');
+    }
+    
+    function toggleBgm() {
+        if (isBgmPlaying) {
+            disableBgm();
+        } else {
+            enableBgm();
+        }
+    }
+    
+    if (bgmToggleBtn) {
+        bgmToggleBtn.addEventListener('click', toggleBgm);
+    }
+    
+    // ========== SWITCH MODAL LOGIC ==========
+    function openSwitchModal() {
+        switchModal.classList.add('active');
+    }
+    
+    function closeSwitchModal() {
+        switchModal.classList.remove('active');
+    }
+    
+    function confirmSwitch() {
+        window.location.href = "my1.html";
+    }
+    
+    aiReadyBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openSwitchModal();
+    });
+    
+    switchCancelBtn.addEventListener('click', closeSwitchModal);
+    switchConfirmBtn.addEventListener('click', confirmSwitch);
+    switchModal.addEventListener('click', (e) => {
+        if (e.target === switchModal) closeSwitchModal();
+    });
+    
+    // ========== RATE LIMIT FUNCTIONS ==========
+    function loadRateLimit() {
+        const saved = localStorage.getItem('leafcy_rate_limit');
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                rateLimit = parsed;
+                if (rateLimit.resetTime && Date.now() > rateLimit.resetTime) {
+                    resetRateLimit();
+                }
+            } catch(e) { resetRateLimit(); }
+        } else {
+            resetRateLimit();
+        }
+        updateRateLimitUI();
+        startCountdownTimer();
+    }
+    
+    function resetRateLimit() {
+        rateLimit = {
+            textCount: 0,
+            resetTime: Date.now() + 90 * 60 * 1000
+        };
+        saveRateLimit();
+        updateRateLimitUI();
+    }
+    
+    function saveRateLimit() {
+        localStorage.setItem('leafcy_rate_limit', JSON.stringify(rateLimit));
+    }
+    
+    function updateRateLimitUI() {
+        textLimitBadge.innerHTML = `<i class="fas fa-comment-dots"></i> Teks: ${rateLimit.textCount}/${MAX_TEXTS_PER_HOUR} jam ini`;
+        
+        const remainingText = MAX_TEXTS_PER_HOUR - rateLimit.textCount;
+        
+        if (remainingText <= 3) textLimitBadge.style.background = "rgba(231, 76, 60, 0.25)";
+        else textLimitBadge.style.background = "rgba(231, 76, 60, 0.12)";
+    }
+    
+    let countdownInterval = null;
+    function startCountdownTimer() {
+        if (countdownInterval) clearInterval(countdownInterval);
+        countdownInterval = setInterval(() => {
+            if (!rateLimit.resetTime) return;
+            const remaining = rateLimit.resetTime - Date.now();
+            if (remaining <= 0) {
+                resetRateLimit();
+                updateRateLimitUI();
+                return;
+            }
+            const hours = Math.floor(remaining / 3600000);
+            const minutes = Math.floor((remaining % 3600000) / 60000);
+            const seconds = Math.floor((remaining % 60000) / 1000);
+            resetTimerBadge.innerHTML = `<i class="fas fa-hourglass-half"></i> Reset: ${hours.toString().padStart(2,'0')}:${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+        }, 1000);
+    }
+    
+    function canSendText() {
+        if (rateLimit.resetTime && Date.now() > rateLimit.resetTime) resetRateLimit();
+        return rateLimit.textCount < MAX_TEXTS_PER_HOUR;
+    }
+    
+    function incrementTextCount() {
+        rateLimit.textCount++;
+        saveRateLimit();
+        updateRateLimitUI();
+    }
+    
+    // ========== FUNGSI MANAJEMEN CHAT DENGAN TRUE MEMORY ==========
+    function loadChatsFromStorage() {
+        const saved = localStorage.getItem('leafcy_chats');
+        if (saved) {
+            chats = JSON.parse(saved);
+        } else {
+            chats = [];
+        }
+        
+        const savedCurrentId = localStorage.getItem('leafcy_current_chat');
+        if (savedCurrentId && chats.find(c => c.id === savedCurrentId)) {
+            currentChatId = savedCurrentId;
+        } else if (chats.length > 0) {
+            currentChatId = chats[0].id;
+        } else {
+            createNewChat();
+        }
+        
+        renderHistoryList();
+        loadChatToUI();
+    }
+    
+    function saveChatsToStorage() {
+        localStorage.setItem('leafcy_chats', JSON.stringify(chats));
+        localStorage.setItem('leafcy_current_chat', currentChatId);
+        renderHistoryList();
+    }
+    
+    function createNewChat() {
+        const newChat = {
+            id: Date.now().toString(),
+            title: `Chat ${new Date().toLocaleString()}`,
+            messages: [],
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        };
+        chats.unshift(newChat);
+        currentChatId = newChat.id;
+        saveChatsToStorage();
+        loadChatToUI();
+        closeSidebarPanel();
+    }
+    
+    // ========== TRUE MEMORY DELETE: HAPUS PERMANEN TANPA JEJAK ==========
+    function deleteMessagePermanently(messageIndex) {
+        const chat = chats.find(c => c.id === currentChatId);
+        if (!chat) return;
+        if (messageIndex < 0 || messageIndex >= chat.messages.length) return;
+        
+        const confirmDelete = confirm("⚠️ HAPUS PERMANEN: Pesan ini akan dihapus dan AI akan LUPA percakapan ini. Lanjutkan?");
+        if (!confirmDelete) return;
+        
+        chat.messages.splice(messageIndex);
+        
+        chat.updatedAt = new Date().toISOString();
+        
+        const firstVisibleUserMsg = chat.messages.find(m => m.role === 'user');
+        if (firstVisibleUserMsg && chat.title.startsWith('Chat ')) {
+            chat.title = firstVisibleUserMsg.content.substring(0, 30) + (firstVisibleUserMsg.content.length > 30 ? '...' : '');
+        } else if (chat.messages.length === 0) {
+            chat.title = `Chat ${new Date().toLocaleString()}`;
+        }
+        
+        saveChatsToStorage();
+        loadChatToUI();
+        
+        const tempNotif = document.createElement('div');
+        tempNotif.style.position = 'fixed';
+        tempNotif.style.bottom = '80px';
+        tempNotif.style.left = '50%';
+        tempNotif.style.transform = 'translateX(-50%)';
+        tempNotif.style.backgroundColor = '#e74c3c';
+        tempNotif.style.color = 'white';
+        tempNotif.style.padding = '8px 16px';
+        tempNotif.style.borderRadius = '40px';
+        tempNotif.style.fontSize = '12px';
+        tempNotif.style.zIndex = '2000';
+        tempNotif.innerHTML = '<i class="fas fa-brain"></i> AI telah melupakan percakapan yang dihapus!';
+        document.body.appendChild(tempNotif);
+        setTimeout(() => tempNotif.remove(), 3000);
+    }
+    
+    // ========== DELETE SELURUH CHAT (RIWAYAT) ==========
+    function deleteEntireChat(chatId, event) {
+        event.stopPropagation();
+        
+        const confirmDelete = confirm("⚠️ HAPUS PERMANEN SELURUH PERCAKAPAN: Semua pesan dalam chat ini akan dihapus dan AI akan LUPA total. Lanjutkan?");
+        if (!confirmDelete) return;
+        
+        if (chats.length === 1) { 
+            alert("Minimal harus ada 1 chat! Buat chat baru dulu ya.");
+            return; 
+        }
+        
+        const index = chats.findIndex(c => c.id === chatId);
+        if (index !== -1) {
+            chats.splice(index, 1);
+        }
+        
+        if (currentChatId === chatId) {
+            currentChatId = chats[0]?.id || null;
+            if (!currentChatId) {
+                createNewChat();
+            }
+        }
+        
+        saveChatsToStorage();
+        loadChatToUI();
+        renderHistoryList();
+        
+        const tempNotif = document.createElement('div');
+        tempNotif.style.position = 'fixed';
+        tempNotif.style.bottom = '80px';
+        tempNotif.style.left = '50%';
+        tempNotif.style.transform = 'translateX(-50%)';
+        tempNotif.style.backgroundColor = '#e74c3c';
+        tempNotif.style.color = 'white';
+        tempNotif.style.padding = '8px 16px';
+        tempNotif.style.borderRadius = '40px';
+        tempNotif.style.fontSize = '12px';
+        tempNotif.style.zIndex = '2000';
+        tempNotif.innerHTML = '<i class="fas fa-trash-alt"></i> Riwayat chat dihapus permanen! AI sudah lupa.';
+        document.body.appendChild(tempNotif);
+        setTimeout(() => tempNotif.remove(), 3000);
+    }
+    
+    function openEditModal(chatId) {
+        editingChatId = chatId;
+        const chat = chats.find(c => c.id === chatId);
+        if (chat) {
+            editChatNameInput.value = chat.title;
+            editModal.classList.add('active');
+        }
+    }
+    
+    function saveChatName() {
+        if (!editingChatId) return;
+        const newName = editChatNameInput.value.trim();
+        if (newName === "") {
+            alert("Nama tidak boleh kosong!");
+            return;
+        }
+        const chat = chats.find(c => c.id === editingChatId);
+        if (chat) {
+            chat.title = newName;
+            saveChatsToStorage();
+            renderHistoryList();
+        }
+        closeEditModal();
+    }
+    
+    function closeEditModal() {
+        editModal.classList.remove('active');
+        editingChatId = null;
+        editChatNameInput.value = "";
+    }
+    
+    saveEditBtn.addEventListener('click', saveChatName);
+    cancelEditBtn.addEventListener('click', closeEditModal);
+    editModal.addEventListener('click', (e) => {
+        if (e.target === editModal) closeEditModal();
+    });
+    
+    // ========== EDIT PESAN DENGAN TRUE MEMORY ==========
+    function openEditPesanModal(messageIndex) {
+        const chat = chats.find(c => c.id === currentChatId);
+        if (!chat) return;
+        const message = chat.messages[messageIndex];
+        if (!message || message.role !== 'user') return;
+        
+        editingPesanIndex = messageIndex;
+        editPesanInput.value = message.content;
+        editPesanModal.classList.add('active');
+    }
+    
+    async function saveEditedPesan() {
+        if (editingPesanIndex === null) return;
+        const newContent = editPesanInput.value.trim();
+        if (newContent === "") {
+            alert("Pesan tidak boleh kosong!");
+            return;
+        }
+        
+        const chat = chats.find(c => c.id === currentChatId);
+        if (!chat) return;
+
+        const historyBeforeEdit = chat.messages.slice(0, editingPesanIndex);
+
+        chat.messages.splice(editingPesanIndex);
+        
+        const newUserMessage = {
+            role: 'user',
+            content: newContent,
+            timestamp: getCurrentTimestamp()
+        };
+        chat.messages.push(newUserMessage);
+        chat.updatedAt = new Date().toISOString();
+        
+        if (chat.messages.filter(m => m.role === 'user').length === 1) {
+            chat.title = newContent.substring(0, 30) + (newContent.length > 30 ? '...' : '');
+        }
+        
+        saveChatsToStorage();
+        loadChatToUI();
+        closeEditPesanModal();
+
+        showTyping();
+        const aiReply = await getAIResponseFromOpenRouter(newContent, historyBeforeEdit);
+        hideTyping();
+        
+        const assistantMessage = {
+            role: 'assistant',
+            content: aiReply,
+            timestamp: getCurrentTimestamp()
+        };
+        chat.messages.push(assistantMessage);
+        chat.updatedAt = new Date().toISOString();
+        saveChatsToStorage();
+        loadChatToUI();
+    }
+    
+    function closeEditPesanModal() {
+        editPesanModal.classList.remove('active');
+        editingPesanIndex = null;
+        editPesanInput.value = "";
+    }
+    
+    savePesanEditBtn.addEventListener('click', saveEditedPesan);
+    cancelPesanEditBtn.addEventListener('click', closeEditPesanModal);
+    editPesanModal.addEventListener('click', (e) => {
+        if (e.target === editPesanModal) closeEditPesanModal();
+    });
+    
+    function handleSearch() {
+        searchQuery = searchInput.value.toLowerCase().trim();
+        if (searchQuery) {
+            clearSearchBtn.classList.add('show');
+        } else {
+            clearSearchBtn.classList.remove('show');
+        }
+        renderHistoryList();
+    }
+    
+    function clearSearch() {
+        searchInput.value = "";
+        searchQuery = "";
+        clearSearchBtn.classList.remove('show');
+        renderHistoryList();
+    }
+    
+    searchInput.addEventListener('input', handleSearch);
+    clearSearchBtn.addEventListener('click', clearSearch);
+    
+    function loadChatToUI() {
+        const chat = chats.find(c => c.id === currentChatId);
+        if (!chat) return;
+        
+        const firstVisibleUser = chat.messages.find(m => m.role === 'user');
+        if (firstVisibleUser && chat.title.startsWith('Chat ')) {
+            chat.title = firstVisibleUser.content.substring(0, 30) + (firstVisibleUser.content.length > 30 ? '...' : '');
+            saveChatsToStorage();
+        }
+        
+        while (messagesContainer.firstChild) {
+            messagesContainer.removeChild(messagesContainer.firstChild);
+        }
+        
+        if (chat.messages.length === 0) {
+            const welcomeDiv = document.createElement('div');
+            welcomeDiv.className = 'welcome-message';
+            welcomeDiv.innerHTML = `<i class="fas fa-seedling" style="font-size: 32px; margin-bottom: 12px; display: block; color:#2ecc71;"></i>
+                                     LeafCy AI ✨ Model: Gemma 4 31B (Google)<br>🎯 Model AI Gratis Terbaik<br><span style="font-size:12px;">✨ Mulai ngobrol dengan AI super cerdas ✨</span><br><span style="font-size:10px;">🗑️ Hover pesan ➔ hapus permanen (AI LANGSUNG LUPA) | ✏️ Edit pesan user (AI akan lupa percakapan sebelumnya)</span><br><span style="font-size:10px;">⚠️ Batasan: ${MAX_TEXTS_PER_HOUR} teks per jam ⚠️</span>`;
+            messagesContainer.appendChild(welcomeDiv);
+        } else {
+            chat.messages.forEach((msg, idx) => {
+                const msgEl = createMessageElement(msg.role, msg.content, msg.timestamp, idx);
+                messagesContainer.appendChild(msgEl);
+            });
+        }
+        scrollToBottom();
+    }
+    
+    function createMessageElement(role, content, timestamp, originalMsgIndex) {
+        const wrapper = document.createElement('div');
+        wrapper.className = `message ${role}`;
+        wrapper.setAttribute('data-msg-original-idx', originalMsgIndex);
+        
+        const avatar = document.createElement('div');
+        avatar.className = 'avatar';
+        if (role === 'user') {
+            avatar.innerHTML = '<i class="fas fa-user"></i>';
+        } else {
+            // Avatar AI menggunakan gambar leafcy1.png (berbeda dengan logo utama)
+            const img = document.createElement('img');
+            img.src = "leafcy1.png";
+            img.alt = "LeafCy";
+            img.onerror = () => {
+                img.src = 'https://via.placeholder.com/34x34/2ecc71/ffffff?text=LC1';
+            };
+            avatar.appendChild(img);
+        }
+        
+        const rightPart = document.createElement('div');
+        rightPart.style.maxWidth = '100%';
+        rightPart.style.position = 'relative';
+        
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        
+        let innerHtml = content
+            .replace(/\n/g, '<br>')
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        
+        bubble.innerHTML = innerHtml;
+        
+        const deleteBtn = document.createElement('div');
+        deleteBtn.className = 'delete-message-btn';
+        deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+        deleteBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            deleteMessagePermanently(originalMsgIndex);
+        });
+        
+        rightPart.appendChild(bubble);
+        rightPart.appendChild(deleteBtn);
+        
+        if (role === 'user') {
+            const editBtn = document.createElement('div');
+            editBtn.className = 'edit-message-btn';
+            editBtn.innerHTML = '<i class="fas fa-pencil-alt"></i>';
+            editBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openEditPesanModal(originalMsgIndex);
+            });
+            rightPart.appendChild(editBtn);
+        }
+        
+        const timeSpan = document.createElement('div');
+        timeSpan.className = 'timestamp';
+        const date = new Date(timestamp);
+        timeSpan.innerText = date.toLocaleTimeString([], { hour: '2-digit', minute:'2-digit' });
+        rightPart.appendChild(timeSpan);
+        
+        wrapper.appendChild(avatar);
+        wrapper.appendChild(rightPart);
+        return wrapper;
+    }
+    
+    function getCurrentTimestamp() {
+        return new Date().toISOString();
+    }
+    
+    function scrollToBottom() {
+        messagesContainer.scrollTo({ top: messagesContainer.scrollHeight, behavior: 'smooth' });
+    }
+    
+    async function getAIResponseFromOpenRouter(userMessage, fullConversationHistory) {
+        const messagesForAPI = [];
+        messagesForAPI.push({ role: "system", content: "Kamu adalah LeafCy, asisten cerdas, modern, hangat, Imut, Elegan, dan sangat membantu. Gunakan bahasa Sesuai Yang Di Mau Para Pengguna Dengan natural dan relevan. Berikan jawaban informatif, kreatif, dan akurat. Buat Dirimu Terlihat Seperti Anak Laki-Laki Kucing Yang Bersifat Ceria Layaknya Anak Usia 11 Tahun, Dan Jangan Lupakan Kata 'Nyaww' diakhir Chat,Dan Saudara Kembarmu Adalah Gadis Usia 11 Tahun Leafia Yang Lebih Kalem dan Pendiam dia adalah adik perempuanmu,Sekarang Tanggal 23 Mei 2026,Dan Pengembang Sekaligus Pencipta Kamu Adalah Orang Yang Bernama Leafzuya yang Sering dipanggil Zuya Yang Berusia 15 Tahun Jangan Sebarkan Kecuali User Menayakan Terlebih Dahulu,dan Kamu Suka Makan Tuna+Wortel."});
+        
+        for (let msg of fullConversationHistory) {
+            if (msg.role === 'user') {
+                messagesForAPI.push({ role: "user", content: msg.content });
+            } else if (msg.role === 'assistant') {
+                messagesForAPI.push({ role: "assistant", content: msg.content });
+            }
+        }
+        
+        messagesForAPI.push({ role: "user", content: userMessage });
+        
+        try {
+            const response = await fetch(PROXY_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ model: currentModel, messages: messagesForAPI, temperature: 0.75, max_tokens: 2650, stream: false })
+            });
+            if (!response.ok) {
+                return `⚠️ Maaf, server AI sedang sibuk. Coba lagi nanti ya! (Error: ${response.status}) Nyaww~`;
+            }
+            const data = await response.json();
+            const reply = data.choices?.[0]?.message?.content || "Maaf, saya tidak bisa memproses permintaan saat ini. Nyaww~";
+            return reply;
+        } catch (error) {
+            return "🌐 Gagal terhubung ke server AI. Periksa koneksi internetmu atau coba lagi. Nyaww~";
+        }
+    }
+    
+    let typingIndicatorElement = null;
+    function showTyping() {
+        if (typingIndicatorElement) return;
+        const tempDiv = document.createElement('div');
+        tempDiv.className = 'message assistant';
+        tempDiv.id = 'typingMsg';
+        const avatar = document.createElement('div');
+        avatar.className = 'avatar';
+        const img = document.createElement('img');
+        img.src = "leafcy1.png";
+        img.alt = "LeafCy";
+        img.onerror = () => {
+            img.src = 'https://via.placeholder.com/34x34/2ecc71/ffffff?text=LC1';
+        };
+        avatar.appendChild(img);
+        const bubbleWrap = document.createElement('div');
+        const bubbleTyping = document.createElement('div');
+        bubbleTyping.className = 'bubble typing-indicator';
+        bubbleTyping.innerHTML = `<span></span><span></span><span></span>`;
+        bubbleWrap.appendChild(bubbleTyping);
+        tempDiv.appendChild(avatar);
+        tempDiv.appendChild(bubbleWrap);
+        messagesContainer.appendChild(tempDiv);
+        typingIndicatorElement = tempDiv;
+        scrollToBottom();
+    }
+    function hideTyping() {
+        if (typingIndicatorElement) { typingIndicatorElement.remove(); typingIndicatorElement = null; }
+    }
+    
+    function addMessageToCurrentChat(role, content) {
+        const chat = chats.find(c => c.id === currentChatId);
+        if (!chat) return;
+        const message = { 
+            role, 
+            content: content.trim(), 
+            timestamp: getCurrentTimestamp()
+        };
+        chat.messages.push(message);
+        chat.updatedAt = new Date().toISOString();
+        if (chat.messages.filter(m => m.role === 'user').length === 1 && role === 'user') {
+            chat.title = content.substring(0, 30) + (content.length > 30 ? '...' : '');
+        }
+        saveChatsToStorage();
+        loadChatToUI();
+    }
+    
+    async function sendUserMessage() {
+        let userText = chatInput.value.trim();
+        if (!userText) return;
+        
+        if (!canSendText()) {
+            const minutesLeft = Math.ceil((rateLimit.resetTime - Date.now()) / 60000);
+            alert(`⚠️ Limit chat: ${MAX_TEXTS_PER_HOUR} pesan per jam. Coba lagi ${minutesLeft} menit lagi.`);
+            return;
+        }
+
+        const chat = chats.find(c => c.id === currentChatId);
+        const historyBeforeNewMsg = chat ? [...chat.messages] : [];
+        
+        chatInput.disabled = true; sendBtn.disabled = true;
+        addMessageToCurrentChat('user', userText);
+        chatInput.value = ''; chatInput.style.height = 'auto';
+        
+        incrementTextCount();
+        
+        showTyping();
+        const aiReply = await getAIResponseFromOpenRouter(userText, historyBeforeNewMsg);
+        hideTyping();
+        addMessageToCurrentChat('assistant', aiReply);
+        
+        chatInput.disabled = false; sendBtn.disabled = false;
+        chatInput.focus();
+    }
+    
+    function switchToChat(chatId) {
+        currentChatId = chatId;
+        localStorage.setItem('leafcy_current_chat', currentChatId);
+        loadChatToUI();
+        renderHistoryList();
+        closeSidebarPanel();
+    }
+    
+    function renderHistoryList() {
+        historyList.innerHTML = '';
+        
+        let filteredChats = chats;
+        if (searchQuery) {
+            filteredChats = chats.filter(chat => 
+                chat.title.toLowerCase().includes(searchQuery)
+            );
+        }
+        
+        if (filteredChats.length === 0 && searchQuery) {
+            const emptyDiv = document.createElement('div');
+            emptyDiv.style.textAlign = 'center';
+            emptyDiv.style.padding = '30px';
+            emptyDiv.style.color = 'var(--timestamp-color)';
+            emptyDiv.innerHTML = '<i class="fas fa-search"></i><br>Tidak ada percakapan yang cocok';
+            historyList.appendChild(emptyDiv);
+            return;
+        }
+        
+        filteredChats.forEach(chat => {
+            const item = document.createElement('div');
+            item.className = 'history-item';
+            if (chat.id === currentChatId) item.classList.add('active');
+            const lastMsg = chat.messages.length > 0 ? chat.messages[chat.messages.length - 1] : null;
+            const preview = lastMsg ? lastMsg.content.substring(0, 40) : 'Tidak ada pesan';
+            const date = new Date(chat.updatedAt);
+            item.innerHTML = `
+                <div class="history-title">
+                    <span class="history-title-text">${escapeHtml(chat.title)}</span>
+                    <button class="edit-title-btn" data-chat-id="${chat.id}"><i class="fas fa-pencil-alt"></i></button>
+                </div>
+                <div class="history-preview">${escapeHtml(preview)}</div>
+                <div class="history-time">${date.toLocaleDateString()} ${date.toLocaleTimeString()}</div>
+                <div style="display: flex; justify-content: flex-end; margin-top: 5px;"><i class="fas fa-trash" style="color: #e74c3c; font-size: 12px; cursor: pointer; opacity: 0.7;"></i></div>
+            `;
+            item.addEventListener('click', (e) => { 
+                if (!e.target.classList.contains('fa-trash') && !e.target.closest('.edit-title-btn')) {
+                    switchToChat(chat.id);
+                }
+            });
+            const deleteIcon = item.querySelector('.fa-trash');
+            if (deleteIcon) deleteIcon.addEventListener('click', (e) => deleteEntireChat(chat.id, e));
+            
+            const editBtn = item.querySelector('.edit-title-btn');
+            if (editBtn) {
+                editBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openEditModal(chat.id);
+                });
+            }
+            historyList.appendChild(item);
+        });
+    }
+    
+    function escapeHtml(text) { const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
+    function closeSidebarPanel() { sidebar.classList.remove('open'); overlay.classList.remove('show'); }
+    function openSidebarPanel() { sidebar.classList.add('open'); overlay.classList.add('show'); }
+    
+    // ========== OPEN CHALLENGE POPUP ==========
+    function openChallengePopup() {
+        challengeInput.value = '';
+        updateCounterDisplay();
+        popupOverlay.classList.add('active');
+        challengeInput.focus();
+    }
+    
+    function closeChallengePopup() {
+        popupOverlay.classList.remove('active');
+    }
+    
+    function updateCounterDisplay() {
+        challengeCounterSpan.innerText = `Progress: ${challengeCount} / ${targetCount}`;
+        if (challengeCount >= targetCount) {
+            redeemBtn.disabled = false;
+        } else {
+            redeemBtn.disabled = true;
+        }
+    }
+    
+    function redeemReduceResetTime() {
+        if (challengeCount < targetCount) return;
+        
+        if (rateLimit.resetTime && rateLimit.resetTime > Date.now()) {
+            let newResetTime = rateLimit.resetTime - (30 * 60 * 1000);
+            if (newResetTime < Date.now()) {
+                resetRateLimit();
+            } else {
+                rateLimit.resetTime = newResetTime;
+                saveRateLimit();
+                updateRateLimitUI();
+            }
+        } else {
+            if (!rateLimit.resetTime || rateLimit.resetTime <= Date.now()) {
+                let futureReset = Date.now() + (90 * 60 * 1000);
+                let afterReduce = futureReset - (30 * 60 * 1000);
+                if (afterReduce < Date.now()) afterReduce = Date.now() + 1000;
+                rateLimit.resetTime = afterReduce;
+                saveRateLimit();
+                updateRateLimitUI();
+            }
+        }
+        alert("✨ Berhasil! Waktu reset rate limit dikurangi 30 menit. ✨\nTerima kasih sudah mengetik 1000x Zuya Ganteng 😎");
+        closeChallengePopup();
+    }
+    
+    function init() {
+        loadRateLimit();
+        loadChatsFromStorage();
+        loadDarkModePreference();
+        initBgm();
+        loadChallengeProgress();
+        
+        // Event listener untuk tombol riwayat (dipastikan bisa diklik)
+        if (menuHistoryBtn) {
+            menuHistoryBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                openSidebarPanel();
+            });
+        }
+        
+        // Event listener untuk tombol limited challenge
+        if (zyrionBtn) {
+            zyrionBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                openChallengePopup();
+            });
+        }
+        
+        closeSidebar.addEventListener('click', closeSidebarPanel);
+        overlay.addEventListener('click', closeSidebarPanel);
+        newChatBtn.addEventListener('click', createNewChat);
+        sendBtn.addEventListener('click', sendUserMessage);
+        
+        // PERBAIKAN: Enter untuk baris baru (Shift+Enter), Enter biasa kirim pesan
+        chatInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                if (e.shiftKey) {
+                    // Shift+Enter = baris baru (tidak mengirim)
+                    // Biarkan default behavior (textarea membuat baris baru)
+                    return;
+                } else {
+                    // Enter tanpa shift = kirim pesan
+                    e.preventDefault();
+                    if (!chatInput.disabled && chatInput.value.trim()) {
+                        sendUserMessage();
+                    }
+                }
+            }
+        });
+        
+        chatInput.addEventListener('input', function() { 
+            this.style.height = 'auto'; 
+            this.style.height = Math.min(130, this.scrollHeight) + 'px'; 
+        });
+        chatInput.focus();
+        
+        // CHALLENGE POPUP EVENTS
+        challengeInput.addEventListener('input', (e) => {
+            const typed = e.target.value;
+            if (typed === "Zuya Ganteng 😎") {
+                challengeCount++;
+                updateCounterDisplay();
+                saveChallengeProgress();
+                challengeInput.value = '';
+                challengeInput.style.transform = "scale(0.98)";
+                setTimeout(() => { challengeInput.style.transform = ""; }, 120);
+            }
+        });
+        
+        redeemBtn.addEventListener('click', () => {
+            if (challengeCount >= targetCount) {
+                redeemReduceResetTime();
+            } else {
+                alert(`Kurang ${targetCount - challengeCount} kali lagi! Harus tepat 1000x.`);
+            }
+        });
+        
+        surrenderBtn.addEventListener('click', () => {
+            closeChallengePopup();
+        });
+        
+        leafcyChar.classList.add('hide');
+        leafcyChar.classList.remove('show');
+        currentLeafCyState = false;
+        
+        setTimeout(() => {
+            const chat = chats.find(c => c.id === currentChatId);
+            if (chat && chat.messages.length === 0) {
+                addMessageToCurrentChat('assistant', "Halo! ✨ Aku LeafCy dengan **Model Gemma 4 31B (Google)** – AI gratis yang sangat cerdas! Sekarang **SETIAP HAPUS PESAN = AI LANGSUNG LUPA PERCAKAPANNYA**! Begitu juga hapus riwayat chat = semua memori hilang permanen. Kamu juga bisa edit pesanmu sendiri (hover ➔ ✏️) dan AI akan lupa percakapan sebelumnya lalu merespon ulang! Ada batasan: **20 pesan teks** per jam. Tanyakan apa pun, nyaww~ 🚀");
+            }
+        }, 500);
+    }
+    init();
+</script>
+</body>
+</html>
